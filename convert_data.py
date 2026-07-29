@@ -25,14 +25,15 @@ def clean_num(val):
     except ValueError:
         return 0
 
-def parse_election_csv(file_path):
+def parse_election_csv(file_path, is_ed=False):
     """
-    Parses a single election CSV export file into a structured dictionary.
-    Excludes Write-in candidates/totals completely.
-    Preserves EXACT contest order and candidate order as they appear in the CSV file.
-    ROBUST DATA CALCULATION: Calculates X of Y precincts reporting 100% dynamically from precinct data rows.
-    PRECINCT CAP MANDATE: Hard-caps any precinct reporting or total precinct count at 92 max.
+    Parses a single election CSV export file into a raw structured dictionary.
+    is_ed: If False (Early Upload), precincts reporting count is set to 0 and all precincts are marked unreported.
+           If True (ED Upload), precincts reporting count and precinct status maps are extracted from this file.
     """
+    if not file_path or not os.path.exists(file_path):
+        return None
+
     rows = read_csv_robust(file_path)
     if not rows or len(rows) < 5:
         return None
@@ -75,6 +76,10 @@ def parse_election_csv(file_path):
                 if not contest_name:
                     continue
 
+                rep_match = re.search(r'(\d+)\s+of\s+(\d+)\s+Precincts\s+Reporting', rep_text, re.IGNORECASE)
+                p_rep = int(rep_match.group(1)) if (rep_match and is_ed) else 0
+                p_tot = int(rep_match.group(2)) if rep_match else 0
+
                 next_contest_col = reporting_cells[k+1][0] if k + 1 < len(reporting_cells) else len(candidate_row)
 
                 if contest_name not in contests:
@@ -82,7 +87,9 @@ def parse_election_csv(file_path):
                         'title': contest_name,
                         'voteFor': vote_for_text,
                         'candidates': {},
-                        'precinctsStatusMap': {}
+                        'precinctsStatusMap': {},
+                        'csvPrecinctsReporting': p_rep,
+                        'csvPrecinctsTotal': p_tot
                     }
 
                 # Process candidates
@@ -122,7 +129,7 @@ def parse_election_csv(file_path):
                             contests[contest_name]['candidates'][cand_name]['votes'], vote_count
                         )
 
-                # Inspect raw precinct data rows
+                # Inspect raw precinct data rows for precinct status map
                 if totals_row_idx is not None:
                     for d_idx in range(i + 2, totals_row_idx):
                         d_row = rows[d_idx]
@@ -141,40 +148,142 @@ def parse_election_csv(file_path):
                         if has_contest_entry:
                             if p_name not in contests[contest_name]['precinctsStatusMap']:
                                 contests[contest_name]['precinctsStatusMap'][p_name] = False
-                            if p_votes > 0:
+                            # Only ED files set precinct reported status to True
+                            if is_ed and p_votes > 0:
                                 contests[contest_name]['precinctsStatusMap'][p_name] = True
 
             i = totals_row_idx if totals_row_idx else i + 1
         i += 1
 
+    return {
+        'file_path': file_path,
+        'is_ed': is_ed,
+        'electionTitle': election_title,
+        'electionDate': election_date,
+        'county': county_name,
+        'statusLabel': status_label,
+        'totalVoters': total_voters,
+        'totalBallots': total_ballots,
+        'contests_raw': contests
+    }
+
+def merge_parsed_data(early_parsed, ed_parsed):
+    """
+    Merges Early Upload data with ED Upload data.
+    - Votes are added together (Early Votes + ED Votes).
+    - Precincts reporting count and precinct status map are taken ONLY from the ED file (or 0 if no ED file).
+    """
+    if not early_parsed and not ed_parsed:
+        return None
+    if not early_parsed:
+        primary = ed_parsed
+    else:
+        primary = early_parsed
+
+    election_title = ed_parsed['electionTitle'] if ed_parsed else early_parsed['electionTitle']
+    election_date = ed_parsed['electionDate'] if ed_parsed else early_parsed['electionDate']
+    county_name = ed_parsed['county'] if ed_parsed else early_parsed['county']
+    status_label = ed_parsed['statusLabel'] if ed_parsed else early_parsed['statusLabel']
+
+    total_voters = max(early_parsed['totalVoters'] if early_parsed else 0, ed_parsed['totalVoters'] if ed_parsed else 0)
+    total_ballots = (early_parsed['totalBallots'] if early_parsed else 0) + (ed_parsed['totalBallots'] if ed_parsed else 0)
+
+    # Collect all contest titles in order
+    all_contest_titles = []
+    if early_parsed:
+        for t in early_parsed['contests_raw'].keys():
+            if t not in all_contest_titles:
+                all_contest_titles.append(t)
+    if ed_parsed:
+        for t in ed_parsed['contests_raw'].keys():
+            if t not in all_contest_titles:
+                all_contest_titles.append(t)
+
     formatted_contests = []
     MAX_PRECINCT_CAP = 92
 
-    for c_title, c_data in contests.items():
-        cand_list = list(c_data['candidates'].values())
+    for c_title in all_contest_titles:
+        early_c = early_parsed['contests_raw'].get(c_title) if early_parsed else None
+        ed_c = ed_parsed['contests_raw'].get(c_title) if ed_parsed else None
+
+        vote_for_text = ed_c['voteFor'] if ed_c else (early_c['voteFor'] if early_c else "VOTE FOR 1")
+
+        # Precincts reporting come strictly from ED file
+        if ed_c:
+            reported_cnt = ed_c['csvPrecinctsReporting']
+            total_prec_cnt = ed_c['csvPrecinctsTotal']
+            precincts_status_map = ed_c['precinctsStatusMap']
+        else:
+            reported_cnt = 0
+            total_prec_cnt = early_c['csvPrecinctsTotal'] if early_c else 0
+            precincts_status_map = {p: False for p in early_c['precinctsStatusMap'].keys()} if early_c else {}
+
+        # Merge candidates and sum votes
+        cand_dict = {}
+        if early_c:
+            for cand_name, cand_info in early_c['candidates'].items():
+                cand_dict[cand_name] = {
+                    'name': cand_info['name'],
+                    'party': cand_info['party'],
+                    'votes': cand_info['votes']
+                }
+        if ed_c:
+            for cand_name, cand_info in ed_c['candidates'].items():
+                if cand_name in cand_dict:
+                    cand_dict[cand_name]['votes'] += cand_info['votes']
+                    if cand_info['party']:
+                        cand_dict[cand_name]['party'] = cand_info['party']
+                else:
+                    cand_dict[cand_name] = {
+                        'name': cand_info['name'],
+                        'party': cand_info['party'],
+                        'votes': cand_info['votes']
+                    }
+
+        cand_list = list(cand_dict.values())
+
+        # Strip IND if no REP or DEM in contest
+        has_rep_or_dem = any(c['party'] in ('REP', 'DEM') for c in cand_list)
+        if not has_rep_or_dem:
+            for c in cand_list:
+                if c['party'] == 'IND':
+                    c['party'] = ''
 
         total_contest_votes = sum(c['votes'] for c in cand_list)
-        max_votes = max([c['votes'] for c in cand_list], default=0)
+
+        vf_num = 1
+        vf_match = re.search(r'(?:VOTE\s+(?:FOR\s+)?(?:UP\s+TO\s+)?|SELECT\s+)(\d+)', vote_for_text, re.IGNORECASE)
+        if not vf_match:
+            vf_match = re.search(r'(\d+)', vote_for_text)
+        if vf_match:
+            try:
+                vf_num = max(1, int(vf_match.group(1)))
+            except ValueError:
+                vf_num = 1
+
+        sorted_votes = sorted([c['votes'] for c in cand_list], reverse=True)
+        positive_votes = [v for v in sorted_votes if v > 0]
+
+        cutoff_vote = None
+        if positive_votes:
+            cutoff_idx = min(vf_num, len(positive_votes)) - 1
+            cutoff_vote = positive_votes[cutoff_idx]
 
         for c in cand_list:
             c['percentage'] = round((c['votes'] / total_contest_votes * 100), 2) if total_contest_votes > 0 else 0.0
-            c['isLeading'] = (c['votes'] == max_votes and max_votes > 0)
+            c['isLeading'] = (cutoff_vote is not None and c['votes'] >= cutoff_vote and c['votes'] > 0)
 
         precincts_status_list = [
             {'name': p_name, 'reported': is_rep}
-            for p_name, is_rep in c_data['precinctsStatusMap'].items()
+            for p_name, is_rep in precincts_status_map.items()
         ]
 
-        reported_cnt = sum(1 for p in precincts_status_list if p['reported'])
-        total_prec_cnt = len(precincts_status_list)
-
-        # STRICT MANDATED CAP AT 92
         rep_final = min(reported_cnt, MAX_PRECINCT_CAP)
         tot_final = min(total_prec_cnt, MAX_PRECINCT_CAP)
 
         formatted_contests.append({
-            'title': c_data['title'],
-            'voteFor': c_data['voteFor'],
+            'title': c_title,
+            'voteFor': vote_for_text,
             'precinctsReporting': rep_final,
             'precinctsTotal': tot_final,
             'totalVotes': total_contest_votes,
@@ -200,35 +309,42 @@ def parse_election_csv(file_path):
 
 def generate_data_js():
     base_dir = os.path.dirname(os.path.abspath(__file__))
+    results_dir = os.path.join(base_dir, 'Results')
     sample_dir = os.path.join(base_dir, 'SampleData')
     output_js_path = os.path.join(base_dir, 'data.js')
 
-    target_csv = None
-    priority_files = ['Walden Results.csv', 'RESULTS.CSV', 'WEBRESULTS.CSV', 'EV (andABS) Results.csv', 'ABS Results.csv', 'Zero Results.csv']
-    
-    if os.path.exists(sample_dir):
-        for pf in priority_files:
-            p_path = os.path.join(sample_dir, pf)
-            if os.path.exists(p_path):
-                target_csv = p_path
-                break
-        if not target_csv:
-            for f in os.listdir(sample_dir):
-                if f.upper().endswith('.CSV'):
-                    target_csv = os.path.join(sample_dir, f)
-                    break
+    early_csv = None
+    ed_csv = None
 
-    if not target_csv:
-        for f in os.listdir(base_dir):
-            if f.upper().endswith('.CSV'):
-                target_csv = os.path.join(base_dir, f)
-                break
+    search_dirs = [results_dir, sample_dir, base_dir]
+    for s_dir in search_dirs:
+        if os.path.exists(s_dir):
+            all_csvs = [os.path.join(s_dir, f) for f in os.listdir(s_dir) if f.upper().endswith('.CSV')]
+            if all_csvs:
+                # Sort by modification time (most recent first)
+                all_csvs.sort(key=lambda x: os.path.getmtime(x), reverse=True)
 
-    if not target_csv or not os.path.exists(target_csv):
+                ed_files = [f for f in all_csvs if 'ED' in os.path.basename(f).upper()]
+                non_ed_files = [f for f in all_csvs if 'ED' not in os.path.basename(f).upper()]
+
+                if ed_files:
+                    ed_csv = ed_files[0]
+                if non_ed_files:
+                    early_csv = non_ed_files[0]
+
+        if early_csv or ed_csv:
+            break
+
+    if not early_csv and not ed_csv:
         raise FileNotFoundError("No election results CSV file found.")
 
-    print(f"Parsing election CSV: {target_csv}")
-    parsed = parse_election_csv(target_csv)
+    print(f"Parsing Early Upload CSV: {early_csv}")
+    early_parsed = parse_election_csv(early_csv, is_ed=False) if early_csv else None
+
+    print(f"Parsing ED Upload CSV:    {ed_csv}")
+    ed_parsed = parse_election_csv(ed_csv, is_ed=True) if ed_csv else None
+
+    parsed = merge_parsed_data(early_parsed, ed_parsed)
 
     bundle = {
         'metadata': {
@@ -245,10 +361,10 @@ def generate_data_js():
     with open(output_js_path, 'w', encoding='utf-8') as f:
         f.write(js_content)
 
-    print(f"Successfully compiled single election data CSV to {output_js_path}\n")
+    print(f"Successfully compiled election data to {output_js_path}\n")
 
     # Run Verification Engine Automatically
-    run_verification(target_csv, output_js_path)
+    run_verification(early_csv, ed_csv, output_js_path)
 
 if __name__ == '__main__':
     generate_data_js()

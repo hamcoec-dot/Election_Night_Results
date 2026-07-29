@@ -152,15 +152,22 @@ body {
 .navbar-seal {
   width: 44px !important;
   height: 44px !important;
-  background: var(--surface) !important;
   border-radius: 50% !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-weight: 700 !important;
-  color: var(--primary) !important;
+  overflow: hidden !important;
+  padding: 0 !important;
   border: 2px solid var(--accent) !important;
   box-shadow: var(--shadow-sm) !important;
+  background: transparent !important;
+  flex-shrink: 0 !important;
+}
+
+.tn-seal-svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
 }
 
 .navbar-title {

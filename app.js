@@ -241,11 +241,18 @@ window.ElectionApp = (function() {
 
       if (activePartyFilter !== 'ALL') {
         if (activePartyFilter === 'REP') {
-          return contest.candidates.some(c => c.party === 'REP');
+          const hasRepInTitle = /\bREP\b/i.test(contest.title);
+          const hasRepCand = contest.candidates.some(c => c.party === 'REP');
+          return hasRepInTitle || hasRepCand;
         } else if (activePartyFilter === 'DEM') {
-          return contest.candidates.some(c => c.party === 'DEM');
+          const hasDemInTitle = /\bDEM\b/i.test(contest.title);
+          const hasDemCand = contest.candidates.some(c => c.party === 'DEM');
+          return hasDemInTitle || hasDemCand;
         } else if (activePartyFilter === 'IND') {
-          return contest.candidates.every(c => c.party === 'IND');
+          const titleUpper = contest.title.toUpperCase();
+          const hasDemOrRepInTitle = /\b(DEM|REP)\b/.test(titleUpper);
+          const hasIndOrNonPartisanCand = contest.candidates.some(c => c.party === 'IND' || !c.party);
+          return !hasDemOrRepInTitle && hasIndOrNonPartisanCand;
         }
       }
       return true;
@@ -295,7 +302,7 @@ window.ElectionApp = (function() {
           <tr class="candidate-row" role="row">
             <td class="cand-name-cell" role="cell">
               <span>${escapeHtml(cand.name)}</span>
-              <span class="party-pill ${partyClass}">${escapeHtml(cand.party)}</span>
+              ${cand.party ? `<span class="party-pill ${partyClass}">${escapeHtml(cand.party)}</span>` : ''}
               ${cand.isLeading && contest.totalVotes > 0 ? '<span class="leading-tag">&#x2714;&#xFE0F; LEADING</span>' : ''}
             </td>
             <td class="cand-bar-cell" role="cell">
@@ -472,9 +479,20 @@ window.ElectionApp = (function() {
         if (!matchesTitle && !matchesCandidate) return;
       }
       if (activePartyFilter !== 'ALL') {
-        if (activePartyFilter === 'REP' && !contest.candidates.some(c => c.party === 'REP')) return;
-        if (activePartyFilter === 'DEM' && !contest.candidates.some(c => c.party === 'DEM')) return;
-        if (activePartyFilter === 'IND' && !contest.candidates.every(c => c.party === 'IND')) return;
+        if (activePartyFilter === 'REP') {
+          const hasRepInTitle = /\bREP\b/i.test(contest.title);
+          const hasRepCand = contest.candidates.some(c => c.party === 'REP');
+          if (!hasRepInTitle && !hasRepCand) return;
+        } else if (activePartyFilter === 'DEM') {
+          const hasDemInTitle = /\bDEM\b/i.test(contest.title);
+          const hasDemCand = contest.candidates.some(c => c.party === 'DEM');
+          if (!hasDemInTitle && !hasDemCand) return;
+        } else if (activePartyFilter === 'IND') {
+          const titleUpper = contest.title.toUpperCase();
+          const hasDemOrRepInTitle = /\b(DEM|REP)\b/.test(titleUpper);
+          const hasIndOrNonPartisanCand = contest.candidates.some(c => c.party === 'IND' || !c.party);
+          if (hasDemOrRepInTitle || !hasIndOrNonPartisanCand) return;
+        }
       }
 
       const cRepCapped = Math.min(contest.precinctsReporting || 0, MAX_PRECINCT_CAP);

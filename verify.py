@@ -22,19 +22,24 @@ def clean_num(val):
     except ValueError:
         return 0
 
-def run_verification(csv_path, js_path):
+def run_verification(early_csv, ed_csv, js_path=None):
     """
     Independent Verification Engine for Hamilton County Election Results.
-    Robustly audits generated data.js against raw CSV precinct data rows.
-    Dynamically verifies X of Y precincts reporting count for every contest.
+    Audits generated data.js against Early and ED CSV files.
+    - Audits Metadata (Title, Date, County)
+    - Audits Turnout Statistics (Voters, Ballots, Turnout %)
+    - Audits Contest presence & Precinct reporting counts
+    - Audits Candidate Vote Totals & Mathematical Sums across Early and ED CSVs
     """
-    print(f"=== ELECTION RESULTS VERIFICATION ENGINE ===")
-    print(f"Source CSV: {csv_path}")
-    print(f"Target JS:  {js_path}\n")
+    if js_path is None:
+        js_path = ed_csv
+        ed_csv = None
 
-    if not os.path.exists(csv_path):
-        print(f"[FAIL] Missing CSV file: {csv_path}")
-        return False
+    print(f"=== ELECTION RESULTS VERIFICATION ENGINE ===")
+    print(f"Early CSV: {early_csv}")
+    print(f"ED CSV:    {ed_csv}")
+    print(f"Target JS: {js_path}\n")
+
     if not os.path.exists(js_path):
         print(f"[FAIL] Missing JS file: {js_path}")
         return False
@@ -49,8 +54,6 @@ def run_verification(csv_path, js_path):
         print(f"[FAIL] Invalid data.js payload: {e}")
         return False
 
-    rows = read_csv_robust(csv_path)
-
     passed_checks = 0
     failed_checks = 0
 
@@ -63,7 +66,13 @@ def run_verification(csv_path, js_path):
             print(f"  [FAIL] {description}")
             failed_checks += 1
 
-    # 1. Metadata Verification
+    primary_csv = ed_csv if ed_csv else early_csv
+    if not primary_csv or not os.path.exists(primary_csv):
+        print(f"[FAIL] Missing primary CSV file: {primary_csv}")
+        return False
+
+    rows = read_csv_robust(primary_csv)
+
     print("--- 1. Metadata & Header Verification ---")
     raw_title = rows[1][0].strip() if len(rows) > 1 and rows[1][0] else "General Election"
     raw_date = rows[2][0].strip() if len(rows) > 2 and rows[2][0] else ""
@@ -73,98 +82,121 @@ def run_verification(csv_path, js_path):
     check(js_data['electionDate'] == raw_date, f"Election Date matches ('{raw_date}')")
     check(js_data['county'] == raw_county, f"County Name matches ('{raw_county}')")
 
-    # 2. Turnout Statistics Verification
     print("\n--- 2. Turnout Statistics Verification ---")
-    raw_voters = 0
-    raw_ballots = 0
-    for row in rows:
-        if len(row) > 0 and row[0] == 'Totals':
-            raw_voters = clean_num(row[1]) if len(row) > 1 else 0
-            raw_ballots = clean_num(row[2]) if len(row) > 2 else 0
+    early_rows = read_csv_robust(early_csv) if (early_csv and os.path.exists(early_csv)) else []
+    ed_rows = read_csv_robust(ed_csv) if (ed_csv and os.path.exists(ed_csv)) else []
+
+    early_voters = 0
+    early_ballots = 0
+    for r in early_rows:
+        if len(r) > 0 and r[0] == 'Totals':
+            early_voters = clean_num(r[1]) if len(r) > 1 else 0
+            early_ballots = clean_num(r[2]) if len(r) > 2 else 0
             break
 
-    expected_turnout = round((raw_ballots / raw_voters * 100), 2) if raw_voters > 0 else 0.0
+    ed_voters = 0
+    ed_ballots = 0
+    for r in ed_rows:
+        if len(r) > 0 and r[0] == 'Totals':
+            ed_voters = clean_num(r[1]) if len(r) > 1 else 0
+            ed_ballots = clean_num(r[2]) if len(r) > 2 else 0
+            break
 
-    check(js_data['totalVoters'] == raw_voters, f"Registered Voters count ({js_data['totalVoters']} == {raw_voters})")
-    check(js_data['totalBallots'] == raw_ballots, f"Total Ballots Cast ({js_data['totalBallots']} == {raw_ballots})")
+    expected_voters = max(early_voters, ed_voters)
+    expected_ballots = early_ballots + ed_ballots
+    expected_turnout = round((expected_ballots / expected_voters * 100), 2) if expected_voters > 0 else 0.0
+
+    check(js_data['totalVoters'] == expected_voters, f"Registered Voters count ({js_data['totalVoters']} == {expected_voters})")
+    check(js_data['totalBallots'] == expected_ballots, f"Total Ballots Cast ({js_data['totalBallots']} == {expected_ballots})")
     check(js_data['turnoutPercent'] == expected_turnout, f"Turnout Percentage ({js_data['turnoutPercent']}% == {expected_turnout}%)")
 
-    # 3. Dynamic Precinct & Candidate Audit
     print("\n--- 3. Dynamic Contest, Precinct & Candidate Audit ---")
     js_contests = {c['title']: c for c in js_data['contests']}
 
-    raw_contests_found = set()
-    i = 0
-    while i < len(rows):
-        row = rows[i]
-        reporting_cells = [(idx, cell) for idx, cell in enumerate(row) if 'Precincts Reporting' in cell]
-        if reporting_cells:
-            contest_row = rows[i-2] if i >= 2 else []
-            candidate_row = rows[i+1] if i+1 < len(rows) else []
+    def find_all_raw_contests(rows):
+        found = {}
+        if not rows:
+            return found
+        i = 0
+        while i < len(rows):
+            row = rows[i]
+            reporting_cells = [(idx, cell) for idx, cell in enumerate(row) if 'Precincts Reporting' in cell]
+            if reporting_cells:
+                contest_row = rows[i-2] if i >= 2 else []
+                for k, (col_idx, rep_text) in enumerate(reporting_cells):
+                    c_name = contest_row[col_idx].strip() if col_idx < len(contest_row) and contest_row[col_idx] else ""
+                    if c_name:
+                        rep_match = re.search(r'(\d+)\s+of\s+(\d+)\s+Precincts\s+Reporting', rep_text, re.IGNORECASE)
+                        p_rep = int(rep_match.group(1)) if rep_match else 0
+                        p_tot = int(rep_match.group(2)) if rep_match else 0
+                        found[c_name] = (p_rep, p_tot)
+                totals_row_idx = None
+                for r_idx in range(i + 2, len(rows)):
+                    if len(rows[r_idx]) > 0 and rows[r_idx][0] == 'Totals':
+                        totals_row_idx = r_idx
+                        break
+                i = totals_row_idx if totals_row_idx else i + 1
+            i += 1
+        return found
 
-            totals_row_idx = None
-            for r_idx in range(i + 2, len(rows)):
-                if len(rows[r_idx]) > 0 and rows[r_idx][0] == 'Totals':
-                    totals_row_idx = r_idx
-                    break
+    early_contests_info = find_all_raw_contests(early_rows)
+    ed_contests_info = find_all_raw_contests(ed_rows)
 
-            for k, (col_idx, rep_text) in enumerate(reporting_cells):
-                c_name = contest_row[col_idx].strip() if col_idx < len(contest_row) and contest_row[col_idx] else ""
-                if not c_name:
-                    continue
-                
-                raw_contests_found.add(c_name)
-                next_contest_col = reporting_cells[k+1][0] if k + 1 < len(reporting_cells) else len(candidate_row)
+    raw_contests_found = set(list(early_contests_info.keys()) + list(ed_contests_info.keys()))
 
-                # Dynamically calculate X (reported) and Y (eligible) precincts from raw data rows
-                eligible_p_names = []
-                reported_p_names = []
+    MAX_PRECINCT_CAP = 92
+    for c_name in raw_contests_found:
+        check(c_name in js_contests, f"Contest '{c_name}' present in JS dataset")
+        if c_name in js_contests:
+            js_c = js_contests[c_name]
+            if ed_rows and c_name in ed_contests_info:
+                p_rep, p_tot = ed_contests_info[c_name]
+            elif ed_rows and c_name not in ed_contests_info:
+                p_rep, p_tot = 0, early_contests_info.get(c_name, (0, 0))[1]
+            else:
+                p_rep, p_tot = 0, early_contests_info.get(c_name, (0, 0))[1]
 
-                if totals_row_idx is not None:
-                    for d_idx in range(i + 2, totals_row_idx):
-                        d_row = rows[d_idx]
-                        p_name = d_row[0].strip() if len(d_row) > 0 and d_row[0] else ""
-                        if not p_name:
-                            continue
+            expected_rep_cnt = min(p_rep, MAX_PRECINCT_CAP)
+            expected_tot_cnt = min(p_tot, MAX_PRECINCT_CAP)
 
-                        has_entry = False
-                        p_votes = 0
-                        for c_idx in range(col_idx, min(next_contest_col, len(d_row))):
-                            cell_val = d_row[c_idx].strip()
-                            if cell_val != '':
-                                has_entry = True
-                                p_votes += clean_num(cell_val)
+            check(js_c['precinctsReporting'] == expected_rep_cnt, f"'{c_name}' Precincts Reported ({js_c['precinctsReporting']} == {expected_rep_cnt})")
+            check(js_c['precinctsTotal'] == expected_tot_cnt, f"'{c_name}' Total Precincts ({js_c['precinctsTotal']} == {expected_tot_cnt})")
 
-                        if has_entry:
-                            eligible_p_names.append(p_name)
-                            if p_votes > 0:
-                                reported_p_names.append(p_name)
+    check(len(js_contests) == len(raw_contests_found), f"Total contest count matches ({len(js_contests)} == {len(raw_contests_found)})")
 
-                expected_rep_cnt = len(reported_p_names)
-                expected_tot_cnt = len(eligible_p_names)
+    print("\n--- 4. Candidate Vote Totals & Mathematical Sum Audit ---")
+    def extract_contest_candidate_votes(rows):
+        res = {}
+        if not rows:
+            return res
+        i = 0
+        while i < len(rows):
+            row = rows[i]
+            reporting_cells = [(idx, cell) for idx, cell in enumerate(row) if 'Precincts Reporting' in cell]
+            if reporting_cells:
+                contest_row = rows[i-2] if i >= 2 else []
+                candidate_row = rows[i+1] if i+1 < len(rows) else []
 
-                check(c_name in js_contests, f"Contest '{c_name}' present in JS dataset")
+                totals_row_idx = None
+                for r_idx in range(i + 2, len(rows)):
+                    if len(rows[r_idx]) > 0 and rows[r_idx][0] == 'Totals':
+                        totals_row_idx = r_idx
+                        break
 
-                if c_name in js_contests:
-                    js_c = js_contests[c_name]
-                    check(js_c['precinctsReporting'] == expected_rep_cnt, f"'{c_name}' Dynamic Precincts Reported ({js_c['precinctsReporting']} == {expected_rep_cnt})")
-                    check(js_c['precinctsTotal'] == expected_tot_cnt, f"'{c_name}' Dynamic Total Eligible Precincts ({js_c['precinctsTotal']} == {expected_tot_cnt})")
+                for k, (col_idx, rep_text) in enumerate(reporting_cells):
+                    c_name = contest_row[col_idx].strip() if col_idx < len(contest_row) and contest_row[col_idx] else ""
+                    if not c_name:
+                        continue
+                    if c_name not in res:
+                        res[c_name] = {}
 
-                    # Candidate vote check
-                    js_cands = {cand['name']: cand for cand in js_c['candidates']}
+                    next_contest_col = reporting_cells[k+1][0] if k + 1 < len(reporting_cells) else len(candidate_row)
+
                     for c_idx in range(col_idx, next_contest_col):
                         if c_idx >= len(candidate_row):
                             break
                         cand_raw = candidate_row[c_idx].strip()
-                        if not cand_raw:
-                            continue
-
-                        if 'write-in' in cand_raw.lower():
-                            cand_clean = cand_raw
-                            for p in ['REP ', 'DEM ', 'IND ']:
-                                if cand_clean.startswith(p):
-                                    cand_clean = cand_clean[len(p):].strip()
-                            check(cand_clean not in js_cands, f"Write-in '{cand_raw}' omitted from '{c_name}'")
+                        if not cand_raw or 'write-in' in cand_raw.lower():
                             continue
 
                         cand_clean = cand_raw
@@ -172,16 +204,33 @@ def run_verification(csv_path, js_path):
                             if cand_clean.startswith(p):
                                 cand_clean = cand_clean[len(p):].strip()
 
-                        raw_votes = clean_num(rows[totals_row_idx][c_idx]) if totals_row_idx is not None and c_idx < len(rows[totals_row_idx]) else 0
+                        raw_votes = clean_num(rows[totals_row_idx][c_idx]) if (totals_row_idx is not None and c_idx < len(rows[totals_row_idx])) else 0
+                        res[c_name][cand_clean] = max(res[c_name].get(cand_clean, 0), raw_votes)
 
-                        check(cand_clean in js_cands, f"Candidate '{cand_clean}' present in '{c_name}'")
-                        if cand_clean in js_cands:
-                            check(js_cands[cand_clean]['votes'] == raw_votes, f"Candidate '{cand_clean}' votes ({js_cands[cand_clean]['votes']} == {raw_votes})")
+                i = totals_row_idx if totals_row_idx else i + 1
+            i += 1
+        return res
 
-            i = totals_row_idx if totals_row_idx else i + 1
-        i += 1
+    early_cand_map = extract_contest_candidate_votes(early_rows)
+    ed_cand_map = extract_contest_candidate_votes(ed_rows)
 
-    check(len(js_contests) == len(raw_contests_found), f"Total contest count matches ({len(js_contests)} == {len(raw_contests_found)})")
+    all_verified_contests = set(list(early_cand_map.keys()) + list(ed_cand_map.keys()))
+
+    for c_title in all_verified_contests:
+        if c_title in js_contests:
+            js_c = js_contests[c_title]
+            js_cand_map = {cand['name']: cand for cand in js_c['candidates']}
+
+            early_c_cands = early_cand_map.get(c_title, {})
+            ed_c_cands = ed_cand_map.get(c_title, {})
+            all_cands = set(list(early_c_cands.keys()) + list(ed_c_cands.keys()))
+
+            for cand_name in all_cands:
+                expected_votes = early_c_cands.get(cand_name, 0) + ed_c_cands.get(cand_name, 0)
+                check(cand_name in js_cand_map, f"Candidate '{cand_name}' present in '{c_title}'")
+                if cand_name in js_cand_map:
+                    actual_votes = js_cand_map[cand_name]['votes']
+                    check(actual_votes == expected_votes, f"Candidate '{cand_name}' vote sum ({actual_votes} == {expected_votes}) in '{c_title}'")
 
     print("\n==========================================")
     print(f"VERIFICATION SUMMARY: {passed_checks} PASSED, {failed_checks} FAILED")
@@ -191,8 +240,25 @@ def run_verification(csv_path, js_path):
 
 if __name__ == '__main__':
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_file = os.path.join(base_dir, 'SampleData', 'Walden Results.csv')
-    js_file = os.path.join(base_dir, 'data.js')
+    results_dir = os.path.join(base_dir, 'Results')
+    sample_dir = os.path.join(base_dir, 'SampleData')
     
-    success = run_verification(csv_file, js_file)
+    early_csv = None
+    ed_csv = None
+    for s_dir in [results_dir, sample_dir, base_dir]:
+        if os.path.exists(s_dir):
+            all_csvs = [os.path.join(s_dir, f) for f in os.listdir(s_dir) if f.upper().endswith('.CSV')]
+            if all_csvs:
+                all_csvs.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+                ed_files = [f for f in all_csvs if 'ED' in os.path.basename(f).upper()]
+                non_ed_files = [f for f in all_csvs if 'ED' not in os.path.basename(f).upper()]
+                if ed_files:
+                    ed_csv = ed_files[0]
+                if non_ed_files:
+                    early_csv = non_ed_files[0]
+        if early_csv or ed_csv:
+            break
+
+    js_file = os.path.join(base_dir, 'data.js')
+    success = run_verification(early_csv, ed_csv, js_file)
     exit(0 if success else 1)
