@@ -1,0 +1,525 @@
+<html>
+<head>
+<title>Hamilton County Elections</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="1800">
+<style>.noHeader {display:none;}</style>
+<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+<script type='text/javascript'>
+google.charts.load('current',{'packages': ['corechart']});
+google.charts.load('current',{'packages': ['table']});
+google.charts.setOnLoadCallback(drawCharts);
+function drawCharts(){
+drawReporting();
+drawBallots();
+drawRace0();
+drawRace1();
+drawRace2();
+drawRace3();
+drawRace4();
+drawRace5();
+drawRace6();
+drawRace7();
+drawRace8();
+drawRace9();
+drawRace10();
+drawRace11();
+drawRace12();
+drawRace13();
+drawRace14();
+drawRace15();
+drawRace16();
+drawRace17();
+}
+function drawReporting() {
+var data = new google.visualization.DataTable();
+data.addColumn('string','Status');
+data.addColumn('number','Count');
+data.addRows([
+['Reported',0],
+['Not Reported',92]]);
+var options = {title: '0 of 92 Precincts Reporting',
+width: 600, height: 400, is3D: true, slices: {0:{color:'Teal'},1:{color:'Gold'}}};
+var chart=new google.visualization.PieChart(document.getElementById('ReportingChart'));
+chart.draw(data,options);}
+function drawBallots() {
+var data = new google.visualization.DataTable();
+data.addColumn('string','Party');
+data.addColumn('number','Ballots');
+data.addRows([
+['Ballots Cast',0],
+['<B>Total Registered Voters',228588]]);
+var options = {width: 600, alternatingRowStyle: true, allowHtml: true, sort: false,
+cssClassNames: {headerCell:'noHeader'}};
+var table = new google.visualization.Table(document.getElementById('BallotTable'));
+table.draw(data,options);}
+function drawRace0(){
+document.getElementById('Chart0').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>REP Donald J. Trump', 0],
+['DEM Kamala Harris', 0],
+['Jay J Bowman', 0],
+['Claudia De la Cruz', 0],
+['Rachele Fruit', 0],
+['Robert F Kennedy,  Jr.', 0],
+['Jill Stein', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table0'));
+table.draw(data,options);}
+function drawRace1(){
+document.getElementById('Chart1').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>REP Marsha Blackburn', 0],
+['DEM Gloria Johnson', 0],
+['Tharon Chandler', 0],
+['Pamela Jeanine "P." Moses', 0],
+['Hastina Robinson', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table1'));
+table.draw(data,options);}
+function drawRace2(){
+document.getElementById('Chart2').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>REP Chuck Fleischmann', 0],
+['DEM Jack Allen', 0],
+['Jean Howard-Hill', 0],
+['Stephen "Scooter" King', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table2'));
+table.draw(data,options);}
+function drawRace3(){
+document.getElementById('Chart3').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>REP Todd Gardenhire', 0],
+['DEM Missy Crutchfield', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table3'));
+table.draw(data,options);}
+function drawRace4(){
+document.getElementById('Chart4').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>REP Greg Martin', 0],
+['DEM Allison Gorman', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table4'));
+table.draw(data,options);}
+function drawRace5(){
+document.getElementById('Chart5').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>REP Michele Reneau', 0],
+['DEM Kathy Lennon', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table5'));
+table.draw(data,options);}
+function drawRace6(){
+document.getElementById('Chart6').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>DEM Yusuf A. Hakeem', 0],
+['Thomas J. Brooks III', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table6'));
+table.draw(data,options);}
+function drawRace7(){
+document.getElementById('Chart7').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>REP Greg Vital', 0],
+['DEM Ryan Scofield', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table7'));
+table.draw(data,options);}
+function drawRace8(){
+document.getElementById('Chart8').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>REP Esther Helton-Haynes', 0],
+['DEM Heather McClendon', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table8'));
+table.draw(data,options);}
+function drawRace9(){
+document.getElementById('Chart9').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Debbie Baker', 0],
+['<B>Billy Burnette', 0],
+['<B>Laura Howse', 0],
+['Tim Johnson', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table9'));
+table.draw(data,options);}
+function drawRace10(){
+document.getElementById('Chart10').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Stanley L. Allen', 0],
+['<B>Jeff Ezell', 0],
+['Andrea "Aundie" Witt', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table10'));
+table.draw(data,options);}
+function drawRace11(){
+document.getElementById('Chart11').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Bobby Bishop', 0],
+['<B>Valerie J. Boddy', 0],
+['<B>David Howell', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table11'));
+table.draw(data,options);}
+function drawRace12(){
+document.getElementById('Chart12').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Stefanie Dalton', 0],
+['<B>Terri Holmes', 0],
+['Katy Mena-Berkley', 0],
+['Jeff Price', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table12'));
+table.draw(data,options);}
+function drawRace13(){
+document.getElementById('Chart13').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Andrew Gardner', 0],
+['<B>J. Miles Jorgensen', 0],
+['<B>Rufus Marye', 0],
+['Eddie Smith', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table13'));
+table.draw(data,options);}
+function drawRace14(){
+document.getElementById('Chart14').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Travis Beene', 0],
+['<B>James Berry', 0],
+['<B>Jim Biggs', 0],
+['Jim Coleman', 0],
+['Steve Everett', 0],
+['Derek Kukura', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table14'));
+table.draw(data,options);}
+function drawRace15(){
+document.getElementById('Chart15').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Lee Davis', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table15'));
+table.draw(data,options);}
+function drawRace16(){
+document.getElementById('Chart16').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Lizzy Schmidt', 0],
+['Lou Ziebold', 0],
+['Write-Ins', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table16'));
+table.draw(data,options);}
+function drawRace17(){
+document.getElementById('Chart17').innerHTML = '<h3>NO VOTES CAST</h3>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>For', 0],
+['Against', 0]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table17'));
+table.draw(data,options);}
+
+</script></head><body>
+<table width=600px><tr><td align=center>
+<img src='https://www.hamiltontn.gov/images/CountySeal_inColor.png' width=125>
+</td><td valign=center align=center>
+<h1>Unofficial Election Results<br>Hamilton County, TN<br>(as of 10/23/2024 8:00 AM)</h1></td></tr></table>
+<h3>Precincts Reporting & Ballots Cast</h3>
+<div id='ReportingChart'></div>
+<div id='BallotTable'></div>
+<hr align=left width=600px><h2>Contests</h2>
+<ul>
+<li><a href='#Contest0'>US President</a></li>
+<li><a href='#Contest1'>US Senate</a></li>
+<li><a href='#Contest2'>US Representative - Dist 3</a></li>
+<li><a href='#Contest3'>TN Senate - Dist 10</a></li>
+<li><a href='#Contest4'>TN Representative - House 26</a></li>
+<li><a href='#Contest5'>TN Representative - House 27</a></li>
+<li><a href='#Contest6'>TN Representative - House 28</a></li>
+<li><a href='#Contest7'>TN Representative - House 29</a></li>
+<li><a href='#Contest8'>TN Representative - House 30</a></li>
+<li><a href='#Contest9'>Collegedale Commissioner</a></li>
+<li><a href='#Contest10'>East Ridge City Council</a></li>
+<li><a href='#Contest11'>Lakesite Commissioner</a></li>
+<li><a href='#Contest12'>Red Bank Commissioner</a></li>
+<li><a href='#Contest13'>Signal Mountain Town Council</a></li>
+<li><a href='#Contest14'>Soddy Daisy Commisioner</a></li>
+<li><a href='#Contest15'>Walden Mayor</a></li>
+<li><a href='#Contest16'>Walden Alderman</a></li>
+<li><a href='#Contest17'>Liquor Referendum</a></li>
+
+</ul>
+<hr width=600px align=left>
+<h2 id='Contest0'>US President</h3>
+<h3>0 of 92 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart0'></div>
+<div id='Table0'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest1'>US Senate</h3>
+<h3>0 of 92 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart1'></div>
+<div id='Table1'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest2'>US Representative - Dist 3</h3>
+<h3>0 of 92 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart2'></div>
+<div id='Table2'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest3'>TN Senate - Dist 10</h3>
+<h3>0 of 35 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart3'></div>
+<div id='Table3'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest4'>TN Representative - House 26</h3>
+<h3>0 of 31 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart4'></div>
+<div id='Table4'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest5'>TN Representative - House 27</h3>
+<h3>0 of 33 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart5'></div>
+<div id='Table5'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest6'>TN Representative - House 28</h3>
+<h3>0 of 27 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart6'></div>
+<div id='Table6'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest7'>TN Representative - House 29</h3>
+<h3>0 of 21 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart7'></div>
+<div id='Table7'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest8'>TN Representative - House 30</h3>
+<h3>0 of 25 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart8'></div>
+<div id='Table8'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest9'>Collegedale Commissioner</h3>
+<h3>0 of 5 Precincts Reporting
+<br>(VOTE FOR 3)</h3>
+<div id='Chart9'></div>
+<div id='Table9'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest10'>East Ridge City Council</h3>
+<h3>0 of 5 Precincts Reporting
+<br>(VOTE FOR 2)</h3>
+<div id='Chart10'></div>
+<div id='Table10'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest11'>Lakesite Commissioner</h3>
+<h3>0 of 1 Precincts Reporting
+<br>(VOTE FOR 3)</h3>
+<div id='Chart11'></div>
+<div id='Table11'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest12'>Red Bank Commissioner</h3>
+<h3>0 of 4 Precincts Reporting
+<br>(VOTE FOR 2)</h3>
+<div id='Chart12'></div>
+<div id='Table12'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest13'>Signal Mountain Town Council</h3>
+<h3>0 of 2 Precincts Reporting
+<br>(VOTE FOR 3)</h3>
+<div id='Chart13'></div>
+<div id='Table13'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest14'>Soddy Daisy Commisioner</h3>
+<h3>0 of 5 Precincts Reporting
+<br>(VOTE FOR 3)</h3>
+<div id='Chart14'></div>
+<div id='Table14'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest15'>Walden Mayor</h3>
+<h3>0 of 1 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart15'></div>
+<div id='Table15'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest16'>Walden Alderman</h3>
+<h3>0 of 1 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart16'></div>
+<div id='Table16'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+<hr width=600px align=left>
+<h2 id='Contest17'>Liquor Referendum</h3>
+<h3>0 of 43 Precincts Reporting
+<br>(VOTE FOR 1)</h3>
+<div id='Chart17'></div>
+<div id='Table17'></div>
+<p><a href='#top'>(Return to top)</a>&emsp;<a href=''>(Reload Page & Return to Top)</a>&emsp;<span style='cursor: pointer;color:blue' onClick='location.reload();'><u>(Reload and Stay on This Race)</u></span>
+
+<table width=600px><tr height=200px><td align=center>
+<img src='https://www.hamiltontn.gov/images/CountySeal_inColor.png' width=125>
+</td></tr></table>
+</body></html>

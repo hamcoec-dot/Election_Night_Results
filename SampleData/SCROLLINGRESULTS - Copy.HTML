@@ -1,0 +1,18 @@
+<html>
+<head>
+<title>Hamilton County Elections</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+function ChangeTime() {
+	CurrDateTime = new Date();
+	document.getElementById("Time").innerHTML = CurrDateTime.toLocaleDateString() + "<BR>" + CurrDateTime.toLocaleTimeString();
+	setTimeout(ChangeTime,1000);
+	}
+</script></head>
+<body onload="setTimeout(ChangeTime,1000);">
+<table width=100%><tr><td align=center>
+<img src='https://www.hamiltontn.gov/images/CountySeal_inColor.png' width=125>
+</td><td valign=center align=center>
+<h1 id=Time>Unofficial Election Results<br>Hamilton County, TN</h1></td><td align=center>
+<img src='https://www.hamiltontn.gov/images/CountySeal_inColor.png' width=125></td></tr></table>
+</body></html>

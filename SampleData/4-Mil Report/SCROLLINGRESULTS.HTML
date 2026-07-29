@@ -1,0 +1,716 @@
+<html>
+<head>
+<title>Hamilton County Elections</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+<script type='text/javascript'>
+google.charts.load('current',{'packages': ['corechart']});
+google.charts.load('current',{'packages': ['table']});
+google.charts.setOnLoadCallback(drawBallotsCast);
+function drawBallotsCast() {
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>Ballots Cast</h2><table width=100%><tr><td width=650px align=center id=Chart></td><td width=650px id=Table></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '';
+var data = new google.visualization.DataTable();
+data.addColumn('string','Party');
+data.addColumn('number','Ballots');
+data.addRows([
+['General Ballots',2864],
+['<B>Total Registered Voters',228588]]);
+var options = {width: 600, alternatingRowStyle: true, allowHtml: true, sort: false};
+var table = new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Status');
+data.addColumn('number','Count');
+data.addRows([
+['Reported',0],
+['Not Reported',92]])
+var options = {title: '0 of 92 Precincts Reporting',
+width: 600, height: 400, is3D: true, slices: {0:{color:'Teal'},1:{color:'Gold'}}};
+var chart=new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+setTimeout(drawRace0,8000);}
+function refreshPage(){location.reload();}
+function drawRace0(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>US President</h2><h3 align=center>0 of 92 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Jill Stein', 695],
+['Robert F Kennedy,  Jr.', 578],
+['Rachele Fruit', 491],
+['Claudia De la Cruz', 397],
+['Jay J Bowman', 300],
+['DEM Kamala Harris', 197],
+['REP Donald J. Trump', 104],
+['Write-Ins', 102]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Jill Stein', 695],
+['Robert F Kennedy,  Jr.', 578],
+['Rachele Fruit', 491],
+['Claudia De la Cruz', 397],
+['Jay J Bowman', 300],
+['DEM Kamala Harris', 197],
+['REP Donald J. Trump', 104],
+['Write-Ins', 102]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace1,8000);}
+
+function drawRace1(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>US Senate</h2><h3 align=center>0 of 92 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Hastina Robinson', 491],
+['Pamela Jeanine "P." Moses', 397],
+['Tharon Chandler', 300],
+['DEM Gloria Johnson', 197],
+['REP Marsha Blackburn', 104],
+['Write-Ins', 96]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Hastina Robinson', 491],
+['Pamela Jeanine "P." Moses', 397],
+['Tharon Chandler', 300],
+['DEM Gloria Johnson', 197],
+['REP Marsha Blackburn', 104],
+['Write-Ins', 96]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace2,8000);}
+
+function drawRace2(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>US Representative - Dist 3</h2><h3 align=center>0 of 92 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Stephen "Scooter" King', 397],
+['Jean Howard-Hill', 300],
+['DEM Jack Allen', 197],
+['REP Chuck Fleischmann', 104],
+['Write-Ins', 98]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Stephen "Scooter" King', 397],
+['Jean Howard-Hill', 300],
+['DEM Jack Allen', 197],
+['REP Chuck Fleischmann', 104],
+['Write-Ins', 98]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace3,8000);}
+
+function drawRace3(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>TN Senate - Dist 10</h2><h3 align=center>0 of 35 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['DEM Missy Crutchfield', 44],
+['REP Todd Gardenhire', 23],
+['Write-Ins', 21]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>DEM Missy Crutchfield', 44],
+['REP Todd Gardenhire', 23],
+['Write-Ins', 21]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace4,8000);}
+
+function drawRace4(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>TN Representative - House 26</h2><h3 align=center>0 of 31 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['DEM Allison Gorman', 44],
+['REP Greg Martin', 24],
+['Write-Ins', 24]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>DEM Allison Gorman', 44],
+['REP Greg Martin', 24],
+['Write-Ins', 24]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace5,8000);}
+
+function drawRace5(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>TN Representative - House 27</h2><h3 align=center>0 of 33 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['DEM Kathy Lennon', 65],
+['REP Michele Reneau', 35],
+['Write-Ins', 35]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>DEM Kathy Lennon', 65],
+['REP Michele Reneau', 35],
+['Write-Ins', 35]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace6,8000);}
+
+function drawRace6(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>TN Representative - House 28</h2><h3 align=center>0 of 27 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Thomas J. Brooks III', 22],
+['DEM Yusuf A. Hakeem', 11],
+['Write-Ins', 11]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Thomas J. Brooks III', 22],
+['DEM Yusuf A. Hakeem', 11],
+['Write-Ins', 11]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace7,8000);}
+
+function drawRace7(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>TN Representative - House 29</h2><h3 align=center>0 of 21 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['DEM Ryan Scofield', 22],
+['Write-Ins', 12],
+['REP Greg Vital', 11]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>DEM Ryan Scofield', 22],
+['Write-Ins', 12],
+['REP Greg Vital', 11]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace8,8000);}
+
+function drawRace8(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>TN Representative - House 30</h2><h3 align=center>0 of 25 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['DEM Heather McClendon', 44],
+['REP Esther Helton-Haynes', 23],
+['Write-Ins', 21]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>DEM Heather McClendon', 44],
+['REP Esther Helton-Haynes', 23],
+['Write-Ins', 21]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace9,8000);}
+
+function drawRace9(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>Collegedale Commissioner</h2><h3 align=center>0 of 5 Precincts Reporting<BR>(VOTE FOR 3)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Tim Johnson', 44],
+['Laura Howse', 33],
+['Write-Ins', 33],
+['Billy Burnette', 22],
+['Debbie Baker', 11]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {offset: 0.2, color:'Gold'},
+2: {offset: 0.2},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Tim Johnson', 44],
+['<B>Laura Howse', 33],
+['<B>Write-Ins', 33],
+['Billy Burnette', 22],
+['Debbie Baker', 11]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace10,8000);}
+
+function drawRace10(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>East Ridge City Council</h2><h3 align=center>0 of 5 Precincts Reporting<BR>(VOTE FOR 2)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Andrea "Aundie" Witt', 32],
+['Jeff Ezell', 23],
+['Write-Ins', 21],
+['Stanley L. Allen', 12]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {offset: 0.2, color:'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Andrea "Aundie" Witt', 32],
+['<B>Jeff Ezell', 23],
+['Write-Ins', 21],
+['Stanley L. Allen', 12]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace11,8000);}
+
+function drawRace11(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>Lakesite Commissioner</h2><h3 align=center>0 of 1 Precincts Reporting<BR>(VOTE FOR 3)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['David Howell', 33],
+['Write-Ins', 31],
+['Valerie J. Boddy', 23],
+['Bobby Bishop', 12]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {offset: 0.2, color:'Gold'},
+2: {offset: 0.2},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>David Howell', 33],
+['<B>Write-Ins', 31],
+['<B>Valerie J. Boddy', 23],
+['Bobby Bishop', 12]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace12,8000);}
+
+function drawRace12(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>Red Bank Commissioner</h2><h3 align=center>0 of 4 Precincts Reporting<BR>(VOTE FOR 2)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Jeff Price', 43],
+['Katy Mena-Berkley', 34],
+['Terri Holmes', 23],
+['Write-Ins', 20],
+['Stefanie Dalton', 12]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {offset: 0.2, color:'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Jeff Price', 43],
+['<B>Katy Mena-Berkley', 34],
+['Terri Holmes', 23],
+['Write-Ins', 20],
+['Stefanie Dalton', 12]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace13,8000);}
+
+function drawRace13(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>Signal Mountain Town Council</h2><h3 align=center>0 of 2 Precincts Reporting<BR>(VOTE FOR 3)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Eddie Smith', 46],
+['Rufus Marye', 35],
+['Write-Ins', 35],
+['J. Miles Jorgensen', 24],
+['Andrew Gardner', 12]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {offset: 0.2, color:'Gold'},
+2: {offset: 0.2},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Eddie Smith', 46],
+['<B>Rufus Marye', 35],
+['<B>Write-Ins', 35],
+['J. Miles Jorgensen', 24],
+['Andrew Gardner', 12]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace14,8000);}
+
+function drawRace14(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>Soddy Daisy Commisioner</h2><h3 align=center>0 of 5 Precincts Reporting<BR>(VOTE FOR 3)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Derek Kukura', 67],
+['Steve Everett', 57],
+['Jim Coleman', 46],
+['Jim Biggs', 35],
+['Write-Ins', 33],
+['James Berry', 24],
+['Travis Beene', 12]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {offset: 0.2, color:'Gold'},
+2: {offset: 0.2},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Derek Kukura', 67],
+['<B>Steve Everett', 57],
+['<B>Jim Coleman', 46],
+['Jim Biggs', 35],
+['Write-Ins', 33],
+['James Berry', 24],
+['Travis Beene', 12]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace15,8000);}
+
+function drawRace15(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>Walden Mayor</h2><h3 align=center>0 of 1 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Lee Davis', 11],
+['Write-Ins', 11]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Lee Davis', 11],
+['Write-Ins', 11]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace16,8000);}
+
+function drawRace16(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>Walden Alderman</h2><h3 align=center>0 of 1 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Lou Ziebold', 20],
+['Lizzy Schmidt', 11],
+['Write-Ins', 11]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Lou Ziebold', 20],
+['Lizzy Schmidt', 11],
+['Write-Ins', 11]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(drawRace17,8000);}
+
+function drawRace17(){
+document.getElementById('ThisReport').innerHTML = '<h2 align=center>Liquor Referendum</h2><h3 align=center>0 of 43 Precincts Reporting<BR>(VOTE FOR 1)</h3><table width=100%><tr><td id=Chart align=center width=650px></td><td id=Table align=center width=650px></td></tr></table>';
+document.getElementById('StatsDiv').innerHTML = '<h4 align=center>Ballots Cast County-Wide: 2,864<br>Registered Voters: 228,588</h4>';
+var data = new google.visualization.DataTable();
+data.addColumn('string','selection');
+data.addColumn('number','');
+data.addRows([
+['Against', 63],
+['For', 34]]);
+var options={'width':600,
+'height':400,'is3D':true,
+'pieResidueSliceLabel': 'The Rest, Combined',
+slices: {
+0: {offset: 0.2, color:'Teal'},
+1: {color: 'Gold'},
+},};
+var chart = new google.visualization.PieChart(document.getElementById('Chart'));
+chart.draw(data,options);
+var data = new google.visualization.DataTable();
+data.addColumn('string','Candidate');
+data.addColumn('number','Votes');
+data.addRows([
+['<B>Against', 63],
+['For', 34]]);
+var options={width:600,
+alternatingRowStyle:true,
+page:true,showRowNumber:true,
+pageSize:5,
+allowHtml:true};
+var table=new google.visualization.Table(document.getElementById('Table'));
+table.draw(data,options);
+setTimeout(refreshPage,8000);}
+
+</script></head><body>
+<table width=100%><tr><td align=center>
+<img src='https://www.hamiltontn.gov/images/CountySeal_inColor.png' width=125>
+</td><td valign=center align=center>
+<h1>Unofficial Election Results<br>Hamilton County, TN<br>(as of 10/23/2024 8:29:41 AM)</h1></td><td align=center>
+<img src='https://www.hamiltontn.gov/images/CountySeal_inColor.png' width=125></td></tr></table>
+<div align=center id='StatsDiv'></div><hr>
+<div id='ThisReport'></div>
+</body></html>
