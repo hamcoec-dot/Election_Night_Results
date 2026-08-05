@@ -12,38 +12,38 @@ window.ELECTION_DATA = {
     "electionDate": "August 6, 2026",
     "county": "Hamilton",
     "statusLabel": "UNOFFICIAL RESULTS",
-    "totalVoters": 219226,
-    "totalBallots": 23320,
-    "turnoutPercent": 10.64,
-    "overallPrecinctsReporting": 1,
+    "totalVoters": 218767,
+    "totalBallots": 0,
+    "turnoutPercent": 0.0,
+    "overallPrecinctsReporting": 0,
     "overallPrecinctsTotal": 92,
     "contests": [
       {
         "title": "REP Governor",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 11533,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Marsha Blackburn",
             "party": "",
-            "votes": 3969,
-            "percentage": 34.41,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Monty Fritts",
             "party": "",
-            "votes": 3866,
-            "percentage": 33.52,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "John Rose",
             "party": "",
-            "votes": 3698,
-            "percentage": 32.06,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -398,7 +398,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -425,16 +425,16 @@ window.ELECTION_DATA = {
       {
         "title": "REP United States Senate",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 3247,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Bill Hagerty",
             "party": "",
-            "votes": 3247,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -788,7 +788,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -815,16 +815,16 @@ window.ELECTION_DATA = {
       {
         "title": "REP United States House of Representatives, District 3",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 4146,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Chuck Fleischmann",
             "party": "",
-            "votes": 4146,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -1178,7 +1178,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -1205,16 +1205,16 @@ window.ELECTION_DATA = {
       {
         "title": "REP Tennessee Senate, District 11 District 11",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 57,
-        "totalVotes": 2562,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Bo Watson",
             "party": "",
-            "votes": 2562,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -1440,7 +1440,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WOLFTEVER",
@@ -1453,14 +1453,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 31,
-        "totalVotes": 1341,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Greg Martin",
             "party": "",
-            "votes": 1341,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -1593,23 +1593,23 @@ window.ELECTION_DATA = {
       {
         "title": "REP Tennessee House of Representatives, District 27 District 27",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 33,
-        "totalVotes": 2597,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Tony Hullender",
             "party": "",
-            "votes": 1250,
-            "percentage": 48.13,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Michele Reneau",
             "party": "",
-            "votes": 1347,
-            "percentage": 51.87,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -1743,7 +1743,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           }
         ]
       },
@@ -1752,14 +1752,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 27,
-        "totalVotes": 799,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "No Candidate Qualified",
             "party": "",
-            "votes": 799,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -1878,14 +1878,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 21,
-        "totalVotes": 796,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Greg Vital",
             "party": "",
-            "votes": 796,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -1980,14 +1980,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 25,
-        "totalVotes": 946,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Esther Helton Haynes",
             "party": "",
-            "votes": 946,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -2098,14 +2098,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 35,
-        "totalVotes": 1148,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Kenneth J (Ken) Meyer",
             "party": "",
-            "votes": 1148,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -2254,22 +2254,22 @@ window.ELECTION_DATA = {
       {
         "title": "REP State Executive Committeeman, District 11 District 11",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 57,
-        "totalVotes": 3841,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Derek Greene",
             "party": "",
-            "votes": 1988,
-            "percentage": 51.76,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "David G. Queen",
             "party": "",
-            "votes": 1853,
-            "percentage": 48.24,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -2496,7 +2496,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WOLFTEVER",
@@ -2509,14 +2509,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 35,
-        "totalVotes": 1448,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Emily Goldberg",
             "party": "",
-            "votes": 1448,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -2665,22 +2665,22 @@ window.ELECTION_DATA = {
       {
         "title": "REP State Executive Committeewoman, District 11 District 11",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 57,
-        "totalVotes": 4754,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Jane Armstrong",
             "party": "",
-            "votes": 2412,
-            "percentage": 50.74,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Tina J. Benkiser",
             "party": "",
-            "votes": 2342,
-            "percentage": 49.26,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -2907,7 +2907,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WOLFTEVER",
@@ -2918,43 +2918,43 @@ window.ELECTION_DATA = {
       {
         "title": "DEM Governor",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 17870,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Carnita Atwater",
             "party": "",
-            "votes": 3498,
-            "percentage": 19.57,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Tim Cyr",
             "party": "",
-            "votes": 3330,
-            "percentage": 18.63,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Jerri Green",
             "party": "",
-            "votes": 3047,
-            "percentage": 17.05,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Adam \"Ditch\" Kurtz",
             "party": "",
-            "votes": 4049,
-            "percentage": 22.66,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Kevin Lee McCants",
             "party": "",
-            "votes": 3946,
-            "percentage": 22.08,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -3309,7 +3309,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -3336,43 +3336,43 @@ window.ELECTION_DATA = {
       {
         "title": "DEM United States Senate",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 18280,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Marquita Bradshaw",
             "party": "",
-            "votes": 3979,
-            "percentage": 21.77,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Maria Brewer",
             "party": "",
-            "votes": 3811,
-            "percentage": 20.85,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Kevin Lee McCants",
             "party": "",
-            "votes": 3643,
-            "percentage": 19.93,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Civil Miller-Watkins",
             "party": "",
-            "votes": 3475,
-            "percentage": 19.01,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Diana Onyejiaka",
             "party": "",
-            "votes": 3372,
-            "percentage": 18.45,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -3727,7 +3727,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -3754,22 +3754,22 @@ window.ELECTION_DATA = {
       {
         "title": "DEM United States House of Representatives, District 3",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 8014,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Anna Golladay",
             "party": "",
-            "votes": 4091,
-            "percentage": 51.05,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Bryan Martin",
             "party": "",
-            "votes": 3923,
-            "percentage": 48.95,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -4124,7 +4124,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -4151,16 +4151,16 @@ window.ELECTION_DATA = {
       {
         "title": "DEM Tennessee Senate, District 11 District 11",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 57,
-        "totalVotes": 2203,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Tim Roberts",
             "party": "",
-            "votes": 2203,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -4386,7 +4386,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WOLFTEVER",
@@ -4399,20 +4399,20 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 31,
-        "totalVotes": 2685,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Nathan B. Denton",
             "party": "",
-            "votes": 1419,
-            "percentage": 52.85,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Lucian LaFae",
             "party": "",
-            "votes": 1266,
-            "percentage": 47.15,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -4546,16 +4546,16 @@ window.ELECTION_DATA = {
       {
         "title": "DEM Tennessee House of Representatives, District 27 District 27",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 33,
-        "totalVotes": 1459,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Paige Quirin",
             "party": "",
-            "votes": 1459,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -4689,7 +4689,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           }
         ]
       },
@@ -4698,14 +4698,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 27,
-        "totalVotes": 890,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Yusuf A. Hakeem",
             "party": "",
-            "votes": 890,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -4824,14 +4824,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 21,
-        "totalVotes": 744,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Ryan V. Scofield",
             "party": "",
-            "votes": 744,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -4926,14 +4926,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 25,
-        "totalVotes": 881,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Art Rymer",
             "party": "",
-            "votes": 881,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -5044,14 +5044,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 35,
-        "totalVotes": 1343,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Chris Anderson",
             "party": "",
-            "votes": 1343,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -5200,23 +5200,23 @@ window.ELECTION_DATA = {
       {
         "title": "DEM State Executive Committeeman, District 11 District 11",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 57,
-        "totalVotes": 4234,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Tahcere Alexander",
             "party": "",
-            "votes": 2022,
-            "percentage": 47.76,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Ryan V. Scofield",
             "party": "",
-            "votes": 2212,
-            "percentage": 52.24,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -5442,7 +5442,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WOLFTEVER",
@@ -5455,14 +5455,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 35,
-        "totalVotes": 1253,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Heather McClendon",
             "party": "",
-            "votes": 1253,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -5611,16 +5611,16 @@ window.ELECTION_DATA = {
       {
         "title": "DEM State Executive Committeewoman, District 11 District 11",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 57,
-        "totalVotes": 2435,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Lisa Crowder",
             "party": "",
-            "votes": 2435,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -5846,7 +5846,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WOLFTEVER",
@@ -5857,412 +5857,15 @@ window.ELECTION_DATA = {
       {
         "title": "Circuit Court Judge, Div. 2",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 3637,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Jennifer K. Peck",
             "party": "REP",
-            "votes": 3637,
-            "percentage": 100.0,
-            "isLeading": true
-          }
-        ],
-        "precinctsStatus": [
-          {
-            "name": "AIRPORT A",
-            "reported": false
-          },
-          {
-            "name": "AIRPORT B",
-            "reported": false
-          },
-          {
-            "name": "ALTON PARK",
-            "reported": false
-          },
-          {
-            "name": "APISON A",
-            "reported": false
-          },
-          {
-            "name": "APISON B",
-            "reported": false
-          },
-          {
-            "name": "AVONDALE",
-            "reported": false
-          },
-          {
-            "name": "BIRCHWOOD",
-            "reported": false
-          },
-          {
-            "name": "BONNY OAKS",
-            "reported": false
-          },
-          {
-            "name": "BRAINERD",
-            "reported": false
-          },
-          {
-            "name": "BRAINERD HILLS",
-            "reported": false
-          },
-          {
-            "name": "BUSHTOWN",
-            "reported": false
-          },
-          {
-            "name": "COLLEGEDALE A",
-            "reported": false
-          },
-          {
-            "name": "COLLEGEDALE B",
-            "reported": false
-          },
-          {
-            "name": "CONCORD A",
-            "reported": false
-          },
-          {
-            "name": "CONCORD B",
-            "reported": false
-          },
-          {
-            "name": "COURTHOUSE",
-            "reported": false
-          },
-          {
-            "name": "DALEWOOD",
-            "reported": false
-          },
-          {
-            "name": "DALLAS",
-            "reported": false
-          },
-          {
-            "name": "DOWNTOWN",
-            "reported": false
-          },
-          {
-            "name": "DUPONT",
-            "reported": false
-          },
-          {
-            "name": "EAST BRAINERD A",
-            "reported": false
-          },
-          {
-            "name": "EAST BRAINERD B",
-            "reported": false
-          },
-          {
-            "name": "EAST CHATTANOOGA",
-            "reported": false
-          },
-          {
-            "name": "EAST LAKE",
-            "reported": false
-          },
-          {
-            "name": "EAST RIDGE A",
-            "reported": false
-          },
-          {
-            "name": "EAST RIDGE B",
-            "reported": false
-          },
-          {
-            "name": "EAST RIDGE C",
-            "reported": false
-          },
-          {
-            "name": "EAST RIDGE D",
-            "reported": false
-          },
-          {
-            "name": "EASTGATE",
-            "reported": false
-          },
-          {
-            "name": "EASTSIDE",
-            "reported": false
-          },
-          {
-            "name": "FAIRMOUNT",
-            "reported": false
-          },
-          {
-            "name": "FALLING WATER A",
-            "reported": false
-          },
-          {
-            "name": "FALLING WATER B",
-            "reported": false
-          },
-          {
-            "name": "FLAT TOP MOUNTAIN",
-            "reported": false
-          },
-          {
-            "name": "GANNS",
-            "reported": false
-          },
-          {
-            "name": "GLENWOOD",
-            "reported": false
-          },
-          {
-            "name": "HARRISON",
-            "reported": false
-          },
-          {
-            "name": "HARRISON BAY",
-            "reported": false
-          },
-          {
-            "name": "HIXSON",
-            "reported": false
-          },
-          {
-            "name": "HUNTER",
-            "reported": false
-          },
-          {
-            "name": "HURRICANE CREEK",
-            "reported": false
-          },
-          {
-            "name": "KINGSPOINT",
-            "reported": false
-          },
-          {
-            "name": "LAKE HILLS",
-            "reported": false
-          },
-          {
-            "name": "LAKESITE",
-            "reported": false
-          },
-          {
-            "name": "LOOKOUT MOUNTAIN",
-            "reported": false
-          },
-          {
-            "name": "LOOKOUT VALLEY",
-            "reported": false
-          },
-          {
-            "name": "LUPTON CITY",
-            "reported": false
-          },
-          {
-            "name": "MEADOWVIEW",
-            "reported": false
-          },
-          {
-            "name": "MIDDLE VALLEY",
-            "reported": false
-          },
-          {
-            "name": "MISSIONARY RIDGE",
-            "reported": false
-          },
-          {
-            "name": "MOUNTAIN CREEK A",
-            "reported": false
-          },
-          {
-            "name": "MOUNTAIN CREEK B",
-            "reported": false
-          },
-          {
-            "name": "MOUNTAIN CREEK C",
-            "reported": false
-          },
-          {
-            "name": "MOWBRAY A",
-            "reported": false
-          },
-          {
-            "name": "MOWBRAY B",
-            "reported": false
-          },
-          {
-            "name": "MURRAY HILLS",
-            "reported": false
-          },
-          {
-            "name": "NORTH CHATTANOOGA A",
-            "reported": false
-          },
-          {
-            "name": "NORTH CHATTANOOGA B",
-            "reported": false
-          },
-          {
-            "name": "NORTHGATE",
-            "reported": false
-          },
-          {
-            "name": "NORTHSHORE",
-            "reported": false
-          },
-          {
-            "name": "NORTHWOODS",
-            "reported": false
-          },
-          {
-            "name": "OOLTEWAH",
-            "reported": false
-          },
-          {
-            "name": "OOLTEWAH GEORGETOWN",
-            "reported": false
-          },
-          {
-            "name": "OOLTEWAH RINGGOLD",
-            "reported": false
-          },
-          {
-            "name": "PLEASANT GROVE A",
-            "reported": false
-          },
-          {
-            "name": "PLEASANT GROVE B",
-            "reported": false
-          },
-          {
-            "name": "POSSUM CREEK",
-            "reported": false
-          },
-          {
-            "name": "RED BANK A",
-            "reported": false
-          },
-          {
-            "name": "RED BANK B",
-            "reported": false
-          },
-          {
-            "name": "RED BANK C",
-            "reported": false
-          },
-          {
-            "name": "RIDGEDALE",
-            "reported": false
-          },
-          {
-            "name": "RIDGESIDE",
-            "reported": false
-          },
-          {
-            "name": "RIVERVIEW",
-            "reported": false
-          },
-          {
-            "name": "SALE CREEK",
-            "reported": false
-          },
-          {
-            "name": "SAVANNAH BAY",
-            "reported": false
-          },
-          {
-            "name": "SEQUOYAH",
-            "reported": false
-          },
-          {
-            "name": "SIGNAL MOUNTAIN A",
-            "reported": false
-          },
-          {
-            "name": "SIGNAL MOUNTAIN B",
-            "reported": false
-          },
-          {
-            "name": "SILVERDALE",
-            "reported": false
-          },
-          {
-            "name": "SODDY DAISY A",
-            "reported": false
-          },
-          {
-            "name": "SODDY DAISY B",
-            "reported": false
-          },
-          {
-            "name": "SODDY DAISY C",
-            "reported": false
-          },
-          {
-            "name": "ST ELMO",
-            "reported": false
-          },
-          {
-            "name": "STUART HEIGHTS",
-            "reported": false
-          },
-          {
-            "name": "SUMMIT",
-            "reported": false
-          },
-          {
-            "name": "TYNER",
-            "reported": false
-          },
-          {
-            "name": "VALLEYBROOK",
-            "reported": false
-          },
-          {
-            "name": "WALDEN",
-            "reported": true
-          },
-          {
-            "name": "WESTVIEW A",
-            "reported": false
-          },
-          {
-            "name": "WESTVIEW B",
-            "reported": false
-          },
-          {
-            "name": "WOLFTEVER",
-            "reported": false
-          },
-          {
-            "name": "WOODMORE",
-            "reported": false
-          },
-          {
-            "name": "Collegedale Property Rights",
-            "reported": false
-          }
-        ]
-      },
-      {
-        "title": "County Mayor",
-        "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
-        "precinctsTotal": 92,
-        "totalVotes": 6499,
-        "candidates": [
-          {
-            "name": "Weston Wamp",
-            "party": "REP",
-            "votes": 3301,
-            "percentage": 50.79,
-            "isLeading": true
-          },
-          {
-            "name": "Mark Herndon",
-            "party": "DEM",
-            "votes": 3198,
-            "percentage": 49.21,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -6617,7 +6220,404 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
+          },
+          {
+            "name": "WESTVIEW A",
+            "reported": false
+          },
+          {
+            "name": "WESTVIEW B",
+            "reported": false
+          },
+          {
+            "name": "WOLFTEVER",
+            "reported": false
+          },
+          {
+            "name": "WOODMORE",
+            "reported": false
+          },
+          {
+            "name": "Collegedale Property Rights",
+            "reported": false
+          }
+        ]
+      },
+      {
+        "title": "County Mayor",
+        "voteFor": "VOTE FOR 1",
+        "precinctsReporting": 0,
+        "precinctsTotal": 92,
+        "totalVotes": 0,
+        "candidates": [
+          {
+            "name": "Weston Wamp",
+            "party": "REP",
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
+          },
+          {
+            "name": "Mark Herndon",
+            "party": "DEM",
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
+          }
+        ],
+        "precinctsStatus": [
+          {
+            "name": "AIRPORT A",
+            "reported": false
+          },
+          {
+            "name": "AIRPORT B",
+            "reported": false
+          },
+          {
+            "name": "ALTON PARK",
+            "reported": false
+          },
+          {
+            "name": "APISON A",
+            "reported": false
+          },
+          {
+            "name": "APISON B",
+            "reported": false
+          },
+          {
+            "name": "AVONDALE",
+            "reported": false
+          },
+          {
+            "name": "BIRCHWOOD",
+            "reported": false
+          },
+          {
+            "name": "BONNY OAKS",
+            "reported": false
+          },
+          {
+            "name": "BRAINERD",
+            "reported": false
+          },
+          {
+            "name": "BRAINERD HILLS",
+            "reported": false
+          },
+          {
+            "name": "BUSHTOWN",
+            "reported": false
+          },
+          {
+            "name": "COLLEGEDALE A",
+            "reported": false
+          },
+          {
+            "name": "COLLEGEDALE B",
+            "reported": false
+          },
+          {
+            "name": "CONCORD A",
+            "reported": false
+          },
+          {
+            "name": "CONCORD B",
+            "reported": false
+          },
+          {
+            "name": "COURTHOUSE",
+            "reported": false
+          },
+          {
+            "name": "DALEWOOD",
+            "reported": false
+          },
+          {
+            "name": "DALLAS",
+            "reported": false
+          },
+          {
+            "name": "DOWNTOWN",
+            "reported": false
+          },
+          {
+            "name": "DUPONT",
+            "reported": false
+          },
+          {
+            "name": "EAST BRAINERD A",
+            "reported": false
+          },
+          {
+            "name": "EAST BRAINERD B",
+            "reported": false
+          },
+          {
+            "name": "EAST CHATTANOOGA",
+            "reported": false
+          },
+          {
+            "name": "EAST LAKE",
+            "reported": false
+          },
+          {
+            "name": "EAST RIDGE A",
+            "reported": false
+          },
+          {
+            "name": "EAST RIDGE B",
+            "reported": false
+          },
+          {
+            "name": "EAST RIDGE C",
+            "reported": false
+          },
+          {
+            "name": "EAST RIDGE D",
+            "reported": false
+          },
+          {
+            "name": "EASTGATE",
+            "reported": false
+          },
+          {
+            "name": "EASTSIDE",
+            "reported": false
+          },
+          {
+            "name": "FAIRMOUNT",
+            "reported": false
+          },
+          {
+            "name": "FALLING WATER A",
+            "reported": false
+          },
+          {
+            "name": "FALLING WATER B",
+            "reported": false
+          },
+          {
+            "name": "FLAT TOP MOUNTAIN",
+            "reported": false
+          },
+          {
+            "name": "GANNS",
+            "reported": false
+          },
+          {
+            "name": "GLENWOOD",
+            "reported": false
+          },
+          {
+            "name": "HARRISON",
+            "reported": false
+          },
+          {
+            "name": "HARRISON BAY",
+            "reported": false
+          },
+          {
+            "name": "HIXSON",
+            "reported": false
+          },
+          {
+            "name": "HUNTER",
+            "reported": false
+          },
+          {
+            "name": "HURRICANE CREEK",
+            "reported": false
+          },
+          {
+            "name": "KINGSPOINT",
+            "reported": false
+          },
+          {
+            "name": "LAKE HILLS",
+            "reported": false
+          },
+          {
+            "name": "LAKESITE",
+            "reported": false
+          },
+          {
+            "name": "LOOKOUT MOUNTAIN",
+            "reported": false
+          },
+          {
+            "name": "LOOKOUT VALLEY",
+            "reported": false
+          },
+          {
+            "name": "LUPTON CITY",
+            "reported": false
+          },
+          {
+            "name": "MEADOWVIEW",
+            "reported": false
+          },
+          {
+            "name": "MIDDLE VALLEY",
+            "reported": false
+          },
+          {
+            "name": "MISSIONARY RIDGE",
+            "reported": false
+          },
+          {
+            "name": "MOUNTAIN CREEK A",
+            "reported": false
+          },
+          {
+            "name": "MOUNTAIN CREEK B",
+            "reported": false
+          },
+          {
+            "name": "MOUNTAIN CREEK C",
+            "reported": false
+          },
+          {
+            "name": "MOWBRAY A",
+            "reported": false
+          },
+          {
+            "name": "MOWBRAY B",
+            "reported": false
+          },
+          {
+            "name": "MURRAY HILLS",
+            "reported": false
+          },
+          {
+            "name": "NORTH CHATTANOOGA A",
+            "reported": false
+          },
+          {
+            "name": "NORTH CHATTANOOGA B",
+            "reported": false
+          },
+          {
+            "name": "NORTHGATE",
+            "reported": false
+          },
+          {
+            "name": "NORTHSHORE",
+            "reported": false
+          },
+          {
+            "name": "NORTHWOODS",
+            "reported": false
+          },
+          {
+            "name": "OOLTEWAH",
+            "reported": false
+          },
+          {
+            "name": "OOLTEWAH GEORGETOWN",
+            "reported": false
+          },
+          {
+            "name": "OOLTEWAH RINGGOLD",
+            "reported": false
+          },
+          {
+            "name": "PLEASANT GROVE A",
+            "reported": false
+          },
+          {
+            "name": "PLEASANT GROVE B",
+            "reported": false
+          },
+          {
+            "name": "POSSUM CREEK",
+            "reported": false
+          },
+          {
+            "name": "RED BANK A",
+            "reported": false
+          },
+          {
+            "name": "RED BANK B",
+            "reported": false
+          },
+          {
+            "name": "RED BANK C",
+            "reported": false
+          },
+          {
+            "name": "RIDGEDALE",
+            "reported": false
+          },
+          {
+            "name": "RIDGESIDE",
+            "reported": false
+          },
+          {
+            "name": "RIVERVIEW",
+            "reported": false
+          },
+          {
+            "name": "SALE CREEK",
+            "reported": false
+          },
+          {
+            "name": "SAVANNAH BAY",
+            "reported": false
+          },
+          {
+            "name": "SEQUOYAH",
+            "reported": false
+          },
+          {
+            "name": "SIGNAL MOUNTAIN A",
+            "reported": false
+          },
+          {
+            "name": "SIGNAL MOUNTAIN B",
+            "reported": false
+          },
+          {
+            "name": "SILVERDALE",
+            "reported": false
+          },
+          {
+            "name": "SODDY DAISY A",
+            "reported": false
+          },
+          {
+            "name": "SODDY DAISY B",
+            "reported": false
+          },
+          {
+            "name": "SODDY DAISY C",
+            "reported": false
+          },
+          {
+            "name": "ST ELMO",
+            "reported": false
+          },
+          {
+            "name": "STUART HEIGHTS",
+            "reported": false
+          },
+          {
+            "name": "SUMMIT",
+            "reported": false
+          },
+          {
+            "name": "TYNER",
+            "reported": false
+          },
+          {
+            "name": "VALLEYBROOK",
+            "reported": false
+          },
+          {
+            "name": "WALDEN",
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -6646,20 +6646,20 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 11,
-        "totalVotes": 958,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Gene-o Shipley",
             "party": "REP",
-            "votes": 568,
-            "percentage": 59.29,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Mona Petro",
             "party": "DEM",
-            "votes": 390,
-            "percentage": 40.71,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -6713,22 +6713,22 @@ window.ELECTION_DATA = {
       {
         "title": "County Commission, District 2 District 2",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 10,
-        "totalVotes": 1010,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Chip Baker",
             "party": "REP",
-            "votes": 532,
-            "percentage": 52.67,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Amanda Sovago-Royal",
             "party": "DEM",
-            "votes": 478,
-            "percentage": 47.33,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -6771,7 +6771,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           }
         ]
       },
@@ -6780,14 +6780,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 8,
-        "totalVotes": 340,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Ken Smith",
             "party": "REP",
-            "votes": 340,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -6830,14 +6830,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 8,
-        "totalVotes": 295,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Warren Mackey",
             "party": "DEM",
-            "votes": 295,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -6880,14 +6880,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 11,
-        "totalVotes": 438,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Katherlyn Geter",
             "party": "DEM",
-            "votes": 438,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -6942,21 +6942,21 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 9,
-        "totalVotes": 764,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "David Sharpe",
             "party": "DEM",
-            "votes": 378,
-            "percentage": 49.48,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Justin Pinkerton",
             "party": "IND",
-            "votes": 386,
-            "percentage": 50.52,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -7003,21 +7003,21 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 7,
-        "totalVotes": 503,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Lee Helton",
             "party": "REP",
-            "votes": 187,
-            "percentage": 37.18,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Laura J. Bertrand",
             "party": "DEM",
-            "votes": 316,
-            "percentage": 62.82,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -7056,21 +7056,21 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 7,
-        "totalVotes": 536,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Mike Chauncey",
             "party": "REP",
-            "votes": 236,
-            "percentage": 44.03,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Joshua Wichman",
             "party": "DEM",
-            "votes": 300,
-            "percentage": 55.97,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -7109,14 +7109,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 6,
-        "totalVotes": 200,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Steve Highlander",
             "party": "REP",
-            "votes": 200,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -7151,14 +7151,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 8,
-        "totalVotes": 265,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Jeff Eversole",
             "party": "REP",
-            "votes": 265,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -7201,21 +7201,21 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 7,
-        "totalVotes": 423,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Joseph \"Joe\" Graham",
             "party": "REP",
-            "votes": 147,
-            "percentage": 34.75,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Montrell Besley",
             "party": "DEM",
-            "votes": 276,
-            "percentage": 65.25,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -7252,16 +7252,16 @@ window.ELECTION_DATA = {
       {
         "title": "County Trustee",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 3943,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Bill Hullander",
             "party": "REP",
-            "votes": 3943,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -7615,7 +7615,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -7642,16 +7642,16 @@ window.ELECTION_DATA = {
       {
         "title": "General Sessions Court Judge, Div. 2",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 4002,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Tori Smith",
             "party": "",
-            "votes": 4002,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -8005,7 +8005,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -8032,16 +8032,16 @@ window.ELECTION_DATA = {
       {
         "title": "Sheriff",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 3666,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Austin Garrett",
             "party": "REP",
-            "votes": 3666,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -8395,7 +8395,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -8422,16 +8422,16 @@ window.ELECTION_DATA = {
       {
         "title": "Circuit Court Clerk",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 3330,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Larry L. Henry",
             "party": "REP",
-            "votes": 3330,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -8785,7 +8785,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -8812,22 +8812,22 @@ window.ELECTION_DATA = {
       {
         "title": "Criminal Court Clerk",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 7995,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Vince Dean",
             "party": "REP",
-            "votes": 4049,
-            "percentage": 50.64,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Aaliyah K. Hakeem",
             "party": "DEM",
-            "votes": 3946,
-            "percentage": 49.36,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -9182,7 +9182,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -9209,412 +9209,15 @@ window.ELECTION_DATA = {
       {
         "title": "Juvenile Court Clerk",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 4005,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Gary D. Behler",
             "party": "REP",
-            "votes": 4005,
-            "percentage": 100.0,
-            "isLeading": true
-          }
-        ],
-        "precinctsStatus": [
-          {
-            "name": "AIRPORT A",
-            "reported": false
-          },
-          {
-            "name": "AIRPORT B",
-            "reported": false
-          },
-          {
-            "name": "ALTON PARK",
-            "reported": false
-          },
-          {
-            "name": "APISON A",
-            "reported": false
-          },
-          {
-            "name": "APISON B",
-            "reported": false
-          },
-          {
-            "name": "AVONDALE",
-            "reported": false
-          },
-          {
-            "name": "BIRCHWOOD",
-            "reported": false
-          },
-          {
-            "name": "BONNY OAKS",
-            "reported": false
-          },
-          {
-            "name": "BRAINERD",
-            "reported": false
-          },
-          {
-            "name": "BRAINERD HILLS",
-            "reported": false
-          },
-          {
-            "name": "BUSHTOWN",
-            "reported": false
-          },
-          {
-            "name": "COLLEGEDALE A",
-            "reported": false
-          },
-          {
-            "name": "COLLEGEDALE B",
-            "reported": false
-          },
-          {
-            "name": "CONCORD A",
-            "reported": false
-          },
-          {
-            "name": "CONCORD B",
-            "reported": false
-          },
-          {
-            "name": "COURTHOUSE",
-            "reported": false
-          },
-          {
-            "name": "DALEWOOD",
-            "reported": false
-          },
-          {
-            "name": "DALLAS",
-            "reported": false
-          },
-          {
-            "name": "DOWNTOWN",
-            "reported": false
-          },
-          {
-            "name": "DUPONT",
-            "reported": false
-          },
-          {
-            "name": "EAST BRAINERD A",
-            "reported": false
-          },
-          {
-            "name": "EAST BRAINERD B",
-            "reported": false
-          },
-          {
-            "name": "EAST CHATTANOOGA",
-            "reported": false
-          },
-          {
-            "name": "EAST LAKE",
-            "reported": false
-          },
-          {
-            "name": "EAST RIDGE A",
-            "reported": false
-          },
-          {
-            "name": "EAST RIDGE B",
-            "reported": false
-          },
-          {
-            "name": "EAST RIDGE C",
-            "reported": false
-          },
-          {
-            "name": "EAST RIDGE D",
-            "reported": false
-          },
-          {
-            "name": "EASTGATE",
-            "reported": false
-          },
-          {
-            "name": "EASTSIDE",
-            "reported": false
-          },
-          {
-            "name": "FAIRMOUNT",
-            "reported": false
-          },
-          {
-            "name": "FALLING WATER A",
-            "reported": false
-          },
-          {
-            "name": "FALLING WATER B",
-            "reported": false
-          },
-          {
-            "name": "FLAT TOP MOUNTAIN",
-            "reported": false
-          },
-          {
-            "name": "GANNS",
-            "reported": false
-          },
-          {
-            "name": "GLENWOOD",
-            "reported": false
-          },
-          {
-            "name": "HARRISON",
-            "reported": false
-          },
-          {
-            "name": "HARRISON BAY",
-            "reported": false
-          },
-          {
-            "name": "HIXSON",
-            "reported": false
-          },
-          {
-            "name": "HUNTER",
-            "reported": false
-          },
-          {
-            "name": "HURRICANE CREEK",
-            "reported": false
-          },
-          {
-            "name": "KINGSPOINT",
-            "reported": false
-          },
-          {
-            "name": "LAKE HILLS",
-            "reported": false
-          },
-          {
-            "name": "LAKESITE",
-            "reported": false
-          },
-          {
-            "name": "LOOKOUT MOUNTAIN",
-            "reported": false
-          },
-          {
-            "name": "LOOKOUT VALLEY",
-            "reported": false
-          },
-          {
-            "name": "LUPTON CITY",
-            "reported": false
-          },
-          {
-            "name": "MEADOWVIEW",
-            "reported": false
-          },
-          {
-            "name": "MIDDLE VALLEY",
-            "reported": false
-          },
-          {
-            "name": "MISSIONARY RIDGE",
-            "reported": false
-          },
-          {
-            "name": "MOUNTAIN CREEK A",
-            "reported": false
-          },
-          {
-            "name": "MOUNTAIN CREEK B",
-            "reported": false
-          },
-          {
-            "name": "MOUNTAIN CREEK C",
-            "reported": false
-          },
-          {
-            "name": "MOWBRAY A",
-            "reported": false
-          },
-          {
-            "name": "MOWBRAY B",
-            "reported": false
-          },
-          {
-            "name": "MURRAY HILLS",
-            "reported": false
-          },
-          {
-            "name": "NORTH CHATTANOOGA A",
-            "reported": false
-          },
-          {
-            "name": "NORTH CHATTANOOGA B",
-            "reported": false
-          },
-          {
-            "name": "NORTHGATE",
-            "reported": false
-          },
-          {
-            "name": "NORTHSHORE",
-            "reported": false
-          },
-          {
-            "name": "NORTHWOODS",
-            "reported": false
-          },
-          {
-            "name": "OOLTEWAH",
-            "reported": false
-          },
-          {
-            "name": "OOLTEWAH GEORGETOWN",
-            "reported": false
-          },
-          {
-            "name": "OOLTEWAH RINGGOLD",
-            "reported": false
-          },
-          {
-            "name": "PLEASANT GROVE A",
-            "reported": false
-          },
-          {
-            "name": "PLEASANT GROVE B",
-            "reported": false
-          },
-          {
-            "name": "POSSUM CREEK",
-            "reported": false
-          },
-          {
-            "name": "RED BANK A",
-            "reported": false
-          },
-          {
-            "name": "RED BANK B",
-            "reported": false
-          },
-          {
-            "name": "RED BANK C",
-            "reported": false
-          },
-          {
-            "name": "RIDGEDALE",
-            "reported": false
-          },
-          {
-            "name": "RIDGESIDE",
-            "reported": false
-          },
-          {
-            "name": "RIVERVIEW",
-            "reported": false
-          },
-          {
-            "name": "SALE CREEK",
-            "reported": false
-          },
-          {
-            "name": "SAVANNAH BAY",
-            "reported": false
-          },
-          {
-            "name": "SEQUOYAH",
-            "reported": false
-          },
-          {
-            "name": "SIGNAL MOUNTAIN A",
-            "reported": false
-          },
-          {
-            "name": "SIGNAL MOUNTAIN B",
-            "reported": false
-          },
-          {
-            "name": "SILVERDALE",
-            "reported": false
-          },
-          {
-            "name": "SODDY DAISY A",
-            "reported": false
-          },
-          {
-            "name": "SODDY DAISY B",
-            "reported": false
-          },
-          {
-            "name": "SODDY DAISY C",
-            "reported": false
-          },
-          {
-            "name": "ST ELMO",
-            "reported": false
-          },
-          {
-            "name": "STUART HEIGHTS",
-            "reported": false
-          },
-          {
-            "name": "SUMMIT",
-            "reported": false
-          },
-          {
-            "name": "TYNER",
-            "reported": false
-          },
-          {
-            "name": "VALLEYBROOK",
-            "reported": false
-          },
-          {
-            "name": "WALDEN",
-            "reported": true
-          },
-          {
-            "name": "WESTVIEW A",
-            "reported": false
-          },
-          {
-            "name": "WESTVIEW B",
-            "reported": false
-          },
-          {
-            "name": "WOLFTEVER",
-            "reported": false
-          },
-          {
-            "name": "WOODMORE",
-            "reported": false
-          },
-          {
-            "name": "Collegedale Property Rights",
-            "reported": false
-          }
-        ]
-      },
-      {
-        "title": "County Clerk",
-        "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
-        "precinctsTotal": 92,
-        "totalVotes": 7170,
-        "candidates": [
-          {
-            "name": "Brooke Weaver",
-            "party": "REP",
-            "votes": 3669,
-            "percentage": 51.17,
-            "isLeading": true
-          },
-          {
-            "name": "George Ryan Love",
-            "party": "IND",
-            "votes": 3501,
-            "percentage": 48.83,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -9969,7 +9572,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -9994,18 +9597,25 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "Register of Deeds",
+        "title": "County Clerk",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 3050,
+        "totalVotes": 0,
         "candidates": [
           {
-            "name": "Marc Gravitt",
+            "name": "Brooke Weaver",
             "party": "REP",
-            "votes": 3050,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
+          },
+          {
+            "name": "George Ryan Love",
+            "party": "IND",
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -10359,7 +9969,397 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
+          },
+          {
+            "name": "WESTVIEW A",
+            "reported": false
+          },
+          {
+            "name": "WESTVIEW B",
+            "reported": false
+          },
+          {
+            "name": "WOLFTEVER",
+            "reported": false
+          },
+          {
+            "name": "WOODMORE",
+            "reported": false
+          },
+          {
+            "name": "Collegedale Property Rights",
+            "reported": false
+          }
+        ]
+      },
+      {
+        "title": "Register of Deeds",
+        "voteFor": "VOTE FOR 1",
+        "precinctsReporting": 0,
+        "precinctsTotal": 92,
+        "totalVotes": 0,
+        "candidates": [
+          {
+            "name": "Marc Gravitt",
+            "party": "REP",
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
+          }
+        ],
+        "precinctsStatus": [
+          {
+            "name": "AIRPORT A",
+            "reported": false
+          },
+          {
+            "name": "AIRPORT B",
+            "reported": false
+          },
+          {
+            "name": "ALTON PARK",
+            "reported": false
+          },
+          {
+            "name": "APISON A",
+            "reported": false
+          },
+          {
+            "name": "APISON B",
+            "reported": false
+          },
+          {
+            "name": "AVONDALE",
+            "reported": false
+          },
+          {
+            "name": "BIRCHWOOD",
+            "reported": false
+          },
+          {
+            "name": "BONNY OAKS",
+            "reported": false
+          },
+          {
+            "name": "BRAINERD",
+            "reported": false
+          },
+          {
+            "name": "BRAINERD HILLS",
+            "reported": false
+          },
+          {
+            "name": "BUSHTOWN",
+            "reported": false
+          },
+          {
+            "name": "COLLEGEDALE A",
+            "reported": false
+          },
+          {
+            "name": "COLLEGEDALE B",
+            "reported": false
+          },
+          {
+            "name": "CONCORD A",
+            "reported": false
+          },
+          {
+            "name": "CONCORD B",
+            "reported": false
+          },
+          {
+            "name": "COURTHOUSE",
+            "reported": false
+          },
+          {
+            "name": "DALEWOOD",
+            "reported": false
+          },
+          {
+            "name": "DALLAS",
+            "reported": false
+          },
+          {
+            "name": "DOWNTOWN",
+            "reported": false
+          },
+          {
+            "name": "DUPONT",
+            "reported": false
+          },
+          {
+            "name": "EAST BRAINERD A",
+            "reported": false
+          },
+          {
+            "name": "EAST BRAINERD B",
+            "reported": false
+          },
+          {
+            "name": "EAST CHATTANOOGA",
+            "reported": false
+          },
+          {
+            "name": "EAST LAKE",
+            "reported": false
+          },
+          {
+            "name": "EAST RIDGE A",
+            "reported": false
+          },
+          {
+            "name": "EAST RIDGE B",
+            "reported": false
+          },
+          {
+            "name": "EAST RIDGE C",
+            "reported": false
+          },
+          {
+            "name": "EAST RIDGE D",
+            "reported": false
+          },
+          {
+            "name": "EASTGATE",
+            "reported": false
+          },
+          {
+            "name": "EASTSIDE",
+            "reported": false
+          },
+          {
+            "name": "FAIRMOUNT",
+            "reported": false
+          },
+          {
+            "name": "FALLING WATER A",
+            "reported": false
+          },
+          {
+            "name": "FALLING WATER B",
+            "reported": false
+          },
+          {
+            "name": "FLAT TOP MOUNTAIN",
+            "reported": false
+          },
+          {
+            "name": "GANNS",
+            "reported": false
+          },
+          {
+            "name": "GLENWOOD",
+            "reported": false
+          },
+          {
+            "name": "HARRISON",
+            "reported": false
+          },
+          {
+            "name": "HARRISON BAY",
+            "reported": false
+          },
+          {
+            "name": "HIXSON",
+            "reported": false
+          },
+          {
+            "name": "HUNTER",
+            "reported": false
+          },
+          {
+            "name": "HURRICANE CREEK",
+            "reported": false
+          },
+          {
+            "name": "KINGSPOINT",
+            "reported": false
+          },
+          {
+            "name": "LAKE HILLS",
+            "reported": false
+          },
+          {
+            "name": "LAKESITE",
+            "reported": false
+          },
+          {
+            "name": "LOOKOUT MOUNTAIN",
+            "reported": false
+          },
+          {
+            "name": "LOOKOUT VALLEY",
+            "reported": false
+          },
+          {
+            "name": "LUPTON CITY",
+            "reported": false
+          },
+          {
+            "name": "MEADOWVIEW",
+            "reported": false
+          },
+          {
+            "name": "MIDDLE VALLEY",
+            "reported": false
+          },
+          {
+            "name": "MISSIONARY RIDGE",
+            "reported": false
+          },
+          {
+            "name": "MOUNTAIN CREEK A",
+            "reported": false
+          },
+          {
+            "name": "MOUNTAIN CREEK B",
+            "reported": false
+          },
+          {
+            "name": "MOUNTAIN CREEK C",
+            "reported": false
+          },
+          {
+            "name": "MOWBRAY A",
+            "reported": false
+          },
+          {
+            "name": "MOWBRAY B",
+            "reported": false
+          },
+          {
+            "name": "MURRAY HILLS",
+            "reported": false
+          },
+          {
+            "name": "NORTH CHATTANOOGA A",
+            "reported": false
+          },
+          {
+            "name": "NORTH CHATTANOOGA B",
+            "reported": false
+          },
+          {
+            "name": "NORTHGATE",
+            "reported": false
+          },
+          {
+            "name": "NORTHSHORE",
+            "reported": false
+          },
+          {
+            "name": "NORTHWOODS",
+            "reported": false
+          },
+          {
+            "name": "OOLTEWAH",
+            "reported": false
+          },
+          {
+            "name": "OOLTEWAH GEORGETOWN",
+            "reported": false
+          },
+          {
+            "name": "OOLTEWAH RINGGOLD",
+            "reported": false
+          },
+          {
+            "name": "PLEASANT GROVE A",
+            "reported": false
+          },
+          {
+            "name": "PLEASANT GROVE B",
+            "reported": false
+          },
+          {
+            "name": "POSSUM CREEK",
+            "reported": false
+          },
+          {
+            "name": "RED BANK A",
+            "reported": false
+          },
+          {
+            "name": "RED BANK B",
+            "reported": false
+          },
+          {
+            "name": "RED BANK C",
+            "reported": false
+          },
+          {
+            "name": "RIDGEDALE",
+            "reported": false
+          },
+          {
+            "name": "RIDGESIDE",
+            "reported": false
+          },
+          {
+            "name": "RIVERVIEW",
+            "reported": false
+          },
+          {
+            "name": "SALE CREEK",
+            "reported": false
+          },
+          {
+            "name": "SAVANNAH BAY",
+            "reported": false
+          },
+          {
+            "name": "SEQUOYAH",
+            "reported": false
+          },
+          {
+            "name": "SIGNAL MOUNTAIN A",
+            "reported": false
+          },
+          {
+            "name": "SIGNAL MOUNTAIN B",
+            "reported": false
+          },
+          {
+            "name": "SILVERDALE",
+            "reported": false
+          },
+          {
+            "name": "SODDY DAISY A",
+            "reported": false
+          },
+          {
+            "name": "SODDY DAISY B",
+            "reported": false
+          },
+          {
+            "name": "SODDY DAISY C",
+            "reported": false
+          },
+          {
+            "name": "ST ELMO",
+            "reported": false
+          },
+          {
+            "name": "STUART HEIGHTS",
+            "reported": false
+          },
+          {
+            "name": "SUMMIT",
+            "reported": false
+          },
+          {
+            "name": "TYNER",
+            "reported": false
+          },
+          {
+            "name": "VALLEYBROOK",
+            "reported": false
+          },
+          {
+            "name": "WALDEN",
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -10388,27 +10388,27 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 8,
-        "totalVotes": 1012,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Ashley R Dillon",
             "party": "REP",
-            "votes": 323,
-            "percentage": 31.92,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Ruth Walker",
             "party": "DEM",
-            "votes": 359,
-            "percentage": 35.47,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Sandy Pricer",
             "party": "IND",
-            "votes": 330,
-            "percentage": 32.61,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -10452,14 +10452,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 11,
-        "totalVotes": 413,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Thessela White",
             "party": "DEM",
-            "votes": 413,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -10514,21 +10514,21 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 9,
-        "totalVotes": 782,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Cindy Fain",
             "party": "REP",
-            "votes": 387,
-            "percentage": 49.49,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Ben Connor",
             "party": "DEM",
-            "votes": 395,
-            "percentage": 50.51,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -10575,20 +10575,20 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 7,
-        "totalVotes": 574,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Sabrina Daniel",
             "party": "REP",
-            "votes": 320,
-            "percentage": 55.75,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Katie Perkins",
             "party": "DEM",
-            "votes": 254,
-            "percentage": 44.25,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -10628,20 +10628,20 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 6,
-        "totalVotes": 355,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Gary Kuehn",
             "party": "REP",
-            "votes": 229,
-            "percentage": 64.51,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Jordan Hammond",
             "party": "DEM",
-            "votes": 126,
-            "percentage": 35.49,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -10677,14 +10677,14 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 5,
-        "totalVotes": 267,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Curtis L. Bowe, III",
             "party": "",
-            "votes": 267,
-            "percentage": 100.0,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -10715,48 +10715,48 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 5",
         "precinctsReporting": 0,
         "precinctsTotal": 1,
-        "totalVotes": 196,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Jim Bentley",
             "party": "",
-            "votes": 16,
-            "percentage": 8.16,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Karen Leavengood",
             "party": "",
-            "votes": 53,
-            "percentage": 27.04,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Lindsey Parks",
             "party": "",
-            "votes": 25,
-            "percentage": 12.76,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Jake Tallent",
             "party": "",
-            "votes": 62,
-            "percentage": 31.63,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "John Charles Tugman, Jr.",
             "party": "",
-            "votes": 34,
-            "percentage": 17.35,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "William Valadez",
             "party": "",
-            "votes": 6,
-            "percentage": 3.06,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -10772,28 +10772,28 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 3",
         "precinctsReporting": 0,
         "precinctsTotal": 1,
-        "totalVotes": 133,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Julie G Fisher",
             "party": "",
-            "votes": 29,
-            "percentage": 21.8,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Karen Welborn",
             "party": "",
-            "votes": 66,
-            "percentage": 49.62,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "James T. Williams",
             "party": "",
-            "votes": 38,
-            "percentage": 28.57,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -10808,28 +10808,28 @@ window.ELECTION_DATA = {
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 4,
-        "totalVotes": 423,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Bryan Hoss",
             "party": "",
-            "votes": 123,
-            "percentage": 29.08,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Meredith Mochel",
             "party": "",
-            "votes": 141,
-            "percentage": 33.33,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           },
           {
             "name": "Emily O'Donnell",
             "party": "",
-            "votes": 159,
-            "percentage": 37.59,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           }
         ],
         "precinctsStatus": [
@@ -10854,22 +10854,22 @@ window.ELECTION_DATA = {
       {
         "title": "Judge Kyle Hixson",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 7920,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Retain",
             "party": "",
-            "votes": 4044,
-            "percentage": 51.06,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Replace",
             "party": "",
-            "votes": 3876,
-            "percentage": 48.94,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -11224,7 +11224,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -11251,22 +11251,22 @@ window.ELECTION_DATA = {
       {
         "title": "Judge Mary Wagner",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 6953,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Retain",
             "party": "",
-            "votes": 3528,
-            "percentage": 50.74,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Replace",
             "party": "",
-            "votes": 3425,
-            "percentage": 49.26,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -11621,7 +11621,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -11648,22 +11648,22 @@ window.ELECTION_DATA = {
       {
         "title": "Judge William Phillips, II",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 6346,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Retain",
             "party": "",
-            "votes": 3257,
-            "percentage": 51.32,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Replace",
             "party": "",
-            "votes": 3089,
-            "percentage": 48.68,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -12018,7 +12018,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -12045,22 +12045,22 @@ window.ELECTION_DATA = {
       {
         "title": "Judge Steve Maroney",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 8144,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Retain",
             "party": "",
-            "votes": 4156,
-            "percentage": 51.03,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Replace",
             "party": "",
-            "votes": 3988,
-            "percentage": 48.97,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -12415,7 +12415,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -12442,22 +12442,22 @@ window.ELECTION_DATA = {
       {
         "title": "Judge Valerie Smith",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 7926,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Retain",
             "party": "",
-            "votes": 4047,
-            "percentage": 51.06,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Replace",
             "party": "",
-            "votes": 3879,
-            "percentage": 48.94,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -12812,7 +12812,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -12839,22 +12839,22 @@ window.ELECTION_DATA = {
       {
         "title": "Judge Stacy Street",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 7139,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Retain",
             "party": "",
-            "votes": 3711,
-            "percentage": 51.98,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Replace",
             "party": "",
-            "votes": 3428,
-            "percentage": 48.02,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -13209,7 +13209,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
@@ -13236,22 +13236,22 @@ window.ELECTION_DATA = {
       {
         "title": "Judge Steven Sword",
         "voteFor": "VOTE FOR 1",
-        "precinctsReporting": 1,
+        "precinctsReporting": 0,
         "precinctsTotal": 92,
-        "totalVotes": 6287,
+        "totalVotes": 0,
         "candidates": [
           {
             "name": "Retain",
             "party": "",
-            "votes": 3195,
-            "percentage": 50.82,
-            "isLeading": true
+            "votes": 0,
+            "percentage": 0.0,
+            "isLeading": false
           },
           {
             "name": "Replace",
             "party": "",
-            "votes": 3092,
-            "percentage": 49.18,
+            "votes": 0,
+            "percentage": 0.0,
             "isLeading": false
           }
         ],
@@ -13606,7 +13606,7 @@ window.ELECTION_DATA = {
           },
           {
             "name": "WALDEN",
-            "reported": true
+            "reported": false
           },
           {
             "name": "WESTVIEW A",
