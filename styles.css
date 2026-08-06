@@ -901,10 +901,10 @@ body {
   max-width: 1600px !important;
   width: 100% !important;
   margin: 0 auto !important;
-  padding: 10px 20px 75px 20px !important;
+  padding: clamp(6px, 1vh, 12px) clamp(12px, 1.5vw, 24px) clamp(55px, 6vh, 75px) clamp(12px, 1.5vw, 24px) !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 10px !important;
+  gap: clamp(6px, 1vh, 12px) !important;
   height: calc(100vh - 60px) !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
@@ -912,13 +912,13 @@ body {
 
 @media (min-width: 1920px) {
   .scrolling-main {
-    max-width: 2200px !important;
+    max-width: 2400px !important;
   }
 }
 
 .slide-timer-container {
   width: 100% !important;
-  height: 5px !important;
+  height: clamp(3px, 0.5vh, 6px) !important;
   background: var(--border) !important;
   border-radius: 3px !important;
   overflow: hidden !important;
@@ -935,9 +935,9 @@ body {
 .scrolling-ticker {
   display: flex !important;
   flex-direction: column !important;
-  gap: 6px !important;
+  gap: clamp(3px, 0.5vh, 8px) !important;
   background: var(--surface) !important;
-  padding: 10px 18px !important;
+  padding: clamp(4px, 0.8vh, 12px) clamp(10px, 1vw, 20px) !important;
   border-radius: var(--radius-md) !important;
   border: 1px solid var(--border) !important;
   box-shadow: var(--shadow-sm) !important;
@@ -950,11 +950,11 @@ body {
   justify-content: space-between !important;
   gap: 12px !important;
   border-bottom: 1px solid var(--border) !important;
-  padding-bottom: 4px !important;
+  padding-bottom: clamp(2px, 0.4vh, 6px) !important;
 }
 
 .ticker-date-title {
-  font-size: clamp(14px, 1.2vw, 18px) !important;
+  font-size: clamp(12px, 1.4vh, 20px) !important;
   font-weight: 800 !important;
   color: var(--neutral-dark) !important;
 }
@@ -964,7 +964,7 @@ body {
   flex-wrap: wrap !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 6px 12px !important;
+  gap: clamp(3px, 0.5vh, 8px) clamp(8px, 0.8vw, 16px) !important;
 }
 
 .ticker-chip {
@@ -972,7 +972,7 @@ body {
   align-items: center !important;
   gap: 6px !important;
   background: var(--neutral-light) !important;
-  padding: 4px 12px !important;
+  padding: clamp(2px, 0.3vh, 6px) clamp(8px, 0.8vw, 14px) !important;
   border-radius: 16px !important;
   border: 1px solid var(--border) !important;
   white-space: nowrap !important;
@@ -983,12 +983,12 @@ body {
   color: var(--neutral-muted) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  font-size: clamp(11px, 1vw, 14px) !important;
+  font-size: clamp(10px, 1.1vh, 15px) !important;
   white-space: nowrap !important;
 }
 
 .ticker-value {
-  font-size: clamp(14px, 1.2vw, 20px) !important;
+  font-size: clamp(12px, 1.5vh, 22px) !important;
   font-weight: 900 !important;
   color: var(--primary) !important;
   white-space: nowrap !important;
@@ -1008,10 +1008,10 @@ body {
   border-radius: var(--radius-lg) !important;
   border: 1px solid var(--border) !important;
   box-shadow: var(--shadow-md) !important;
-  padding: 20px 28px !important;
+  padding: clamp(10px, 1.6vh, 26px) clamp(14px, 1.5vw, 32px) !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 16px !important;
+  gap: clamp(8px, 1.3vh, 20px) !important;
   min-height: 0 !important;
   overflow: hidden !important;
 }
@@ -1021,24 +1021,24 @@ body {
   justify-content: space-between !important;
   align-items: center !important;
   flex-wrap: wrap !important;
-  gap: 16px !important;
+  gap: 10px !important;
   border-bottom: 2px solid var(--border) !important;
-  padding-bottom: 16px !important;
+  padding-bottom: clamp(6px, 1.0vh, 14px) !important;
 }
 
 .slide-title {
-  font-size: clamp(24px, 2.5vw, 36px) !important;
+  font-size: clamp(16px, 2.2vh, 34px) !important;
   font-weight: 800 !important;
   color: var(--neutral-dark) !important;
   line-height: 1.2 !important;
 }
 
 .slide-meta {
-  font-size: clamp(15px, 1.4vw, 20px) !important;
+  font-size: clamp(11px, 1.4vh, 20px) !important;
   font-weight: 700 !important;
   color: var(--primary) !important;
   background: var(--neutral-light) !important;
-  padding: 8px 18px !important;
+  padding: clamp(3px, 0.5vh, 8px) clamp(10px, 1.0vw, 18px) !important;
   border-radius: 30px !important;
   border: 1px solid var(--border) !important;
 }
@@ -1046,9 +1046,10 @@ body {
 .slide-content-grid {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
-  gap: 32px !important;
+  gap: clamp(14px, 1.8vw, 32px) !important;
   flex: 1 1 auto !important;
   align-items: start !important;
+  min-height: 0 !important;
 }
 
 @media (max-width: 900px) {
@@ -1060,91 +1061,91 @@ body {
 .proj-chart-list {
   display: flex !important;
   flex-direction: column !important;
-  gap: 20px !important;
+  gap: clamp(6px, 1.1vh, 18px) !important;
 }
 
 .proj-cand-bar-item {
   display: flex !important;
   flex-direction: column !important;
-  gap: 6px !important;
+  gap: 2px !important;
 }
 
 .proj-cand-header {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  font-size: clamp(16px, 1.5vw, 22px) !important;
+  font-size: clamp(13px, 1.9vh, 28px) !important;
   font-weight: 700 !important;
 }
 
 .proj-track {
   width: 100% !important;
-  height: clamp(20px, 2vw, 32px) !important;
+  height: clamp(14px, 2.3vh, 34px) !important;
   background: var(--neutral-light) !important;
-  border-radius: 16px !important;
+  border-radius: 12px !important;
   overflow: hidden !important;
   border: 1px solid var(--border) !important;
 }
 
 .proj-fill {
   height: 100% !important;
-  border-radius: 16px !important;
+  border-radius: 12px !important;
   transition: width 0.4s ease !important;
 }
 
-/* Presentation Mode Big-TV Friendly Font & Element Scaling (20-30ft visibility) */
+/* Dynamic Presentation Scaling tuned for 1080p windowed vs 1440p/4K/Fullscreen */
 .scrolling-body .party-pill {
-  font-size: clamp(14px, 1.3vw, 22px) !important;
-  padding: 4px 14px !important;
-  border-radius: 14px !important;
+  font-size: clamp(10px, 1.3vh, 18px) !important;
+  padding: clamp(1px, 0.3vh, 4px) clamp(5px, 0.6vw, 12px) !important;
+  border-radius: 10px !important;
   font-weight: 800 !important;
-  letter-spacing: 0.8px !important;
-  margin-left: 10px !important;
+  letter-spacing: 0.5px !important;
+  margin-left: 6px !important;
   vertical-align: middle !important;
 }
 
 .scrolling-body .proj-cand-header {
-  font-size: clamp(20px, 1.8vw, 30px) !important;
+  font-size: clamp(13px, 1.9vh, 28px) !important;
   font-weight: 800 !important;
-  margin-bottom: 4px !important;
+  margin-bottom: 2px !important;
 }
 
 .scrolling-body .proj-track {
-  height: clamp(24px, 2.2vw, 38px) !important;
-  border-radius: 20px !important;
+  height: clamp(15px, 2.4vh, 36px) !important;
+  border-radius: 14px !important;
 }
 
 .scrolling-body .proj-table {
-  font-size: clamp(18px, 1.6vw, 26px) !important;
+  font-size: clamp(12px, 1.8vh, 24px) !important;
 }
 
 .scrolling-body .proj-table th {
-  font-size: clamp(15px, 1.4vw, 22px) !important;
-  padding: 16px 20px !important;
+  font-size: clamp(11px, 1.5vh, 20px) !important;
+  padding: clamp(6px, 0.9vh, 14px) clamp(8px, 0.9vw, 18px) !important;
 }
 
 .scrolling-body .proj-table td {
-  padding: 16px 20px !important;
+  padding: clamp(4px, 0.7vh, 14px) clamp(8px, 0.9vw, 18px) !important;
 }
 
 .scrolling-body .leading-tag {
-  font-size: clamp(14px, 1.2vw, 20px) !important;
-  padding: 4px 12px !important;
-  margin-left: 10px !important;
-  border-radius: 12px !important;
+  font-size: clamp(10px, 1.3vh, 18px) !important;
+  padding: clamp(1px, 0.3vh, 4px) clamp(5px, 0.6vw, 12px) !important;
+  margin-left: 6px !important;
+  border-radius: 8px !important;
 }
 
 .scrolling-body .disclaimer-banner-group {
-  gap: 14px !important;
-  margin-top: 24px !important;
+  gap: clamp(8px, 1.2vh, 18px) !important;
+  margin-top: clamp(8px, 1.2vh, 18px) !important;
 }
 
 .scrolling-body .slide-footer-notices {
   margin-top: auto !important;
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
-  gap: 24px !important;
-  padding-top: 16px !important;
+  gap: clamp(12px, 1.5vw, 24px) !important;
+  padding-top: clamp(8px, 1.0vh, 16px) !important;
   border-top: 1px solid var(--border) !important;
 }
 
@@ -1155,17 +1156,40 @@ body {
 }
 
 .scrolling-body .disclaimer-banner {
-  font-size: clamp(16px, 1.4vw, 24px) !important;
-  padding: 16px 24px !important;
+  font-size: clamp(11px, 1.5vh, 20px) !important;
+  padding: clamp(8px, 1.1vh, 16px) clamp(12px, 1.1vw, 22px) !important;
   border-radius: var(--radius-md) !important;
-  line-height: 1.4 !important;
+  line-height: 1.3 !important;
   display: flex !important;
   align-items: center !important;
-  gap: 14px !important;
+  gap: 10px !important;
 }
 
 .scrolling-body .disclaimer-banner span:first-child {
-  font-size: clamp(22px, 1.8vw, 32px) !important;
+  font-size: clamp(15px, 2.0vh, 28px) !important;
+}
+
+/* Enhanced Scaling for 1440p / 4K / Large TV & Fullscreen Displays */
+@media (min-height: 1000px), (min-width: 2560px) {
+  .scrolling-body .slide-title {
+    font-size: clamp(24px, 2.5vh, 42px) !important;
+  }
+  .scrolling-body .proj-cand-header {
+    font-size: clamp(20px, 2.2vh, 34px) !important;
+  }
+  .scrolling-body .proj-track {
+    height: clamp(24px, 2.8vh, 44px) !important;
+  }
+  .scrolling-body .proj-table {
+    font-size: clamp(18px, 2.0vh, 28px) !important;
+  }
+  .scrolling-body .proj-table th {
+    font-size: clamp(15px, 1.7vh, 24px) !important;
+    padding: 12px 18px !important;
+  }
+  .scrolling-body .proj-table td {
+    padding: 10px 18px !important;
+  }
 }
 
 /* High Contrast Mode Presentation Bar Overrides */
