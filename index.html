@@ -50,6 +50,7 @@
     <div class="navbar-controls">
       <a href="index.html" class="nav-btn active" aria-current="page">Summary Results</a>
       <a href="reporting.html" class="nav-btn">Reporting Status</a>
+      <a href="scrolling.html" class="nav-btn">&#x1F4FA; Scrolling Results</a>
       <button type="button" class="nav-btn" onclick="ElectionApp.refreshResults()" aria-label="Refresh Election Results">
         &#x21BB; Refresh
       </button>
@@ -109,9 +110,17 @@
         </div>
 
         <div class="metric-card">
-          <div class="metric-label">Precincts Reporting</div>
+          <div class="metric-label">Early &amp; Absentee Reporting</div>
+          <div id="stat-early-val" class="metric-value">--</div>
+          <div id="stat-early-sub" class="metric-subtext">Early Voting/NH, Absentee &amp; UOCAVA</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Election Day Precincts Reporting</div>
           <div id="stat-reporting" class="metric-value">--</div>
-          <div class="metric-subtext">Precinct Progress Status</div>
+          <div class="precinct-bar-container" aria-hidden="true">
+            <div id="reporting-fill" class="precinct-bar-fill" style="width: 0%;"></div>
+          </div>
         </div>
       </div>
     </header>
@@ -176,6 +185,20 @@
         <div id="modal-precinct-grid" class="precinct-grid">
           <!-- Dynamically populated precinct status chips -->
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reporting Timeframe & Audit Disclaimer Notices -->
+  <div class="container" style="margin-top: 36px; margin-bottom: 28px;">
+    <div class="disclaimer-banner-group horizontal-notices" role="note">
+      <div class="disclaimer-banner notice-large">
+        <span>&#x2139;&#xFE0F;</span>
+        <span><strong>Reporting Notice:</strong> Reaching 100% Election Day precincts reporting generally takes about 3 hours after polls close.</span>
+      </div>
+      <div class="disclaimer-banner notice-large">
+        <span>&#x2139;&#xFE0F;</span>
+        <span><strong>Results Notice:</strong> Precinct-level results are made available within 1 to 2 business days after Election Day.</span>
       </div>
     </div>
   </div>

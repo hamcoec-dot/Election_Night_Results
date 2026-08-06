@@ -17,6 +17,10 @@ window.ELECTION_DATA = {
     "turnoutPercent": 0.0,
     "overallPrecinctsReporting": 0,
     "overallPrecinctsTotal": 92,
+    "hasEarlyUpload": true,
+    "earlyVotingReporting": 0,
+    "earlyVotingTotal": 1,
+    "earlyBallotsCast": 0,
     "contests": [
       {
         "title": "REP Governor",
@@ -1203,7 +1207,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "REP Tennessee Senate, District 11 District 11",
+        "title": "REP Tennessee Senate, District 11",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 57,
@@ -1449,7 +1453,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "REP Tennessee House of Representatives, District 26 District 26",
+        "title": "REP Tennessee House of Representatives, District 26",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 31,
@@ -1591,7 +1595,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "REP Tennessee House of Representatives, District 27 District 27",
+        "title": "REP Tennessee House of Representatives, District 27",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 33,
@@ -1748,7 +1752,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "REP Tennessee House of Representatives, District 28 District 28",
+        "title": "REP Tennessee House of Representatives, District 28",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 27,
@@ -1874,7 +1878,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "REP Tennessee House of Representatives, District 29 District 29",
+        "title": "REP Tennessee House of Representatives, District 29",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 21,
@@ -1976,7 +1980,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "REP Tennessee House of Representatives, District 30 District 30",
+        "title": "REP Tennessee House of Representatives, District 30",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 25,
@@ -2094,7 +2098,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "REP State Executive Committeeman, District 10 District 10",
+        "title": "REP State Executive Committeeman, District 10",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 35,
@@ -2252,7 +2256,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "REP State Executive Committeeman, District 11 District 11",
+        "title": "REP State Executive Committeeman, District 11",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 57,
@@ -2505,7 +2509,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "REP State Executive Committeewoman, District 10 District 10",
+        "title": "REP State Executive Committeewoman, District 10",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 35,
@@ -2663,7 +2667,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "REP State Executive Committeewoman, District 11 District 11",
+        "title": "REP State Executive Committeewoman, District 11",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 57,
@@ -4149,7 +4153,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "DEM Tennessee Senate, District 11 District 11",
+        "title": "DEM Tennessee Senate, District 11",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 57,
@@ -4395,7 +4399,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "DEM Tennessee House of Representatives, District 26 District 26",
+        "title": "DEM Tennessee House of Representatives, District 26",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 31,
@@ -4544,7 +4548,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "DEM Tennessee House of Representatives, District 27 District 27",
+        "title": "DEM Tennessee House of Representatives, District 27",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 33,
@@ -4694,7 +4698,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "DEM Tennessee House of Representatives, District 28 District 28",
+        "title": "DEM Tennessee House of Representatives, District 28",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 27,
@@ -4820,7 +4824,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "DEM Tennessee House of Representatives, District 29 District 29",
+        "title": "DEM Tennessee House of Representatives, District 29",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 21,
@@ -4922,7 +4926,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "DEM Tennessee House of Representatives, District 30 District 30",
+        "title": "DEM Tennessee House of Representatives, District 30",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 25,
@@ -5040,7 +5044,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "DEM State Executive Committeeman, District 10 District 10",
+        "title": "DEM State Executive Committeeman, District 10",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 35,
@@ -5198,7 +5202,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "DEM State Executive Committeeman, District 11 District 11",
+        "title": "DEM State Executive Committeeman, District 11",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 57,
@@ -5451,7 +5455,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "DEM State Executive Committeewoman, District 10 District 10",
+        "title": "DEM State Executive Committeewoman, District 10",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 35,
@@ -5609,7 +5613,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "DEM State Executive Committeewoman, District 11 District 11",
+        "title": "DEM State Executive Committeewoman, District 11",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 57,
@@ -6642,7 +6646,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 1 District 1",
+        "title": "County Commission, District 1",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 11,
@@ -6711,7 +6715,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 2 District 2",
+        "title": "County Commission, District 2",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 10,
@@ -6776,7 +6780,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 3 District 3",
+        "title": "County Commission, District 3",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 8,
@@ -6826,7 +6830,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 4 District 4",
+        "title": "County Commission, District 4",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 8,
@@ -6876,7 +6880,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 5 District 5",
+        "title": "County Commission, District 5",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 11,
@@ -6938,7 +6942,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 6 District 6",
+        "title": "County Commission, District 6",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 9,
@@ -6999,7 +7003,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 7 District 7",
+        "title": "County Commission, District 7",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 7,
@@ -7052,7 +7056,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 8 District 8",
+        "title": "County Commission, District 8",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 7,
@@ -7105,7 +7109,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 9 District 9",
+        "title": "County Commission, District 9",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 6,
@@ -7147,7 +7151,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 10 District 10",
+        "title": "County Commission, District 10",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 8,
@@ -7197,7 +7201,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County Commission, District 11 District 11",
+        "title": "County Commission, District 11",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 7,
@@ -10384,7 +10388,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County School Board, District 3 District 3",
+        "title": "County School Board, District 3",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 8,
@@ -10448,7 +10452,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County School Board, District 5 District 5",
+        "title": "County School Board, District 5",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 11,
@@ -10510,7 +10514,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County School Board, District 6 District 6",
+        "title": "County School Board, District 6",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 9,
@@ -10571,7 +10575,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County School Board, District 8 District 8",
+        "title": "County School Board, District 8",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 7,
@@ -10624,7 +10628,7 @@ window.ELECTION_DATA = {
         ]
       },
       {
-        "title": "County School Board, District 9 District 9",
+        "title": "County School Board, District 9",
         "voteFor": "VOTE FOR 1",
         "precinctsReporting": 0,
         "precinctsTotal": 6,

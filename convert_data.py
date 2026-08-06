@@ -25,6 +25,15 @@ def clean_num(val):
     except ValueError:
         return 0
 
+def clean_contest_name(name):
+    """Deduplicates repeated words/phrases in contest titles (e.g. 'District 11 District 11')."""
+    if not name:
+        return ""
+    cleaned = name.strip()
+    cleaned = re.sub(r'\b((?:\w+\s*){1,4})\s+\1\b', r'\1', cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned
+
 def parse_election_csv(file_path, is_ed=False):
     """
     Parses a single election CSV export file into a raw structured dictionary.
@@ -70,13 +79,14 @@ def parse_election_csv(file_path, is_ed=False):
                     break
 
             for k, (col_idx, rep_text) in enumerate(reporting_cells):
-                contest_name = contest_row[col_idx].strip() if col_idx < len(contest_row) and contest_row[col_idx] else ""
+                raw_c_name = contest_row[col_idx].strip() if col_idx < len(contest_row) and contest_row[col_idx] else ""
+                contest_name = clean_contest_name(raw_c_name)
                 vote_for_text = votefor_row[col_idx].strip() if col_idx < len(votefor_row) and votefor_row[col_idx] else "VOTE FOR 1"
                 
                 if not contest_name:
                     continue
 
-                rep_match = re.search(r'(\d+)\s+of\s+(\d+)\s+Precincts\s+Reporting', rep_text, re.IGNORECASE)
+                rep_match = re.search(r'(\d+)\s+of\s+(\d+)\s+(?:Election\s+Day\s+)?Precincts\s+Reporting', rep_text, re.IGNORECASE)
                 p_rep = int(rep_match.group(1)) if (rep_match and is_ed) else 0
                 p_tot = int(rep_match.group(2)) if rep_match else 0
 
@@ -304,39 +314,51 @@ def merge_parsed_data(early_parsed, ed_parsed):
         'turnoutPercent': round((total_ballots / total_voters * 100), 2) if total_voters > 0 else 0.0,
         'overallPrecinctsReporting': overall_rep,
         'overallPrecinctsTotal': overall_tot,
+        'hasEarlyUpload': early_parsed is not None,
+        'earlyVotingReporting': 1 if (early_parsed is not None and total_ballots > 0) else 0,
+        'earlyVotingTotal': 1,
+        'earlyBallotsCast': early_parsed['totalBallots'] if early_parsed else 0,
         'contests': formatted_contests
     }
 
 def generate_data_js():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     results_dir = os.path.join(base_dir, 'Results')
-    sample_dir = os.path.join(base_dir, 'SampleData')
     output_js_path = os.path.join(base_dir, 'data.js')
 
-    early_csv = None
-    ed_csv = None
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir, exist_ok=True)
 
-    search_dirs = [results_dir, sample_dir, base_dir]
-    for s_dir in search_dirs:
-        if os.path.exists(s_dir):
-            all_csvs = [os.path.join(s_dir, f) for f in os.listdir(s_dir) if f.upper().endswith('.CSV')]
-            if all_csvs:
-                # Sort by modification time (most recent first)
-                all_csvs.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+    all_csvs = [os.path.join(results_dir, f) for f in os.listdir(results_dir) if f.upper().endswith('.CSV')]
+    if not all_csvs:
+        # Fallback to base_dir if Results directory is empty
+        all_csvs = [os.path.join(base_dir, f) for f in os.listdir(base_dir) if f.upper().endswith('.CSV')]
 
-                ed_files = [f for f in all_csvs if 'ED' in os.path.basename(f).upper()]
-                non_ed_files = [f for f in all_csvs if 'ED' not in os.path.basename(f).upper()]
+    if not all_csvs:
+        raise FileNotFoundError("No election results CSV file found in Results/ directory.")
 
-                if ed_files:
-                    ed_csv = ed_files[0]
-                if non_ed_files:
-                    early_csv = non_ed_files[0]
+    # Sort all CSVs by modification timestamp (newest first)
+    all_csvs.sort(key=lambda x: os.path.getmtime(x), reverse=True)
 
-        if early_csv or ed_csv:
-            break
+    early_files = []
+    ed_files = []
 
-    if not early_csv and not ed_csv:
-        raise FileNotFoundError("No election results CSV file found.")
+    for f in all_csvs:
+        fname_upper = os.path.basename(f).upper()
+        if 'ZERO' in fname_upper or 'EARLY' in fname_upper:
+            early_files.append(f)
+        else:
+            ed_files.append(f)
+
+    # Select the most recent Early CSV (with ZERO or EARLY in filename)
+    early_csv = early_files[0] if early_files else None
+
+    # Select the most recent ED CSV (without ZERO or EARLY in filename)
+    ed_csv = ed_files[0] if ed_files else None
+
+    # Fallback if only 1 CSV exists and doesn't contain ZERO/EARLY
+    if not early_csv and not ed_csv and all_csvs:
+        ed_csv = all_csvs[0]
 
     print(f"Parsing Early Upload CSV: {early_csv}")
     early_parsed = parse_election_csv(early_csv, is_ed=False) if early_csv else None

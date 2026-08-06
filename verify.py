@@ -22,6 +22,14 @@ def clean_num(val):
     except ValueError:
         return 0
 
+def clean_contest_name(name):
+    if not name:
+        return ""
+    cleaned = name.strip()
+    cleaned = re.sub(r'\b((?:\w+\s*){1,4})\s+\1\b', r'\1', cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned
+
 def run_verification(early_csv, ed_csv, js_path=None):
     """
     Independent Verification Engine for Hamilton County Election Results.
@@ -124,9 +132,10 @@ def run_verification(early_csv, ed_csv, js_path=None):
             if reporting_cells:
                 contest_row = rows[i-2] if i >= 2 else []
                 for k, (col_idx, rep_text) in enumerate(reporting_cells):
-                    c_name = contest_row[col_idx].strip() if col_idx < len(contest_row) and contest_row[col_idx] else ""
+                    raw_c_name = contest_row[col_idx].strip() if col_idx < len(contest_row) and contest_row[col_idx] else ""
+                    c_name = clean_contest_name(raw_c_name)
                     if c_name:
-                        rep_match = re.search(r'(\d+)\s+of\s+(\d+)\s+Precincts\s+Reporting', rep_text, re.IGNORECASE)
+                        rep_match = re.search(r'(\d+)\s+of\s+(\d+)\s+(?:Election\s+Day\s+)?Precincts\s+Reporting', rep_text, re.IGNORECASE)
                         p_rep = int(rep_match.group(1)) if rep_match else 0
                         p_tot = int(rep_match.group(2)) if rep_match else 0
                         found[c_name] = (p_rep, p_tot)
@@ -241,23 +250,30 @@ def run_verification(early_csv, ed_csv, js_path=None):
 if __name__ == '__main__':
     base_dir = os.path.dirname(os.path.abspath(__file__))
     results_dir = os.path.join(base_dir, 'Results')
-    sample_dir = os.path.join(base_dir, 'SampleData')
     
-    early_csv = None
-    ed_csv = None
-    for s_dir in [results_dir, sample_dir, base_dir]:
-        if os.path.exists(s_dir):
-            all_csvs = [os.path.join(s_dir, f) for f in os.listdir(s_dir) if f.upper().endswith('.CSV')]
-            if all_csvs:
-                all_csvs.sort(key=lambda x: os.path.getmtime(x), reverse=True)
-                ed_files = [f for f in all_csvs if 'ED' in os.path.basename(f).upper()]
-                non_ed_files = [f for f in all_csvs if 'ED' not in os.path.basename(f).upper()]
-                if ed_files:
-                    ed_csv = ed_files[0]
-                if non_ed_files:
-                    early_csv = non_ed_files[0]
-        if early_csv or ed_csv:
-            break
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir, exist_ok=True)
+
+    all_csvs = [os.path.join(results_dir, f) for f in os.listdir(results_dir) if f.upper().endswith('.CSV')]
+    if not all_csvs:
+        all_csvs = [os.path.join(base_dir, f) for f in os.listdir(base_dir) if f.upper().endswith('.CSV')]
+
+    all_csvs.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+
+    early_files = []
+    ed_files = []
+
+    for f in all_csvs:
+        fname_upper = os.path.basename(f).upper()
+        if 'ZERO' in fname_upper or 'EARLY' in fname_upper:
+            early_files.append(f)
+        else:
+            ed_files.append(f)
+
+    early_csv = early_files[0] if early_files else None
+    ed_csv = ed_files[0] if ed_files else None
+    if not early_csv and not ed_csv and all_csvs:
+        ed_csv = all_csvs[0]
 
     js_file = os.path.join(base_dir, 'data.js')
     success = run_verification(early_csv, ed_csv, js_file)

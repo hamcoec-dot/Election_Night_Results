@@ -50,6 +50,7 @@
     <div class="navbar-controls">
       <a href="index.html" class="nav-btn">Summary Results</a>
       <a href="reporting.html" class="nav-btn active" aria-current="page">Reporting Status</a>
+      <a href="scrolling.html" class="nav-btn">&#x1F4FA; Scrolling Results</a>
       <button type="button" class="nav-btn" onclick="ElectionApp.refreshResults()" aria-label="Refresh Election Results">
         &#x21BB; Refresh
       </button>
@@ -83,22 +84,46 @@
       </div>
     </header>
 
-    <!-- Reporting Status Data Table -->
-    <section class="table-responsive" aria-label="Contest Precincts Reporting Data Table">
-      <table class="data-table" role="table">
-        <thead>
-          <tr>
-            <th scope="col">Contest Name</th>
-            <th scope="col">Voting Constraint</th>
-            <th scope="col">Precincts Reporting</th>
-            <th scope="col">Status</th>
-            <th scope="col">Total Votes Cast</th>
-          </tr>
-        </thead>
-        <tbody id="reporting-table-body">
-          <!-- Dynamically populated rows -->
-        </tbody>
-      </table>
+    <!-- Early & Absentee Reporting Status Section -->
+    <section style="margin-bottom: 32px;" aria-label="Early and Absentee Reporting Status Section">
+      <h2 class="section-table-heading">Early &amp; Absentee Reporting Status</h2>
+      <div class="table-responsive">
+        <table class="data-table" role="table">
+          <thead>
+            <tr>
+              <th scope="col">Reporting Category</th>
+              <th scope="col">Ballot Types Covered</th>
+              <th scope="col">Status Progress</th>
+              <th scope="col">Status</th>
+              <th scope="col">Total Early Ballots Cast</th>
+            </tr>
+          </thead>
+          <tbody id="early-reporting-table-body">
+            <!-- Dynamically populated early voting row -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Contest Reporting Progress Overview Section -->
+    <section aria-label="Election Day Precinct Reporting Status Section">
+      <h2 class="section-table-heading">Election Day Precinct Reporting Status</h2>
+      <div class="table-responsive">
+        <table class="data-table" role="table">
+          <thead>
+            <tr>
+              <th scope="col">Contest Name</th>
+              <th scope="col">Voting Constraint</th>
+              <th scope="col">Election Day Precincts Reporting</th>
+              <th scope="col">Status</th>
+              <th scope="col">Total Votes Cast</th>
+            </tr>
+          </thead>
+          <tbody id="reporting-table-body">
+            <!-- Dynamically populated rows -->
+          </tbody>
+        </table>
+      </div>
     </section>
 
   </main>
