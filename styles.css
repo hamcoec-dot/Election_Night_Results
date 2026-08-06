@@ -187,6 +187,8 @@ body {
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .nav-btn {
@@ -202,6 +204,8 @@ body {
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
   transition: all 0.2s ease !important;
 }
 
@@ -213,6 +217,51 @@ body {
 .nav-btn.active {
   background: #ffffff !important;
   color: #0f172a !important;
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    padding: 10px 14px !important;
+    gap: 10px !important;
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+
+  .navbar-brand {
+    gap: 10px !important;
+  }
+
+  .navbar-title {
+    font-size: 16px !important;
+  }
+
+  .navbar-subtitle {
+    font-size: 11px !important;
+  }
+
+  .navbar-controls {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    padding-bottom: 4px !important;
+    margin-top: 2px !important;
+    will-change: scroll-position !important;
+  }
+
+  .navbar-controls::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .nav-btn {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+  }
 }
 
 /* 4. Hero Section & Turnout Summary */
