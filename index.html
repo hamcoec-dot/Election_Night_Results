@@ -87,7 +87,7 @@
         </div>
       </div>
 
-      <!-- Turnout Summary Metrics Grid -->
+      <!-- Turnout Summary Metrics Grid (4 Clean KPI Cards) -->
       <div class="metrics-grid" role="region" aria-label="Overall Turnout Statistics">
         <div class="metric-card">
           <div class="metric-label">Registered Voters</div>
@@ -95,28 +95,14 @@
           <div class="metric-subtext">Active Registered Voters</div>
         </div>
 
-        <div class="metric-card">
+        <div class="metric-card" style="flex: 2 1 320px !important;">
           <div class="metric-label">Total Ballots Cast</div>
           <div id="stat-ballots" class="metric-value">--</div>
-          <div class="metric-subtext">Total Processed Ballots</div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-label">Republican Primary</div>
-          <div id="stat-ballots-rep" class="metric-value">--</div>
-          <div class="metric-subtext">Republican Ballots Cast</div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-label">Democrat Primary</div>
-          <div id="stat-ballots-dem" class="metric-value">--</div>
-          <div class="metric-subtext">Democrat Ballots Cast</div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-label">General Election Only</div>
-          <div id="stat-ballots-gen" class="metric-value">--</div>
-          <div class="metric-subtext">General Only Ballots Cast</div>
+          <div class="ballot-breakdown-pills" aria-label="Party Ballot Breakdown">
+            <span class="ballot-pill ballot-pill-rep">REP: <strong id="stat-ballots-rep">--</strong></span>
+            <span class="ballot-pill ballot-pill-dem">DEM: <strong id="stat-ballots-dem">--</strong></span>
+            <span class="ballot-pill ballot-pill-gen">GEN: <strong id="stat-ballots-gen">--</strong></span>
+          </div>
         </div>
 
         <div class="metric-card">
@@ -128,17 +114,12 @@
         </div>
 
         <div class="metric-card">
-          <div class="metric-label">Early &amp; Absentee Reporting</div>
-          <div id="stat-early-val" class="metric-value">--</div>
-          <div id="stat-early-sub" class="metric-subtext">Early Voting/NH, Absentee &amp; UOCAVA</div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-label">Election Day Precincts Reporting</div>
+          <div class="metric-label">Precincts &amp; Early Status</div>
           <div id="stat-reporting" class="metric-value">--</div>
           <div class="precinct-bar-container" aria-hidden="true">
             <div id="reporting-fill" class="precinct-bar-fill" style="width: 0%;"></div>
           </div>
+          <div id="stat-early-val" class="metric-subtext" style="margin-top:6px; font-weight:600;">--</div>
         </div>
       </div>
     </header>

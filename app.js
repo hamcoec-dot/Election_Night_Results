@@ -223,12 +223,7 @@ window.ElectionApp = (function() {
       const earlyRep = hasBallots && ((data.earlyVotingReporting !== undefined) ? data.earlyVotingReporting : (data.hasEarlyUpload ? 1 : 0)) ? 1 : 0;
       const earlyTot = data.earlyVotingTotal || 1;
       const earlyBadge = earlyRep > 0 ? '&#x2705;' : '&#x23F3;';
-      statEarlyVal.innerHTML = `${earlyBadge} ${earlyRep} of ${earlyTot}`;
-      if (statEarlySub) {
-        statEarlySub.textContent = earlyRep > 0 
-          ? 'Early Voting/NH, Absentee & UOCAVA (Complete)' 
-          : 'Early Voting/NH, Absentee & UOCAVA (Pending)';
-      }
+      statEarlyVal.innerHTML = `${earlyBadge} Early &amp; Absentee: ${earlyRep} of ${earlyTot} (${earlyRep > 0 ? 'Complete' : 'Pending'})`;
     }
     if (turnoutFill) turnoutFill.style.width = `${Math.min(data.turnoutPercent, 100)}%`;
     if (reportingFill) reportingFill.style.width = `${Math.min(reportingPct, 100)}%`;
@@ -832,7 +827,7 @@ window.ElectionApp = (function() {
 
                 <div class="proj-cand-bar-item">
                   <div class="proj-cand-header">
-                    <span>Total Ballots Processed</span>
+                    <span>Total Ballots Cast</span>
                     <span style="color:var(--primary); font-weight:800;">${data.totalBallots.toLocaleString()}</span>
                   </div>
                   <div class="proj-track"><div class="proj-fill" style="width: ${Math.min(data.turnoutPercent, 100)}%; background:var(--primary);"></div></div>
