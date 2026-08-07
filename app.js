@@ -25,7 +25,8 @@ window.ElectionApp = (function() {
   // Initialize application
   function init() {
     if (!window.ELECTION_DATA) {
-      console.error('Election data payload missing.');
+      console.warn('Election data payload missing at start. Attempting dynamic load of ./data.js...');
+      loadDataJsAndInit();
       return;
     }
 
@@ -60,6 +61,24 @@ window.ElectionApp = (function() {
     setTimeout(restoreSavedLocation, 150);
   }
 
+  function loadDataJsAndInit() {
+    const script = document.createElement('script');
+    script.src = `./data.js?v=${Date.now()}`;
+    script.onload = function() {
+      if (window.ELECTION_DATA) {
+        init();
+      } else {
+        console.error('Failed to parse window.ELECTION_DATA from ./data.js');
+      }
+      if (script.parentNode) script.parentNode.removeChild(script);
+    };
+    script.onerror = function() {
+      console.error('Failed to load ./data.js over network.');
+      if (script.parentNode) script.parentNode.removeChild(script);
+    };
+    document.head.appendChild(script);
+  }
+
   function startAutoRefreshTimer() {
     if (autoRefreshTimer) clearInterval(autoRefreshTimer);
     autoRefreshTimer = setInterval(refreshDataSilently, AUTO_REFRESH_INTERVAL_MS);
@@ -67,7 +86,7 @@ window.ElectionApp = (function() {
 
   function refreshDataSilently() {
     const newScript = document.createElement('script');
-    newScript.src = `data.js?v=${Date.now()}`;
+    newScript.src = `./data.js?v=${Date.now()}`;
     newScript.onload = function() {
       if (window.ELECTION_DATA) {
         electionData = window.ELECTION_DATA;

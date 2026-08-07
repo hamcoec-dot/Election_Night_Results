@@ -379,7 +379,7 @@ def generate_data_js():
         'latest': parsed
     }
 
-    js_content = f"// Auto-generated Election Night Results Data\nwindow.ELECTION_DATA = {json.dumps(bundle, indent=2)};\n"
+    js_content = f"// Auto-generated Election Night Results Data\nwindow.ELECTION_DATA = {json.dumps(bundle, separators=(',', ':'))};\n"
     with open(output_js_path, 'w', encoding='utf-8') as f:
         f.write(js_content)
 
