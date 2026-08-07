@@ -203,11 +203,18 @@ window.ElectionApp = (function() {
     const overallTotCapped = Math.min(data.overallPrecinctsTotal || MAX_PRECINCT_CAP, MAX_PRECINCT_CAP);
     const reportingPct = overallTotCapped > 0 ? (overallRepCapped / overallTotCapped * 100) : 0;
 
+    const statBallotsRep = document.getElementById('stat-ballots-rep');
+    const statBallotsDem = document.getElementById('stat-ballots-dem');
+    const statBallotsGen = document.getElementById('stat-ballots-gen');
+
     if (heroTitle) heroTitle.textContent = `${data.county} County ${data.electionTitle}`;
     if (heroDate) heroDate.textContent = data.electionDate;
     if (statusText) statusText.textContent = data.statusLabel || 'UNOFFICIAL RESULTS';
     if (statVoters) statVoters.textContent = data.totalVoters.toLocaleString();
     if (statBallots) statBallots.textContent = data.totalBallots.toLocaleString();
+    if (statBallotsRep) statBallotsRep.textContent = (data.ballotsRep || 0).toLocaleString();
+    if (statBallotsDem) statBallotsDem.textContent = (data.ballotsDem || 0).toLocaleString();
+    if (statBallotsGen) statBallotsGen.textContent = (data.ballotsGen || 0).toLocaleString();
     if (statTurnout) statTurnout.textContent = `${data.turnoutPercent.toFixed(2)}%`;
     if (statReporting) statReporting.textContent = `${overallRepCapped} of ${overallTotCapped} Precincts`;
 
@@ -833,6 +840,30 @@ window.ElectionApp = (function() {
 
                 <div class="proj-cand-bar-item">
                   <div class="proj-cand-header">
+                    <span>&bull; Republican Primary</span>
+                    <span style="color:var(--primary); font-weight:700;">${(data.ballotsRep || 0).toLocaleString()}</span>
+                  </div>
+                  <div class="proj-track"><div class="proj-fill" style="width: ${data.totalBallots ? Math.min(((data.ballotsRep || 0) / data.totalBallots * 100), 100) : 0}%; background:#dc2626;"></div></div>
+                </div>
+
+                <div class="proj-cand-bar-item">
+                  <div class="proj-cand-header">
+                    <span>&bull; Democrat Primary</span>
+                    <span style="color:var(--primary); font-weight:700;">${(data.ballotsDem || 0).toLocaleString()}</span>
+                  </div>
+                  <div class="proj-track"><div class="proj-fill" style="width: ${data.totalBallots ? Math.min(((data.ballotsDem || 0) / data.totalBallots * 100), 100) : 0}%; background:#2563eb;"></div></div>
+                </div>
+
+                <div class="proj-cand-bar-item">
+                  <div class="proj-cand-header">
+                    <span>&bull; General Election Only</span>
+                    <span style="color:var(--primary); font-weight:700;">${(data.ballotsGen || 0).toLocaleString()}</span>
+                  </div>
+                  <div class="proj-track"><div class="proj-fill" style="width: ${data.totalBallots ? Math.min(((data.ballotsGen || 0) / data.totalBallots * 100), 100) : 0}%; background:#6b7280;"></div></div>
+                </div>
+
+                <div class="proj-cand-bar-item">
+                  <div class="proj-cand-header">
                     <span>Voter Turnout Rate</span>
                     <span style="color:var(--primary); font-weight:800;">${data.turnoutPercent.toFixed(2)}%</span>
                   </div>
@@ -869,6 +900,21 @@ window.ElectionApp = (function() {
                     <td style="font-weight:700; color:var(--primary);">&#x1F5F3;&#xFE0F; Election Day Precincts</td>
                     <td style="font-weight:800;">${overallRepCapped} of ${overallTotCapped}</td>
                     <td style="font-weight:700;">${overallRepCapped === overallTotCapped && overallTotCapped > 0 ? '<span style="color:#16a34a;">&#x2705; COMPLETE</span>' : '<span style="color:var(--primary);">&#x23F3; IN PROGRESS</span>'}</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:700; color:#dc2626;">&bull; Republican Primary</td>
+                    <td style="font-weight:800;">${(data.ballotsRep || 0).toLocaleString()}</td>
+                    <td style="font-weight:700;"><span style="color:var(--neutral-muted);">Ballots Cast</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:700; color:#2563eb;">&bull; Democrat Primary</td>
+                    <td style="font-weight:800;">${(data.ballotsDem || 0).toLocaleString()}</td>
+                    <td style="font-weight:700;"><span style="color:var(--neutral-muted);">Ballots Cast</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:700; color:#4b5563;">&bull; General Election Only</td>
+                    <td style="font-weight:800;">${(data.ballotsGen || 0).toLocaleString()}</td>
+                    <td style="font-weight:700;"><span style="color:var(--neutral-muted);">Ballots Cast</span></td>
                   </tr>
                 </tbody>
               </table>

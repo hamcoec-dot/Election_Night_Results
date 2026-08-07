@@ -23,12 +23,15 @@ def clean_num(val):
         return 0
 
 def clean_contest_name(name):
+    """Deduplicates repeated words/phrases in contest titles (e.g. 'District 28 District 28')."""
     if not name:
         return ""
     cleaned = name.strip()
-    cleaned = re.sub(r'\b((?:\w+\s*){1,4})\s+\1\b', r'\1', cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
-    return cleaned
+    cleaned = re.sub(r'\b(.+?)\s+\1\b', r'\1', cleaned, flags=re.IGNORECASE)
+    m = re.match(r'^(\w+)\s+(.+?)\s+\1$', cleaned, flags=re.IGNORECASE)
+    if m:
+        cleaned = f"{m.group(1)} {m.group(2)}"
+    return re.sub(r'\s+', ' ', cleaned).strip()
 
 def run_verification(early_csv, ed_csv, js_path=None):
     """

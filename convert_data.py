@@ -26,13 +26,15 @@ def clean_num(val):
         return 0
 
 def clean_contest_name(name):
-    """Deduplicates repeated words/phrases in contest titles (e.g. 'District 11 District 11')."""
+    """Deduplicates repeated words/phrases in contest titles (e.g. 'District 28 District 28')."""
     if not name:
         return ""
     cleaned = name.strip()
-    cleaned = re.sub(r'\b((?:\w+\s*){1,4})\s+\1\b', r'\1', cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
-    return cleaned
+    cleaned = re.sub(r'\b(.+?)\s+\1\b', r'\1', cleaned, flags=re.IGNORECASE)
+    m = re.match(r'^(\w+)\s+(.+?)\s+\1$', cleaned, flags=re.IGNORECASE)
+    if m:
+        cleaned = f"{m.group(1)} {m.group(2)}"
+    return re.sub(r'\s+', ' ', cleaned).strip()
 
 def parse_election_csv(file_path, is_ed=False):
     """
@@ -54,11 +56,17 @@ def parse_election_csv(file_path, is_ed=False):
 
     total_voters = 0
     total_ballots = 0
+    ballots_rep = 0
+    ballots_dem = 0
+    ballots_gen = 0
 
     for row in rows:
         if len(row) > 0 and row[0] == 'Totals':
             total_voters = clean_num(row[1]) if len(row) > 1 else 0
             total_ballots = clean_num(row[2]) if len(row) > 2 else 0
+            ballots_rep = clean_num(row[3]) if len(row) > 3 else 0
+            ballots_dem = clean_num(row[4]) if len(row) > 4 else 0
+            ballots_gen = clean_num(row[5]) if len(row) > 5 else 0
             break
 
     contests = {}
@@ -121,6 +129,12 @@ def parse_election_csv(file_path, is_ed=False):
                     elif cand_raw.startswith('IND '):
                         party = 'IND'
                         cand_name = cand_raw[4:].strip()
+                    elif 'NO CANDIDATE' in cand_raw.upper():
+                        cand_name = "No Candidate Qualified"
+                        if contest_name.upper().startswith('REP'):
+                            party = 'REP'
+                        elif contest_name.upper().startswith('DEM'):
+                            party = 'DEM'
 
                     vote_count = 0
                     if totals_row_idx is not None and totals_row_idx < len(rows):
@@ -174,6 +188,9 @@ def parse_election_csv(file_path, is_ed=False):
         'statusLabel': status_label,
         'totalVoters': total_voters,
         'totalBallots': total_ballots,
+        'ballotsRep': ballots_rep,
+        'ballotsDem': ballots_dem,
+        'ballotsGen': ballots_gen,
         'contests_raw': contests
     }
 
@@ -307,6 +324,10 @@ def merge_parsed_data(early_parsed, ed_parsed):
     overall_rep = min(max([c['precinctsReporting'] for c in formatted_contests], default=0), MAX_PRECINCT_CAP)
     overall_tot = min(max([c['precinctsTotal'] for c in formatted_contests], default=92), MAX_PRECINCT_CAP)
 
+    ballots_rep = ed_parsed['ballotsRep'] if ed_parsed else (early_parsed['ballotsRep'] if early_parsed else 0)
+    ballots_dem = ed_parsed['ballotsDem'] if ed_parsed else (early_parsed['ballotsDem'] if early_parsed else 0)
+    ballots_gen = ed_parsed['ballotsGen'] if ed_parsed else (early_parsed['ballotsGen'] if early_parsed else 0)
+
     return {
         'electionTitle': election_title,
         'electionDate': election_date,
@@ -314,6 +335,9 @@ def merge_parsed_data(early_parsed, ed_parsed):
         'statusLabel': status_label,
         'totalVoters': total_voters,
         'totalBallots': total_ballots,
+        'ballotsRep': ballots_rep,
+        'ballotsDem': ballots_dem,
+        'ballotsGen': ballots_gen,
         'turnoutPercent': round((total_ballots / total_voters * 100), 2) if total_voters > 0 else 0.0,
         'overallPrecinctsReporting': overall_rep,
         'overallPrecinctsTotal': overall_tot,
