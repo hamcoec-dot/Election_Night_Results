@@ -358,10 +358,13 @@ def generate_data_js():
     results_dir = os.path.join(base_dir, 'Results')
     output_js_path = os.path.join(base_dir, 'data.js')
 
-    if not os.path.exists(results_dir):
-        os.makedirs(results_dir, exist_ok=True)
+    all_csvs = []
+    if os.path.exists(results_dir):
+        for root, _, files in os.walk(results_dir):
+            for f in files:
+                if f.upper().endswith('.CSV'):
+                    all_csvs.append(os.path.join(root, f))
 
-    all_csvs = [os.path.join(results_dir, f) for f in os.listdir(results_dir) if f.upper().endswith('.CSV')]
     if not all_csvs:
         # Fallback to base_dir if Results directory is empty
         all_csvs = [os.path.join(base_dir, f) for f in os.listdir(base_dir) if f.upper().endswith('.CSV')]

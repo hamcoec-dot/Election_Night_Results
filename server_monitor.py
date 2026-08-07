@@ -13,17 +13,19 @@ RESULTS_DIR = os.path.join(BASE_DIR, 'Results')
 CONVERT_SCRIPT = os.path.join(BASE_DIR, 'convert_data.py')
 
 def get_folder_snapshot(folder_path):
-    """Returns a dictionary mapping normalized CSV filenames to (mtime, ctime, size) tuples."""
+    """Returns a dictionary mapping normalized relative CSV paths to (mtime, ctime, size) tuples."""
     snapshot = {}
     if os.path.exists(folder_path):
-        for fname in os.listdir(folder_path):
-            if fname.upper().endswith('.CSV'):
-                fpath = os.path.join(folder_path, fname)
-                try:
-                    stat = os.stat(fpath)
-                    snapshot[fname.upper()] = (stat.st_mtime, stat.st_ctime, stat.st_size)
-                except OSError:
-                    pass
+        for root, _, files in os.walk(folder_path):
+            for fname in files:
+                if fname.upper().endswith('.CSV'):
+                    fpath = os.path.join(root, fname)
+                    rel_path = os.path.relpath(fpath, folder_path).upper()
+                    try:
+                        stat = os.stat(fpath)
+                        snapshot[rel_path] = (stat.st_mtime, stat.st_ctime, stat.st_size)
+                    except OSError:
+                        pass
     return snapshot
 
 def run_conversion():
