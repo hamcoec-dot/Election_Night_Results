@@ -172,8 +172,8 @@ def parse_election_csv(file_path, is_ed=False):
                         if has_contest_entry:
                             if p_name not in contests[contest_name]['precinctsStatusMap']:
                                 contests[contest_name]['precinctsStatusMap'][p_name] = False
-                            # Only ED files set precinct reported status to True
-                            if is_ed and p_votes > 0:
+                            # If ED file has entries for this precinct, mark as reported
+                            if is_ed:
                                 contests[contest_name]['precinctsStatusMap'][p_name] = True
 
             i = totals_row_idx if totals_row_idx else i + 1
@@ -302,6 +302,11 @@ def merge_parsed_data(early_parsed, ed_parsed):
         for c in cand_list:
             c['percentage'] = round((c['votes'] / total_contest_votes * 100), 2) if total_contest_votes > 0 else 0.0
             c['isLeading'] = (cutoff_vote is not None and c['votes'] >= cutoff_vote and c['votes'] > 0)
+
+        # If ED file reports 100% precincts for contest, ensure all precincts are marked reported
+        if ed_c and reported_cnt >= total_prec_cnt and total_prec_cnt > 0:
+            for p_name in precincts_status_map:
+                precincts_status_map[p_name] = True
 
         precincts_status_list = [
             {'name': p_name, 'reported': is_rep}
