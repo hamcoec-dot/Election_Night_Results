@@ -803,6 +803,10 @@ window.ElectionApp = (function() {
       const earlyRep = hasBallots && ((data.earlyVotingReporting !== undefined) ? data.earlyVotingReporting : (data.hasEarlyUpload ? 1 : 0)) ? 1 : 0;
       const earlyTot = data.earlyVotingTotal || 1;
 
+      const repPct = data.totalBallots ? ((data.ballotsRep || 0) / data.totalBallots * 100) : 0;
+      const demPct = data.totalBallots ? ((data.ballotsDem || 0) / data.totalBallots * 100) : 0;
+      const genPct = data.totalBallots ? ((data.ballotsGen || 0) / data.totalBallots * 100) : 0;
+
       viewport.innerHTML = `
         <article class="slide-card">
           <header class="slide-header">
@@ -814,105 +818,59 @@ window.ElectionApp = (function() {
           </header>
 
           <div class="slide-content-grid">
-            <!-- Column 1: Turnout & Precinct Progress Bars -->
+            <!-- Left Column: Visual Turnout & Precinct Gauges -->
             <div>
-              <div class="proj-chart-list">
-                <div class="proj-cand-bar-item">
-                  <div class="proj-cand-header">
-                    <span>Registered Voters</span>
-                    <span style="color:var(--primary); font-weight:800;">${data.totalVoters.toLocaleString()}</span>
-                  </div>
-                  <div class="proj-track"><div class="proj-fill" style="width: 100%; background:var(--primary);"></div></div>
+              <div class="visual-stat-card">
+                <div class="visual-stat-title">&#x1F5F3;&#xFE0F; Overall Voter Turnout</div>
+                <div class="visual-stat-value">${data.turnoutPercent.toFixed(2)}%</div>
+                <div style="font-weight:700; color:var(--neutral-muted); font-size:clamp(12px, 1.4vh, 18px);">
+                  ${data.totalBallots.toLocaleString()} Ballots Cast / ${data.totalVoters.toLocaleString()} Registered Voters
                 </div>
-
-                <div class="proj-cand-bar-item">
-                  <div class="proj-cand-header">
-                    <span>Total Ballots Cast</span>
-                    <span style="color:var(--primary); font-weight:800;">${data.totalBallots.toLocaleString()}</span>
-                  </div>
-                  <div class="proj-track"><div class="proj-fill" style="width: ${Math.min(data.turnoutPercent, 100)}%; background:var(--primary);"></div></div>
+                <div class="proj-track" style="margin-top:6px;">
+                  <div class="proj-fill" style="width: ${Math.min(data.turnoutPercent, 100)}%; background: linear-gradient(90deg, #1e3a8a, #2563eb);"></div>
                 </div>
+              </div>
 
-                <div class="proj-cand-bar-item">
-                  <div class="proj-cand-header">
-                    <span>&bull; Republican Primary</span>
-                    <span style="color:var(--primary); font-weight:700;">${(data.ballotsRep || 0).toLocaleString()}</span>
-                  </div>
-                  <div class="proj-track"><div class="proj-fill" style="width: ${data.totalBallots ? Math.min(((data.ballotsRep || 0) / data.totalBallots * 100), 100) : 0}%; background:#dc2626;"></div></div>
+              <div class="visual-stat-card">
+                <div class="visual-stat-title">&#x1F4EC; Reporting Completion</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+                  <span style="font-weight:700;">Election Day Precincts:</span>
+                  <span style="font-weight:800; color:#16a34a;">${overallRepCapped} of ${overallTotCapped} (${((overallRepCapped / (overallTotCapped || 1)) * 100).toFixed(1)}%)</span>
                 </div>
-
-                <div class="proj-cand-bar-item">
-                  <div class="proj-cand-header">
-                    <span>&bull; Democrat Primary</span>
-                    <span style="color:var(--primary); font-weight:700;">${(data.ballotsDem || 0).toLocaleString()}</span>
-                  </div>
-                  <div class="proj-track"><div class="proj-fill" style="width: ${data.totalBallots ? Math.min(((data.ballotsDem || 0) / data.totalBallots * 100), 100) : 0}%; background:#2563eb;"></div></div>
+                <div class="proj-track">
+                  <div class="proj-fill" style="width: ${(overallRepCapped / (overallTotCapped || 1)) * 100}%; background:#16a34a;"></div>
                 </div>
-
-                <div class="proj-cand-bar-item">
-                  <div class="proj-cand-header">
-                    <span>&bull; General Election Only</span>
-                    <span style="color:var(--primary); font-weight:700;">${(data.ballotsGen || 0).toLocaleString()}</span>
-                  </div>
-                  <div class="proj-track"><div class="proj-fill" style="width: ${data.totalBallots ? Math.min(((data.ballotsGen || 0) / data.totalBallots * 100), 100) : 0}%; background:#6b7280;"></div></div>
-                </div>
-
-                <div class="proj-cand-bar-item">
-                  <div class="proj-cand-header">
-                    <span>Voter Turnout Rate</span>
-                    <span style="color:var(--primary); font-weight:800;">${data.turnoutPercent.toFixed(2)}%</span>
-                  </div>
-                  <div class="proj-track"><div class="proj-fill" style="width: ${Math.min(data.turnoutPercent, 100)}%; background:var(--secondary);"></div></div>
-                </div>
-
-                <div class="proj-cand-bar-item">
-                  <div class="proj-cand-header">
-                    <span>Election Day Precincts Reporting</span>
-                    <span style="color:#16a34a; font-weight:800;">${overallRepCapped} of ${overallTotCapped} (${((overallRepCapped / (overallTotCapped || 1)) * 100).toFixed(1)}%)</span>
-                  </div>
-                  <div class="proj-track"><div class="proj-fill" style="width: ${(overallRepCapped / (overallTotCapped || 1)) * 100}%; background:#16a34a;"></div></div>
+                <div style="font-weight:700; color:var(--neutral-muted); font-size:clamp(12px, 1.4vh, 18px); margin-top:8px;">
+                  ${earlyRep > 0 ? '&#x2705; Early Voting &amp; Absentee: Complete' : '&#x23F3; Early Voting &amp; Absentee: Pending'}
                 </div>
               </div>
             </div>
 
-            <!-- Column 2: Reporting Status Table -->
+            <!-- Right Column: Party Ballot Distribution Visual Stack & Cards -->
             <div>
-              <table class="proj-table" role="table">
-                <thead>
-                  <tr>
-                    <th>Reporting Category</th>
-                    <th>Status Progress</th>
-                    <th>State</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td style="font-weight:700; color:var(--primary);">&#x1F4EC; Early &amp; Absentee</td>
-                    <td style="font-weight:800;">${earlyRep} of ${earlyTot}</td>
-                    <td style="font-weight:700;">${earlyRep > 0 ? '<span style="color:#16a34a;">&#x2705; COMPLETE</span>' : '<span style="color:var(--primary);">&#x23F3; PENDING</span>'}</td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:700; color:var(--primary);">&#x1F5F3;&#xFE0F; Election Day Precincts</td>
-                    <td style="font-weight:800;">${overallRepCapped} of ${overallTotCapped}</td>
-                    <td style="font-weight:700;">${overallRepCapped === overallTotCapped && overallTotCapped > 0 ? '<span style="color:#16a34a;">&#x2705; COMPLETE</span>' : '<span style="color:var(--primary);">&#x23F3; IN PROGRESS</span>'}</td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:700; color:#dc2626;">&bull; Republican Primary</td>
-                    <td style="font-weight:800;">${(data.ballotsRep || 0).toLocaleString()}</td>
-                    <td style="font-weight:700;"><span style="color:var(--neutral-muted);">Ballots Cast</span></td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:700; color:#2563eb;">&bull; Democrat Primary</td>
-                    <td style="font-weight:800;">${(data.ballotsDem || 0).toLocaleString()}</td>
-                    <td style="font-weight:700;"><span style="color:var(--neutral-muted);">Ballots Cast</span></td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:700; color:#4b5563;">&bull; General Election Only</td>
-                    <td style="font-weight:800;">${(data.ballotsGen || 0).toLocaleString()}</td>
-                    <td style="font-weight:700;"><span style="color:var(--neutral-muted);">Ballots Cast</span></td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="visual-stat-card">
+                <div class="visual-stat-title">&#x1F4CA; Ballots Cast Distribution</div>
+                <div class="visual-stacked-bar">
+                  <div class="visual-stacked-segment" style="width: ${repPct}%; background:#dc2626;" title="Republican: ${repPct.toFixed(1)}%"></div>
+                  <div class="visual-stacked-segment" style="width: ${demPct}%; background:#2563eb;" title="Democrat: ${demPct.toFixed(1)}%"></div>
+                  <div class="visual-stacked-segment" style="width: ${genPct}%; background:#6b7280;" title="General Only: ${genPct.toFixed(1)}%"></div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:12px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:#fef2f2; border:1px solid #fecaca; border-radius:8px;">
+                    <span style="font-weight:700; color:#991b1b;">Republican Primary</span>
+                    <span style="font-weight:800; color:#991b1b;">${(data.ballotsRep || 0).toLocaleString()} (${repPct.toFixed(1)}%)</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px;">
+                    <span style="font-weight:700; color:#1e40af;">Democrat Primary</span>
+                    <span style="font-weight:800; color:#1e40af;">${(data.ballotsDem || 0).toLocaleString()} (${demPct.toFixed(1)}%)</span>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:#f3f4f6; border:1px solid #e5e7eb; border-radius:8px;">
+                    <span style="font-weight:700; color:#374151;">General Election Only</span>
+                    <span style="font-weight:800; color:#374151;">${(data.ballotsGen || 0).toLocaleString()} (${genPct.toFixed(1)}%)</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -932,7 +890,7 @@ window.ElectionApp = (function() {
       return;
     }
 
-    // Contest Slides (5 candidates max per chunk)
+    // Contest Slides (No duplicate text tables, replaced with visual analytics graphics)
     const contest = currentSlideObj.contest;
     const candidates = currentSlideObj.candidates;
     const pageNum = currentSlideObj.pageNum;
@@ -943,7 +901,7 @@ window.ElectionApp = (function() {
     const cTotCapped = Math.min(contest.precinctsTotal || 0, MAX_PRECINCT_CAP);
 
     let chartBarsHtml = '';
-    let tableRowsHtml = '';
+    const sortedCands = [...(contest.candidates || [])].sort((a, b) => b.votes - a.votes);
 
     candidates.forEach(cand => {
       const partyClass = cand.party === 'REP' ? 'party-rep' : cand.party === 'DEM' ? 'party-dem' : 'party-ind';
@@ -964,18 +922,41 @@ window.ElectionApp = (function() {
           </div>
         </div>
       `;
-
-      tableRowsHtml += `
-        <tr>
-          <td style="font-weight:700;">
-            ${escapeHtml(cand.name)}
-            ${cand.party ? `<span class="party-pill ${partyClass}" style="margin-left:6px;">${escapeHtml(cand.party)}</span>` : ''}
-          </td>
-          <td style="font-weight:800; text-align:right;">${cand.votes.toLocaleString()}</td>
-          <td style="font-weight:800; text-align:right; color:var(--primary);">${cand.percentage.toFixed(1)}%</td>
-        </tr>
-      `;
     });
+
+    // Build Right-Side Visual Analytics Card
+    let rightPanelAnalyticsHtml = '';
+    if (sortedCands.length >= 2 && sortedCands[0].votes > 0) {
+      const leadCand = sortedCands[0];
+      const runnerUp = sortedCands[1];
+      const leadMarginVotes = leadCand.votes - runnerUp.votes;
+      const leadMarginPct = leadCand.percentage - runnerUp.percentage;
+
+      rightPanelAnalyticsHtml += `
+        <div class="visual-stat-card">
+          <div class="visual-stat-title">&#x1F3C6; Lead Margin</div>
+          <div class="visual-stat-value" style="color:#16a34a;">+ ${leadMarginVotes.toLocaleString()} votes</div>
+          <div style="font-weight:700; color:var(--neutral-muted); font-size:clamp(12px, 1.4vh, 18px);">
+            ${escapeHtml(leadCand.name)} leads by +${leadMarginPct.toFixed(1)}%
+          </div>
+        </div>
+      `;
+    }
+
+    // Contest Precinct Reporting Visual Card
+    const precPct = cTotCapped > 0 ? (cRepCapped / cTotCapped * 100) : 0;
+    rightPanelAnalyticsHtml += `
+      <div class="visual-stat-card">
+        <div class="visual-stat-title">&#x1F5F3;&#xFE0F; Contest Precinct Progress</div>
+        <div class="visual-stat-value">${cRepCapped} of ${cTotCapped}</div>
+        <div style="font-weight:700; color:var(--neutral-muted); font-size:clamp(12px, 1.4vh, 18px);">
+          ${precPct.toFixed(1)}% Precincts Reporting
+        </div>
+        <div class="proj-track" style="margin-top:6px;">
+          <div class="proj-fill" style="width: ${precPct}%; background: #16a34a;"></div>
+        </div>
+      </div>
+    `;
 
     viewport.innerHTML = `
       <article class="slide-card">
@@ -998,18 +979,7 @@ window.ElectionApp = (function() {
           </div>
 
           <div>
-            <table class="proj-table" role="table">
-              <thead>
-                <tr>
-                  <th>Candidate</th>
-                  <th style="text-align:right;">Votes</th>
-                  <th style="text-align:right;">Pct</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${tableRowsHtml}
-              </tbody>
-            </table>
+            ${rightPanelAnalyticsHtml}
           </div>
         </div>
       </article>

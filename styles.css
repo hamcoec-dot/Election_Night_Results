@@ -1177,6 +1177,57 @@ body {
   transition: width 0.4s ease !important;
 }
 
+/* Visual Analytics Panels for Scrolling Slideshow */
+.visual-stat-card {
+  background: var(--neutral-light) !important;
+  border-radius: var(--radius-md) !important;
+  padding: clamp(14px, 1.8vh, 24px) clamp(16px, 1.5vw, 24px) !important;
+  border: 1px solid var(--border) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  margin-bottom: clamp(10px, 1.4vh, 20px) !important;
+}
+
+.visual-stat-title {
+  font-size: clamp(11px, 1.3vh, 16px) !important;
+  font-weight: 700 !important;
+  color: var(--neutral-muted) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.visual-stat-value {
+  font-size: clamp(22px, 3.2vh, 42px) !important;
+  font-weight: 800 !important;
+  color: var(--primary) !important;
+  line-height: 1.1 !important;
+}
+
+.visual-stat-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 10px !important;
+  border-radius: 20px !important;
+  font-size: clamp(11px, 1.3vh, 16px) !important;
+  font-weight: 700 !important;
+}
+
+.visual-stacked-bar {
+  display: flex !important;
+  height: clamp(16px, 2.4vh, 32px) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--border) !important;
+  margin-top: 8px !important;
+}
+
+.visual-stacked-segment {
+  height: 100% !important;
+  transition: width 0.4s ease !important;
+}
+
 /* Dynamic Presentation Scaling tuned for 1080p windowed vs 1440p/4K/Fullscreen */
 .scrolling-body .party-pill {
   font-size: clamp(10px, 1.3vh, 18px) !important;
