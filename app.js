@@ -1077,6 +1077,556 @@ window.ElectionApp = (function() {
     }
   }
 
+  function getVoteForNum(voteForText) {
+    if (!voteForText) return 1;
+    const match = voteForText.match(/(?:VOTE\s+(?:FOR\s+)?(?:UP\s+TO\s+)?|SELECT\s+)(\d+)/i) || voteForText.match(/(\d+)/);
+    if (match) {
+      const num = parseInt(match[1], 10);
+      return isNaN(num) || num < 1 ? 1 : num;
+    }
+    return 1;
+  }
+
+  // Precinct Page Controller State
+  let selectedPrecinct = '';
+  let precinctViewMode = 'BY_PRECINCT';
+  let precinctPartyFilter = 'ALL';
+  let precinctSearchQuery = '';
+  let selectedContestForPrecinctView = '';
+
+  function savePrecinctStateToURL() {
+    try {
+      const params = new URLSearchParams();
+      if (selectedPrecinct) params.set('precinct', selectedPrecinct);
+      if (precinctViewMode) params.set('mode', precinctViewMode);
+      if (precinctPartyFilter) params.set('party', precinctPartyFilter);
+      if (selectedContestForPrecinctView) params.set('contest', selectedContestForPrecinctView);
+      if (precinctSearchQuery) params.set('search', precinctSearchQuery);
+
+      const newUrl = window.location.pathname + '?' + params.toString() + window.location.hash;
+      history.replaceState(null, '', newUrl);
+
+      sessionStorage.setItem('precinct_page_state', JSON.stringify({
+        precinct: selectedPrecinct,
+        mode: precinctViewMode,
+        party: precinctPartyFilter,
+        contest: selectedContestForPrecinctView,
+        search: precinctSearchQuery
+      }));
+    } catch (e) {}
+  }
+
+  function restorePrecinctStateFromURL() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      let state = {};
+
+      if (params.has('precinct') || params.has('mode') || params.has('party') || params.has('contest') || params.has('search')) {
+        state = {
+          precinct: params.get('precinct') || '',
+          mode: params.get('mode') || 'BY_PRECINCT',
+          party: params.get('party') || 'ALL',
+          contest: params.get('contest') || '',
+          search: params.get('search') || ''
+        };
+      } else {
+        const saved = sessionStorage.getItem('precinct_page_state');
+        if (saved) state = JSON.parse(saved);
+      }
+
+      if (state.precinct) selectedPrecinct = state.precinct;
+      if (state.mode) precinctViewMode = state.mode;
+      if (state.party) precinctPartyFilter = state.party;
+      if (state.contest) selectedContestForPrecinctView = state.contest;
+      if (state.search) precinctSearchQuery = state.search;
+    } catch (e) {}
+  }
+
+  function initPrecinctPage() {
+    if (!window.ELECTION_DATA) {
+      console.warn('Election data payload missing at start of Precinct page. Attempting dynamic load...');
+      loadDataJsAndInitPrecinct();
+      return;
+    }
+    electionData = window.ELECTION_DATA;
+    renderNavbarMetadata();
+    setupPrecinctPageControls();
+    renderPrecinctPage();
+  }
+
+  function loadDataJsAndInitPrecinct() {
+    const script = document.createElement('script');
+    script.src = `./data.js?v=${Date.now()}`;
+    script.onload = function() {
+      if (window.ELECTION_DATA) {
+        electionData = window.ELECTION_DATA;
+        renderNavbarMetadata();
+        setupPrecinctPageControls();
+        renderPrecinctPage();
+      }
+    };
+    document.head.appendChild(script);
+  }
+
+  function setupPrecinctPageControls() {
+    if (!electionData || !electionData.latest) return;
+    const latest = electionData.latest;
+    const pStats = latest.precinctStats || {};
+    
+    const pSet = new Set(Object.keys(pStats));
+    (latest.contests || []).forEach(c => {
+      (c.precinctsStatus || []).forEach(p => pSet.add(p.name));
+    });
+    const precinctList = Array.from(pSet).sort();
+
+    restorePrecinctStateFromURL();
+
+    const pSelect = document.getElementById('precinct-select');
+    if (pSelect) {
+      pSelect.innerHTML = '';
+      if (precinctList.length > 0) {
+        if (!selectedPrecinct || !precinctList.includes(selectedPrecinct)) {
+          selectedPrecinct = precinctList[0];
+        }
+        precinctList.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p;
+          opt.textContent = p;
+          if (p === selectedPrecinct) opt.selected = true;
+          pSelect.appendChild(opt);
+        });
+      } else {
+        pSelect.innerHTML = '<option value="">No Precinct Data Available</option>';
+      }
+    }
+
+    const cSelect = document.getElementById('contest-precinct-select');
+    if (cSelect) {
+      cSelect.innerHTML = '<option value="">Select Contest...</option>';
+      (latest.contests || []).forEach((c, idx) => {
+        const opt = document.createElement('option');
+        opt.value = c.title;
+        opt.textContent = c.title;
+        if (idx === 0 && !selectedContestForPrecinctView) selectedContestForPrecinctView = c.title;
+        if (c.title === selectedContestForPrecinctView) opt.selected = true;
+        cSelect.appendChild(opt);
+      });
+    }
+
+    const searchInput = document.getElementById('precinct-search');
+    if (searchInput) {
+      if (precinctSearchQuery) searchInput.value = precinctSearchQuery;
+      searchInput.addEventListener('input', function(e) {
+        precinctSearchQuery = e.target.value.trim().toLowerCase();
+        savePrecinctStateToURL();
+        renderPrecinctPage();
+      });
+    }
+
+    // Restore UI tabs state
+    setPrecinctViewMode(precinctViewMode);
+    setPrecinctPartyFilter(precinctPartyFilter);
+  }
+
+  function selectPrecinct(pName) {
+    selectedPrecinct = pName;
+    savePrecinctStateToURL();
+    renderPrecinctPage();
+  }
+
+  function selectContestForPrecinctView(cTitle) {
+    selectedContestForPrecinctView = cTitle;
+    savePrecinctStateToURL();
+    renderPrecinctPage();
+  }
+
+  function setPrecinctViewMode(mode) {
+    precinctViewMode = mode;
+    const pBtn = document.getElementById('view-mode-precinct-btn');
+    const cBtn = document.getElementById('view-mode-contest-btn');
+    const cWrapper = document.getElementById('contest-select-wrapper');
+    if (pBtn && cBtn) {
+      pBtn.classList.toggle('active', mode === 'BY_PRECINCT');
+      pBtn.setAttribute('aria-selected', mode === 'BY_PRECINCT');
+      cBtn.classList.toggle('active', mode === 'BY_CONTEST');
+      cBtn.setAttribute('aria-selected', mode === 'BY_CONTEST');
+    }
+    if (cWrapper) {
+      cWrapper.style.display = (mode === 'BY_CONTEST') ? 'block' : 'none';
+    }
+    savePrecinctStateToURL();
+    renderPrecinctPage();
+  }
+
+  function setPrecinctPartyFilter(party) {
+    precinctPartyFilter = party;
+    document.querySelectorAll('[data-precinct-party]').forEach(btn => {
+      const isMatch = btn.getAttribute('data-precinct-party') === party;
+      btn.classList.toggle('active', isMatch);
+      btn.setAttribute('aria-selected', isMatch);
+    });
+    savePrecinctStateToURL();
+    renderPrecinctPage();
+  }
+
+  function renderPrecinctPage() {
+    if (!electionData || !electionData.latest) return;
+    const latest = electionData.latest;
+
+    renderPrecinctHeaderMetrics();
+
+    const container = document.getElementById('precinct-results-container');
+    if (!container) return;
+
+    if (precinctViewMode === 'BY_PRECINCT') {
+      renderByPrecinctView(container, latest);
+    } else {
+      renderByContestPrecinctView(container, latest);
+    }
+  }
+
+  function renderPrecinctHeaderMetrics() {
+    if (!electionData || !electionData.latest) return;
+    const pStats = (electionData.latest.precinctStats || {})[selectedPrecinct] || {};
+    
+    let reportedCount = 0;
+    let totalContests = 0;
+    (electionData.latest.contests || []).forEach(c => {
+      const pStatus = (c.precinctsStatus || []).find(p => p.name === selectedPrecinct);
+      if (pStatus) {
+        totalContests++;
+        if (pStatus.reported) reportedCount++;
+      }
+    });
+    const isReported = reportedCount > 0;
+
+    const ind = document.getElementById('precinct-status-indicator');
+    if (ind) {
+      ind.innerHTML = isReported 
+        ? '<span style="color:var(--success);">&#x2705; REPORTED</span>' 
+        : '<span style="color:var(--warning);">&#x23F3; PENDING / NOT REPORTED</span>';
+    }
+
+    const voters = pStats.voters || 0;
+    const ballots = pStats.ballots || 0;
+    const turnout = pStats.turnoutPercent !== undefined ? pStats.turnoutPercent : (voters > 0 ? (ballots/voters*100).toFixed(2) : '0.00');
+
+    const vElem = document.getElementById('precinct-stat-voters');
+    if (vElem) vElem.textContent = voters.toLocaleString();
+
+    const bElem = document.getElementById('precinct-stat-ballots');
+    if (bElem) bElem.textContent = ballots.toLocaleString();
+
+    const repElem = document.getElementById('precinct-stat-ballots-rep');
+    if (repElem) repElem.textContent = (pStats.rep || 0).toLocaleString();
+
+    const demElem = document.getElementById('precinct-stat-ballots-dem');
+    if (demElem) demElem.textContent = (pStats.dem || 0).toLocaleString();
+
+    const genElem = document.getElementById('precinct-stat-ballots-gen');
+    if (genElem) genElem.textContent = (pStats.gen || 0).toLocaleString();
+
+    const tElem = document.getElementById('precinct-stat-turnout');
+    if (tElem) tElem.textContent = `${turnout}%`;
+
+    const tFill = document.getElementById('precinct-turnout-fill');
+    if (tFill) tFill.style.width = `${Math.min(100, parseFloat(turnout))}%`;
+  }
+
+  function renderByPrecinctView(container, latest) {
+    container.innerHTML = '';
+    const contests = latest.contests || [];
+
+    const filtered = contests.filter(c => {
+      // 1. Precinct eligibility filter: contest MUST belong to selectedPrecinct
+      const belongsToPrecinct = (c.precinctsStatus || []).some(p => p.name === selectedPrecinct);
+      if (!belongsToPrecinct) return false;
+
+      // 2. Party filter
+      const pUpper = c.title.toUpperCase();
+      if (precinctPartyFilter === 'REP' && !pUpper.startsWith('REP')) return false;
+      if (precinctPartyFilter === 'DEM' && !pUpper.startsWith('DEM')) return false;
+      if (precinctPartyFilter === 'IND' && (pUpper.startsWith('REP') || pUpper.startsWith('DEM'))) return false;
+
+      // 3. Search query
+      if (precinctSearchQuery) {
+        const titleMatch = c.title.toLowerCase().includes(precinctSearchQuery);
+        const candMatch = (c.candidates || []).some(cand => cand.name.toLowerCase().includes(precinctSearchQuery));
+        if (!titleMatch && !candMatch) return false;
+      }
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="no-results-card" style="grid-column: 1 / -1; padding: 48px; text-align: center; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); font-size:16px; font-weight:600; color:var(--neutral-muted);">No contests available for ' + escapeHtml(selectedPrecinct) + ' matching filter criteria</div>';
+      return;
+    }
+
+    filtered.forEach(c => {
+      const card = document.createElement('article');
+      card.className = 'contest-card';
+      card.style.cssText = 'background: var(--surface); border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); padding: 24px 28px; margin-bottom: 24px; overflow: hidden;';
+
+      const pStatus = (c.precinctsStatus || []).find(p => p.name === selectedPrecinct);
+      const isReported = pStatus ? pStatus.reported : false;
+
+      let precinctTotalVotes = 0;
+      const candsWithPV = (c.candidates || []).map(cand => {
+        const pv = (cand.precinctVotes || {})[selectedPrecinct] || 0;
+        precinctTotalVotes += pv;
+        return {
+          name: cand.name,
+          party: cand.party,
+          votes: pv,
+          totalVotes: cand.votes,
+          totalPercentage: cand.percentage
+        };
+      });
+
+      const vfNum = getVoteForNum(c.voteFor);
+      const sortedPV = candsWithPV.map(cand => cand.votes).sort((a, b) => b - a);
+      const positivePV = sortedPV.filter(v => v > 0);
+      const cutoffPV = positivePV.length > 0 ? positivePV[Math.min(vfNum, positivePV.length) - 1] : null;
+
+      let candsHtml = '';
+      candsWithPV.forEach(cand => {
+        const pct = precinctTotalVotes > 0 ? ((cand.votes / precinctTotalVotes) * 100).toFixed(2) : '0.00';
+        const isLead = isReported && cutoffPV !== null && cand.votes >= cutoffPV && cand.votes > 0;
+        const partyClass = cand.party === 'REP' ? 'party-rep' : (cand.party === 'DEM' ? 'party-dem' : 'party-ind');
+
+        candsHtml += `
+          <div class="candidate-row ${isLead ? 'leading-row' : ''}" style="padding: 14px 18px; border-radius: 10px; border: 1px solid var(--border); background: var(--neutral-light); margin-bottom: 10px;">
+            <div class="candidate-info" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <span class="candidate-name" style="font-weight:700; font-size:16px; color:var(--neutral-dark);">${escapeHtml(cand.name)}</span>
+                ${cand.party ? `<span class="party-pill ${partyClass}" style="font-size:12px; font-weight:700; padding:3px 8px; border-radius:4px;">${escapeHtml(cand.party)}</span>` : ''}
+              </div>
+              ${isLead ? '<span class="status-pill status-reported" style="font-size:12px; padding:3px 8px; font-weight:700;">&#x2714; LEADING IN PRECINCT</span>' : ''}
+            </div>
+            <div class="candidate-stats" style="display:flex; justify-content:space-between; margin-top:8px; font-size:15px;">
+              <span class="vote-count" style="font-weight:700; color:var(--primary);">${cand.votes.toLocaleString()} votes</span>
+              <span class="vote-percent" style="font-weight:600; color:var(--neutral-muted);">${pct}%</span>
+            </div>
+            <div class="progress-bar-bg" style="height:10px; background:var(--border); border-radius:5px; margin-top:6px; overflow:hidden;">
+              <div class="progress-bar-fill" style="width: ${Math.min(100, parseFloat(pct))}%; height:100%; background:var(--primary); border-radius:5px; transition:width 0.3s ease;"></div>
+            </div>
+          </div>
+        `;
+      });
+
+      card.innerHTML = `
+        <header class="contest-header" style="border-bottom:1px solid var(--border); padding-bottom:16px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+          <div>
+            <h2 class="contest-title" style="font-size:20px; font-weight:800; color:var(--neutral-dark); margin:0;">${escapeHtml(c.title)}</h2>
+            <div class="contest-subtitle" style="font-size:14px; font-weight:600; color:var(--neutral-muted); margin-top:4px;">${escapeHtml(c.voteFor)}</div>
+          </div>
+          <span class="status-pill ${isReported ? 'status-reported' : 'status-pending'}" style="font-size:13px; padding:4px 10px; font-weight:700;">
+            ${isReported ? '&#x2705; REPORTED' : '&#x23F3; PENDING'}
+          </span>
+        </header>
+        <div class="candidates-list" style="display:flex; flex-direction:column; gap:8px;">
+          ${candsHtml}
+        </div>
+        <footer class="contest-footer" style="margin-top:20px; padding-top:14px; border-top:1px dashed var(--border); display:flex; justify-content:space-between; font-size:14px; color:var(--neutral-muted);">
+          <span>Precinct Total Votes: <strong style="color:var(--neutral-dark); font-weight:700;">${precinctTotalVotes.toLocaleString()}</strong></span>
+          <span>Countywide Contest Total: <strong style="color:var(--neutral-dark); font-weight:700;">${c.totalVotes.toLocaleString()}</strong></span>
+        </footer>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function renderByContestPrecinctView(container, latest) {
+    container.innerHTML = '';
+    const contests = latest.contests || [];
+    let contest = contests.find(c => c.title === selectedContestForPrecinctView);
+    if (!contest && contests.length > 0) {
+      contest = contests[0];
+      selectedContestForPrecinctView = contest.title;
+    }
+
+    if (!contest) {
+      container.innerHTML = '<div class="no-results-card" style="grid-column: 1 / -1;">No contest selected</div>';
+      return;
+    }
+
+    const cands = contest.candidates || [];
+    const pStatuses = contest.precinctsStatus || [];
+    const vfNum = getVoteForNum(contest.voteFor);
+
+    const filteredPrecincts = pStatuses.filter(p => {
+      if (precinctSearchQuery) {
+        return p.name.toLowerCase().includes(precinctSearchQuery);
+      }
+      return true;
+    });
+
+    let tableRowsHtml = '';
+    filteredPrecincts.forEach(p => {
+      let pTotal = 0;
+      const candVotes = cands.map(cand => {
+        const v = (cand.precinctVotes || {})[p.name] || 0;
+        pTotal += v;
+        return v;
+      });
+
+      const sortedPV = candVotes.slice().sort((a, b) => b - a);
+      const positivePV = sortedPV.filter(v => v > 0);
+      const cutoffPV = positivePV.length > 0 ? positivePV[Math.min(vfNum, positivePV.length) - 1] : null;
+
+      let candCellsHtml = '';
+      candVotes.forEach((v, idx) => {
+        const isLead = p.reported && cutoffPV !== null && v >= cutoffPV && v > 0;
+        candCellsHtml += `
+          <td style="text-align:right; font-weight:${isLead ? '700' : '400'}; color:${isLead ? 'var(--primary)' : 'inherit'}; padding:12px 16px;">
+            ${v.toLocaleString()} ${isLead ? '&#x2714;' : ''}
+          </td>
+        `;
+      });
+
+      tableRowsHtml += `
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="font-weight:600; text-align:left; padding:12px 16px;">${escapeHtml(p.name)}</td>
+          <td style="text-align:center; padding:12px 16px;">
+            <span class="status-pill ${p.reported ? 'status-reported' : 'status-pending'}" style="font-size:11px; padding:3px 8px;">
+              ${p.reported ? 'REPORTED' : 'PENDING'}
+            </span>
+          </td>
+          <td style="text-align:right; font-weight:700; padding:12px 16px;">${pTotal.toLocaleString()}</td>
+          ${candCellsHtml}
+        </tr>
+      `;
+    });
+
+    let candHeadersHtml = '';
+    cands.forEach(cand => {
+      candHeadersHtml += `<th style="text-align:right; padding:12px 16px;">${escapeHtml(cand.name)}</th>`;
+    });
+
+    const wrapper = document.createElement('div');
+    wrapper.style.gridColumn = '1 / -1';
+    wrapper.className = 'table-card';
+    wrapper.style.background = 'var(--surface)';
+    wrapper.style.borderRadius = '12px';
+    wrapper.style.border = '1px solid var(--border)';
+    wrapper.style.boxShadow = 'var(--shadow-sm)';
+    wrapper.style.overflow = 'hidden';
+    wrapper.innerHTML = `
+      <header style="padding:20px 24px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; background:var(--neutral-light);">
+        <div>
+          <h2 style="font-size:22px; font-weight:800; color:var(--neutral-dark); margin:0;">${escapeHtml(contest.title)}</h2>
+          <div style="font-size:14px; font-weight:600; color:var(--neutral-muted); margin-top:4px;">${escapeHtml(contest.voteFor)} &bull; ${contest.precinctsReporting} of ${contest.precinctsTotal} Precincts Reporting</div>
+        </div>
+      </header>
+      <div style="overflow-x:auto; padding:8px 0;">
+        <table class="reporting-table" style="width:100%; border-collapse:collapse;">
+          <thead>
+            <tr style="background:var(--neutral-light); border-bottom:2px solid var(--border);">
+              <th style="text-align:left; padding:12px 16px;">Precinct</th>
+              <th style="text-align:center; padding:12px 16px;">Status</th>
+              <th style="text-align:right; padding:12px 16px;">Total Votes</th>
+              ${candHeadersHtml}
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRowsHtml}
+          </tbody>
+        </table>
+      </div>
+    `;
+    container.appendChild(wrapper);
+  }
+
+  function exportPrecinctCSV(mode) {
+    if (!electionData || !electionData.latest) return;
+    const latest = electionData.latest;
+    const contests = latest.contests || [];
+    const pStats = latest.precinctStats || {};
+
+    let filename = '';
+    let csvContent = 'Precinct,Contest,Candidate,Party,Precinct Votes,County Total Votes\n';
+
+    if (mode === 'FILTERED' && precinctViewMode === 'BY_PRECINCT') {
+      const cleanPrecinct = selectedPrecinct.replace(/[^a-zA-Z0-9_-]/g, '_');
+      filename = `Hamilton_County_${cleanPrecinct}_Results_${Date.now()}.csv`;
+
+      const filtered = contests.filter(c => {
+        const belongsToPrecinct = (c.precinctsStatus || []).some(p => p.name === selectedPrecinct);
+        if (!belongsToPrecinct) return false;
+
+        const pUpper = c.title.toUpperCase();
+        if (precinctPartyFilter === 'REP' && !pUpper.startsWith('REP')) return false;
+        if (precinctPartyFilter === 'DEM' && !pUpper.startsWith('DEM')) return false;
+        if (precinctPartyFilter === 'IND' && (pUpper.startsWith('REP') || pUpper.startsWith('DEM'))) return false;
+
+        if (precinctSearchQuery) {
+          const titleMatch = c.title.toLowerCase().includes(precinctSearchQuery);
+          const candMatch = (c.candidates || []).some(cand => cand.name.toLowerCase().includes(precinctSearchQuery));
+          if (!titleMatch && !candMatch) return false;
+        }
+        return true;
+      });
+
+      filtered.forEach(c => {
+        (c.candidates || []).forEach(cand => {
+          const v = (cand.precinctVotes || {})[selectedPrecinct] || 0;
+          csvContent += `"${selectedPrecinct}","${c.title}","${cand.name}","${cand.party}",${v},${cand.votes}\n`;
+        });
+      });
+
+    } else if (mode === 'FILTERED' && precinctViewMode === 'BY_CONTEST') {
+      let contest = contests.find(c => c.title === selectedContestForPrecinctView) || contests[0];
+      const cleanContest = contest.title.replace(/[^a-zA-Z0-9_-]/g, '_');
+      filename = `Hamilton_County_${cleanContest}_Precincts_${Date.now()}.csv`;
+
+      const pStatuses = contest.precinctsStatus || [];
+      const filteredPrecincts = pStatuses.filter(p => {
+        if (precinctSearchQuery) return p.name.toLowerCase().includes(precinctSearchQuery);
+        return true;
+      });
+
+      filteredPrecincts.forEach(p => {
+        (contest.candidates || []).forEach(cand => {
+          const v = (cand.precinctVotes || {})[p.name] || 0;
+          csvContent += `"${p.name}","${contest.title}","${cand.name}","${cand.party}",${v},${cand.votes}\n`;
+        });
+      });
+
+    } else {
+      // mode === 'ALL' or fallback
+      filename = `Hamilton_County_All_Precincts_Results_${Date.now()}.csv`;
+      const pSet = new Set(Object.keys(pStats));
+      contests.forEach(c => {
+        (c.precinctsStatus || []).forEach(p => pSet.add(p.name));
+      });
+      const allPrecincts = Array.from(pSet).sort();
+
+      allPrecincts.forEach(pName => {
+        contests.forEach(c => {
+          const belongs = (c.precinctsStatus || []).some(p => p.name === pName);
+          if (belongs) {
+            // Apply party filter if active
+            const pUpper = c.title.toUpperCase();
+            if (precinctPartyFilter === 'REP' && !pUpper.startsWith('REP')) return;
+            if (precinctPartyFilter === 'DEM' && !pUpper.startsWith('DEM')) return;
+            if (precinctPartyFilter === 'IND' && (pUpper.startsWith('REP') || pUpper.startsWith('DEM'))) return;
+
+            (c.candidates || []).forEach(cand => {
+              const v = (cand.precinctVotes || {})[pName] || 0;
+              csvContent += `"${pName}","${c.title}","${cand.name}","${cand.party}",${v},${cand.votes}\n`;
+            });
+          }
+        });
+      });
+    }
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
@@ -1096,6 +1646,14 @@ window.ElectionApp = (function() {
     handleModalSearch: handleModalSearch,
     exportCSV: exportCSV,
 
+    // Precinct Page Exports
+    initPrecinctPage: initPrecinctPage,
+    selectPrecinct: selectPrecinct,
+    selectContestForPrecinctView: selectContestForPrecinctView,
+    setPrecinctViewMode: setPrecinctViewMode,
+    setPrecinctPartyFilter: setPrecinctPartyFilter,
+    exportPrecinctCSV: exportPrecinctCSV,
+
     // Slideshow Engine Exports
     initSlideshow: initSlideshow,
     nextSlide: nextSlide,
@@ -1106,4 +1664,5 @@ window.ElectionApp = (function() {
     toggleFullscreen: toggleFullscreen
   };
 })();
+
 

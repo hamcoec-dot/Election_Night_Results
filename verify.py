@@ -242,10 +242,110 @@ def run_verification(early_csv, ed_csv, js_path=None):
                     expected_votes = ed_c_cands[cand_name]
                 else:
                     expected_votes = early_c_cands.get(cand_name, 0)
-                check(cand_name in js_cand_map, f"Candidate '{cand_name}' present in '{c_title}'")
-                if cand_name in js_cand_map:
-                    actual_votes = js_cand_map[cand_name]['votes']
                     check(actual_votes == expected_votes, f"Candidate '{cand_name}' vote sum ({actual_votes} == {expected_votes}) in '{c_title}'")
+
+    print("\n--- 5. Precinct-Level Turnout & Candidate Vote Audit ---")
+    raw_rows_for_precincts = ed_rows if ed_rows else early_rows
+    js_precinct_stats = js_data.get('precinctStats', {})
+
+    # Extract raw precinct stats strictly from STATISTICS section (before first Totals row)
+    raw_precinct_stats = {}
+    in_stats_section = False
+    for r_idx, row in enumerate(raw_rows_for_precincts):
+        if not row:
+            continue
+        if len(row) > 0 and row[0] == 'Totals':
+            if in_stats_section:
+                break
+        if any('STATISTICS' in str(cell) for cell in row):
+            in_stats_section = True
+            continue
+        if in_stats_section:
+            p_name = ""
+            v_idx = -1
+            if len(row) >= 6 and row[0].strip() and row[0].strip() not in ('Custom Table Report', 'STATISTICS', 'Totals', 'Precincts Reporting', 'Registered Voters - Total'):
+                if not any(k in row[0] for k in ('August', 'State', 'Federal', 'County', 'General', 'Primary')):
+                    p_name = row[0].strip()
+                    v_idx = 1
+            elif len(row) >= 7 and row[1].strip() and row[1].strip() not in ('STATISTICS', 'Totals', 'Registered Voters - Total'):
+                p_name = row[1].strip()
+                v_idx = 2
+
+            if p_name and v_idx > 0 and p_name != 'Totals':
+                voters_val = clean_num(row[v_idx])
+                ballots_val = clean_num(row[v_idx+1])
+                if voters_val > 0 or ballots_val > 0:
+                    raw_precinct_stats[p_name] = {
+                        'voters': voters_val,
+                        'ballots': ballots_val
+                    }
+
+    for p_name, p_data in raw_precinct_stats.items():
+        check(p_name in js_precinct_stats, f"Precinct '{p_name}' stats present in JS dataset")
+        if p_name in js_precinct_stats:
+            js_p = js_precinct_stats[p_name]
+            check(js_p['voters'] == p_data['voters'], f"Precinct '{p_name}' Registered Voters ({js_p['voters']} == {p_data['voters']})")
+            check(js_p['ballots'] == p_data['ballots'], f"Precinct '{p_name}' Ballots Cast ({js_p['ballots']} == {p_data['ballots']})")
+
+    # Extract raw candidate votes per precinct
+    if raw_rows_for_precincts:
+        i = 0
+        precinct_vote_checks = 0
+        while i < len(raw_rows_for_precincts):
+            row = raw_rows_for_precincts[i]
+            reporting_cells = [(idx, cell) for idx, cell in enumerate(row) if 'Precincts Reporting' in cell]
+            if reporting_cells:
+                contest_row = raw_rows_for_precincts[i-2] if i >= 2 else []
+                candidate_row = raw_rows_for_precincts[i+1] if i+1 < len(raw_rows_for_precincts) else []
+
+                totals_row_idx = None
+                for r_idx in range(i + 2, len(raw_rows_for_precincts)):
+                    if len(raw_rows_for_precincts[r_idx]) > 0 and raw_rows_for_precincts[r_idx][0] == 'Totals':
+                        totals_row_idx = r_idx
+                        break
+
+                for k, (col_idx, rep_text) in enumerate(reporting_cells):
+                    raw_c_name = contest_row[col_idx].strip() if col_idx < len(contest_row) and contest_row[col_idx] else ""
+                    c_name = clean_contest_name(raw_c_name)
+                    if not c_name or c_name not in js_contests:
+                        continue
+
+                    js_c = js_contests[c_name]
+                    js_cand_map = {cand['name']: cand for cand in js_c['candidates']}
+                    next_contest_col = reporting_cells[k+1][0] if k + 1 < len(reporting_cells) else len(candidate_row)
+
+                    cand_cols = []
+                    for c_idx in range(col_idx, next_contest_col):
+                        if c_idx >= len(candidate_row):
+                            break
+                        cand_raw = candidate_row[c_idx].strip()
+                        if not cand_raw or 'write-in' in cand_raw.lower():
+                            continue
+                        cand_clean = cand_raw
+                        for party_prefix in ['REP ', 'DEM ', 'IND ']:
+                            if cand_clean.startswith(party_prefix):
+                                cand_clean = cand_clean[len(party_prefix):].strip()
+                        cand_cols.append((c_idx, cand_clean))
+
+                    if totals_row_idx is not None:
+                        for d_idx in range(i + 2, totals_row_idx):
+                            d_row = raw_rows_for_precincts[d_idx]
+                            p_name = d_row[0].strip() if len(d_row) > 0 and d_row[0] else ""
+                            if not p_name:
+                                continue
+                            for c_idx, cand_clean in cand_cols:
+                                if c_idx < len(d_row) and d_row[c_idx].strip() != '':
+                                    expected_pv = clean_num(d_row[c_idx])
+                                    if cand_clean in js_cand_map:
+                                        actual_pv = (js_cand_map[cand_clean].get('precinctVotes', {})).get(p_name, 0)
+                                        precinct_vote_checks += 1
+                                        if actual_pv != expected_pv:
+                                            check(False, f"Precinct '{p_name}' vote for '{cand_clean}' in '{c_name}' ({actual_pv} != {expected_pv})")
+
+                i = totals_row_idx if totals_row_idx else i + 1
+            i += 1
+
+        check(precinct_vote_checks > 0, f"Audited {precinct_vote_checks} precinct-level candidate vote entries against raw CSV data")
 
     print("\n==========================================")
     print(f"VERIFICATION SUMMARY: {passed_checks} PASSED, {failed_checks} FAILED")

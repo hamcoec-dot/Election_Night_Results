@@ -69,6 +69,47 @@ def parse_election_csv(file_path, is_ed=False):
             ballots_gen = clean_num(row[5]) if len(row) > 5 else 0
             break
 
+    # Extract per-precinct statistics table
+    precinct_stats = {}
+    in_stats_section = False
+    for r_idx, row in enumerate(rows):
+        if not row:
+            continue
+        if len(row) > 0 and row[0] == 'Totals':
+            if in_stats_section:
+                break
+        if any('STATISTICS' in str(cell) for cell in row):
+            in_stats_section = True
+            continue
+        if in_stats_section:
+            p_name = ""
+            v_idx = -1
+            if len(row) >= 6 and row[0].strip() and row[0].strip() not in ('Custom Table Report', 'STATISTICS', 'Totals', 'Precincts Reporting', 'Registered Voters - Total'):
+                if not any(k in row[0] for k in ('August', 'State', 'Federal', 'County', 'General', 'Primary')):
+                    p_name = row[0].strip()
+                    v_idx = 1
+            elif len(row) >= 7 and row[1].strip() and row[1].strip() not in ('STATISTICS', 'Totals', 'Registered Voters - Total'):
+                p_name = row[1].strip()
+                v_idx = 2
+
+            if p_name and v_idx > 0 and p_name != 'Totals':
+                voters_val = clean_num(row[v_idx])
+                ballots_val = clean_num(row[v_idx+1])
+                if voters_val > 0 or ballots_val > 0:
+                    rep_b = clean_num(row[v_idx+2]) if len(row) > v_idx+2 else 0
+                    dem_b = clean_num(row[v_idx+3]) if len(row) > v_idx+3 else 0
+                    gen_b = clean_num(row[v_idx+4]) if len(row) > v_idx+4 else 0
+                    turnout = round((ballots_val / voters_val * 100), 2) if voters_val > 0 else 0.0
+                    precinct_stats[p_name] = {
+                        'name': p_name,
+                        'voters': voters_val,
+                        'ballots': ballots_val,
+                        'rep': rep_b,
+                        'dem': dem_b,
+                        'gen': gen_b,
+                        'turnoutPercent': turnout
+                    }
+
     contests = {}
 
     i = 0
@@ -111,6 +152,7 @@ def parse_election_csv(file_path, is_ed=False):
                     }
 
                 # Process candidates
+                cand_cols = []
                 for c_idx in range(col_idx, next_contest_col):
                     if c_idx >= len(candidate_row):
                         break
@@ -146,14 +188,17 @@ def parse_election_csv(file_path, is_ed=False):
                         contests[contest_name]['candidates'][cand_name] = {
                             'name': cand_name,
                             'party': party,
-                            'votes': vote_count
+                            'votes': vote_count,
+                            'precinctVotes': {}
                         }
                     else:
                         contests[contest_name]['candidates'][cand_name]['votes'] = max(
                             contests[contest_name]['candidates'][cand_name]['votes'], vote_count
                         )
 
-                # Inspect raw precinct data rows for precinct status map
+                    cand_cols.append((c_idx, cand_name))
+
+                # Inspect raw precinct data rows for precinct status map & per-precinct candidate votes
                 if totals_row_idx is not None:
                     for d_idx in range(i + 2, totals_row_idx):
                         d_row = rows[d_idx]
@@ -162,17 +207,17 @@ def parse_election_csv(file_path, is_ed=False):
                             continue
 
                         has_contest_entry = False
-                        p_votes = 0
-                        for c_idx in range(col_idx, min(next_contest_col, len(d_row))):
-                            cell_val = d_row[c_idx].strip()
-                            if cell_val != '':
-                                has_contest_entry = True
-                                p_votes += clean_num(cell_val)
+                        for c_idx, cand_name in cand_cols:
+                            if c_idx < len(d_row):
+                                cell_val = d_row[c_idx].strip()
+                                if cell_val != '':
+                                    has_contest_entry = True
+                                    pv = clean_num(cell_val)
+                                    contests[contest_name]['candidates'][cand_name]['precinctVotes'][p_name] = pv
 
                         if has_contest_entry:
                             if p_name not in contests[contest_name]['precinctsStatusMap']:
                                 contests[contest_name]['precinctsStatusMap'][p_name] = False
-                            # If ED file has entries for this precinct, mark as reported
                             if is_ed:
                                 contests[contest_name]['precinctsStatusMap'][p_name] = True
 
@@ -191,6 +236,7 @@ def parse_election_csv(file_path, is_ed=False):
         'ballotsRep': ballots_rep,
         'ballotsDem': ballots_dem,
         'ballotsGen': ballots_gen,
+        'precinctStats': precinct_stats,
         'contests_raw': contests
     }
 
@@ -214,6 +260,8 @@ def merge_parsed_data(early_parsed, ed_parsed):
 
     total_voters = max(early_parsed['totalVoters'] if early_parsed else 0, ed_parsed['totalVoters'] if ed_parsed else 0)
     total_ballots = ed_parsed['totalBallots'] if ed_parsed else (early_parsed['totalBallots'] if early_parsed else 0)
+
+    precinct_stats = ed_parsed['precinctStats'] if (ed_parsed and ed_parsed['precinctStats']) else (early_parsed['precinctStats'] if early_parsed else {})
 
     # Collect all contest titles in order
     all_contest_titles = []
@@ -252,7 +300,8 @@ def merge_parsed_data(early_parsed, ed_parsed):
                 cand_dict[cand_name] = {
                     'name': cand_info['name'],
                     'party': cand_info['party'],
-                    'votes': cand_info['votes']
+                    'votes': cand_info['votes'],
+                    'precinctVotes': cand_info.get('precinctVotes', {})
                 }
             if early_c:
                 for cand_name, cand_info in early_c['candidates'].items():
@@ -260,14 +309,16 @@ def merge_parsed_data(early_parsed, ed_parsed):
                         cand_dict[cand_name] = {
                             'name': cand_info['name'],
                             'party': cand_info['party'],
-                            'votes': cand_info['votes']
+                            'votes': cand_info['votes'],
+                            'precinctVotes': cand_info.get('precinctVotes', {})
                         }
         elif early_c:
             for cand_name, cand_info in early_c['candidates'].items():
                 cand_dict[cand_name] = {
                     'name': cand_info['name'],
                     'party': cand_info['party'],
-                    'votes': cand_info['votes']
+                    'votes': cand_info['votes'],
+                    'precinctVotes': cand_info.get('precinctVotes', {})
                 }
 
         cand_list = list(cand_dict.values())
@@ -350,6 +401,7 @@ def merge_parsed_data(early_parsed, ed_parsed):
         'earlyVotingReporting': 1 if (early_parsed is not None and total_ballots > 0) else 0,
         'earlyVotingTotal': 1,
         'earlyBallotsCast': early_parsed['totalBallots'] if early_parsed else 0,
+        'precinctStats': precinct_stats,
         'contests': formatted_contests
     }
 

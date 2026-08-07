@@ -343,7 +343,7 @@ body {
   flex: 1 1 220px !important;
   background: var(--neutral-light) !important;
   border-radius: var(--radius-md) !important;
-  padding: 16px 20px !important;
+  padding: 20px 24px !important;
   border: 1px solid var(--border) !important;
 }
 
@@ -573,7 +573,7 @@ body {
 }
 
 .contest-header {
-  padding: 18px 24px !important;
+  padding: 22px 28px !important;
   background: var(--neutral-light) !important;
   border-bottom: 1px solid var(--border) !important;
   display: flex !important;
@@ -621,7 +621,7 @@ body {
 }
 
 .contest-body {
-  padding: 20px 24px !important;
+  padding: 24px 28px !important;
 }
 
 /* Physical Column Structure for WCAG SC 1.3.2 Screen Reader Compliance */
