@@ -13,14 +13,15 @@ RESULTS_DIR = os.path.join(BASE_DIR, 'Results')
 CONVERT_SCRIPT = os.path.join(BASE_DIR, 'convert_data.py')
 
 def get_folder_snapshot(folder_path):
-    """Returns a dictionary mapping CSV filenames to their last modification timestamp."""
+    """Returns a dictionary mapping normalized CSV filenames to (mtime, ctime, size) tuples."""
     snapshot = {}
     if os.path.exists(folder_path):
         for fname in os.listdir(folder_path):
             if fname.upper().endswith('.CSV'):
                 fpath = os.path.join(folder_path, fname)
                 try:
-                    snapshot[fname] = os.path.getmtime(fpath)
+                    stat = os.stat(fpath)
+                    snapshot[fname.upper()] = (stat.st_mtime, stat.st_ctime, stat.st_size)
                 except OSError:
                     pass
     return snapshot
@@ -28,18 +29,19 @@ def get_folder_snapshot(folder_path):
 def run_conversion():
     """Triggers convert_data.py execution."""
     timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
-    print(f"\n[{timestamp}] [MONITOR] Change detected in Results/. Triggering convert_data.py...")
+    print(f"\n[{timestamp}] [MONITOR] Change detected in Results/. Triggering convert_data.py...", flush=True)
     try:
         result = subprocess.run([sys.executable, CONVERT_SCRIPT], capture_output=True, text=True, cwd=BASE_DIR)
-        print(result.stdout)
+        if result.stdout:
+            print(result.stdout, flush=True)
         if result.stderr:
-            print(f"[{timestamp}] [WARNING/STDERR]:\n{result.stderr}")
+            print(f"[{timestamp}] [WARNING/STDERR]:\n{result.stderr}", flush=True)
         if result.returncode == 0:
-            print(f"[{timestamp}] [MONITOR] Conversion & Verification SUCCESSFUL.")
+            print(f"[{timestamp}] [MONITOR] Conversion & Verification SUCCESSFUL.", flush=True)
         else:
-            print(f"[{timestamp}] [ERROR] Conversion exited with code {result.returncode}.")
+            print(f"[{timestamp}] [ERROR] Conversion exited with code {result.returncode}.", flush=True)
     except Exception as e:
-        print(f"[{timestamp}] [ERROR] Failed to run convert_data.py: {e}")
+        print(f"[{timestamp}] [ERROR] Failed to run convert_data.py: {e}", flush=True)
 
 def monitor_loop(poll_interval=2):
     """Continuously monitors Results/ directory for file changes."""
@@ -72,20 +74,21 @@ def monitor_loop(poll_interval=2):
                 modified = {k for k in current_snapshot if k in last_snapshot and current_snapshot[k] != last_snapshot[k]}
 
                 if added:
-                    print(f"[MONITOR] New CSV file(s) added: {', '.join(added)}")
+                    print(f"[MONITOR] New CSV file(s) added: {', '.join(added)}", flush=True)
                 if removed:
-                    print(f"[MONITOR] CSV file(s) removed: {', '.join(removed)}")
+                    print(f"[MONITOR] CSV file(s) removed: {', '.join(removed)}", flush=True)
                 if modified:
-                    print(f"[MONITOR] CSV file(s) modified: {', '.join(modified)}")
+                    print(f"[MONITOR] CSV file(s) modified: {', '.join(modified)}", flush=True)
 
+                time.sleep(0.5) # Brief pause for file write stabilization
                 run_conversion()
                 last_snapshot = current_snapshot
 
         except KeyboardInterrupt:
-            print("\n[MONITOR] Server monitor stopped by user.")
+            print("\n[MONITOR] Server monitor stopped by user.", flush=True)
             sys.exit(0)
         except Exception as e:
-            print(f"[MONITOR ERROR] {e}")
+            print(f"[MONITOR ERROR] {e}", flush=True)
             time.sleep(poll_interval)
 
 if __name__ == '__main__':
