@@ -111,7 +111,7 @@ def run_verification(early_csv, ed_csv, js_path=None):
             break
 
     expected_voters = max(early_voters, ed_voters)
-    expected_ballots = early_ballots + ed_ballots
+    expected_ballots = ed_ballots if ed_rows else early_ballots
     expected_turnout = round((expected_ballots / expected_voters * 100), 2) if expected_voters > 0 else 0.0
 
     check(js_data['totalVoters'] == expected_voters, f"Registered Voters count ({js_data['totalVoters']} == {expected_voters})")
@@ -235,7 +235,10 @@ def run_verification(early_csv, ed_csv, js_path=None):
             all_cands = set(list(early_c_cands.keys()) + list(ed_c_cands.keys()))
 
             for cand_name in all_cands:
-                expected_votes = early_c_cands.get(cand_name, 0) + ed_c_cands.get(cand_name, 0)
+                if ed_rows and cand_name in ed_c_cands:
+                    expected_votes = ed_c_cands[cand_name]
+                else:
+                    expected_votes = early_c_cands.get(cand_name, 0)
                 check(cand_name in js_cand_map, f"Candidate '{cand_name}' present in '{c_title}'")
                 if cand_name in js_cand_map:
                     actual_votes = js_cand_map[cand_name]['votes']

@@ -196,7 +196,7 @@ def merge_parsed_data(early_parsed, ed_parsed):
     status_label = ed_parsed['statusLabel'] if ed_parsed else early_parsed['statusLabel']
 
     total_voters = max(early_parsed['totalVoters'] if early_parsed else 0, ed_parsed['totalVoters'] if ed_parsed else 0)
-    total_ballots = (early_parsed['totalBallots'] if early_parsed else 0) + (ed_parsed['totalBallots'] if ed_parsed else 0)
+    total_ballots = ed_parsed['totalBallots'] if ed_parsed else (early_parsed['totalBallots'] if early_parsed else 0)
 
     # Collect all contest titles in order
     all_contest_titles = []
@@ -228,27 +228,30 @@ def merge_parsed_data(early_parsed, ed_parsed):
             total_prec_cnt = early_c['csvPrecinctsTotal'] if early_c else 0
             precincts_status_map = {p: False for p in early_c['precinctsStatusMap'].keys()} if early_c else {}
 
-        # Merge candidates and sum votes
+        # ED file is cumulative (includes Early Votes); do not add early + ed
         cand_dict = {}
-        if early_c:
+        if ed_c:
+            for cand_name, cand_info in ed_c['candidates'].items():
+                cand_dict[cand_name] = {
+                    'name': cand_info['name'],
+                    'party': cand_info['party'],
+                    'votes': cand_info['votes']
+                }
+            if early_c:
+                for cand_name, cand_info in early_c['candidates'].items():
+                    if cand_name not in cand_dict:
+                        cand_dict[cand_name] = {
+                            'name': cand_info['name'],
+                            'party': cand_info['party'],
+                            'votes': cand_info['votes']
+                        }
+        elif early_c:
             for cand_name, cand_info in early_c['candidates'].items():
                 cand_dict[cand_name] = {
                     'name': cand_info['name'],
                     'party': cand_info['party'],
                     'votes': cand_info['votes']
                 }
-        if ed_c:
-            for cand_name, cand_info in ed_c['candidates'].items():
-                if cand_name in cand_dict:
-                    cand_dict[cand_name]['votes'] += cand_info['votes']
-                    if cand_info['party']:
-                        cand_dict[cand_name]['party'] = cand_info['party']
-                else:
-                    cand_dict[cand_name] = {
-                        'name': cand_info['name'],
-                        'party': cand_info['party'],
-                        'votes': cand_info['votes']
-                    }
 
         cand_list = list(cand_dict.values())
 
