@@ -43,8 +43,9 @@ window.ElectionApp = (function() {
     });
 
     // Access control guard if user directly visits precincts.html while disabled
-    const path = window.location.pathname.toLowerCase();
-    if (!enablePrecinct && path.endsWith('precincts.html')) {
+    const path = (window.location.pathname || '').toLowerCase();
+    const isPrecinctPage = path.endsWith('precincts.html') || path.endsWith('precincts') || path.includes('/precincts');
+    if (!enablePrecinct && isPrecinctPage) {
       const mainContainer = document.getElementById('main-content');
       if (mainContainer) {
         mainContainer.innerHTML = `
