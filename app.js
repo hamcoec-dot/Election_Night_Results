@@ -22,11 +22,19 @@ window.ElectionApp = (function() {
   const AUTO_REFRESH_INTERVAL_MS = 60000; // 1 minute auto-refresh
   let autoRefreshTimer = null;
 
+  function isPrecinctPageEnabled() {
+    const rawData = window.ELECTION_DATA;
+    if (!rawData || !rawData.config) return true;
+    const val = rawData.config.enablePrecinctResults;
+    if (val === false || val === 'false' || val === 0 || val === '0') {
+      return false;
+    }
+    return true;
+  }
+
   // Apply Config Visibility & Access Control
   function applyConfigVisibility() {
-    const rawData = window.ELECTION_DATA;
-    const config = (rawData && rawData.config) || {};
-    const enablePrecinct = config.enablePrecinctResults !== false; // Default true unless explicitly false
+    const enablePrecinct = isPrecinctPageEnabled();
 
     // Hide/show precinct navigation links across all pages
     const precinctNavs = document.querySelectorAll('a[href="precincts.html"]');
@@ -1189,6 +1197,9 @@ window.ElectionApp = (function() {
       return;
     }
     electionData = window.ELECTION_DATA;
+    applyConfigVisibility();
+    if (!isPrecinctPageEnabled()) return;
+
     renderNavbarMetadata();
     setupPrecinctPageControls();
     renderPrecinctPage();
@@ -1196,14 +1207,22 @@ window.ElectionApp = (function() {
 
   function loadDataJsAndInitPrecinct() {
     const script = document.createElement('script');
-    script.src = `./data.js?v=${Date.now()}`;
+    script.src = `./data.js?t=${Date.now()}`;
     script.onload = function() {
-      if (window.ELECTION_DATA) {
+      if (isValidPayload(window.ELECTION_DATA)) {
         electionData = window.ELECTION_DATA;
+        applyConfigVisibility();
+        if (!isPrecinctPageEnabled()) return;
+
         renderNavbarMetadata();
         setupPrecinctPageControls();
         renderPrecinctPage();
       }
+      if (script.parentNode) script.parentNode.removeChild(script);
+    };
+    script.onerror = function() {
+      console.error('Failed to load ./data.js over network.');
+      if (script.parentNode) script.parentNode.removeChild(script);
     };
     document.head.appendChild(script);
   }
