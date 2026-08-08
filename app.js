@@ -22,6 +22,38 @@ window.ElectionApp = (function() {
   const AUTO_REFRESH_INTERVAL_MS = 60000; // 1 minute auto-refresh
   let autoRefreshTimer = null;
 
+  // Apply Config Visibility & Access Control
+  function applyConfigVisibility() {
+    const rawData = window.ELECTION_DATA;
+    const config = (rawData && rawData.config) || {};
+    const enablePrecinct = config.enablePrecinctResults !== false; // Default true unless explicitly false
+
+    // Hide/show precinct navigation links across all pages
+    const precinctNavs = document.querySelectorAll('a[href="precincts.html"]');
+    precinctNavs.forEach(nav => {
+      nav.style.display = enablePrecinct ? '' : 'none';
+    });
+
+    // Access control guard if user directly visits precincts.html while disabled
+    const path = window.location.pathname.toLowerCase();
+    if (!enablePrecinct && path.endsWith('precincts.html')) {
+      const mainContainer = document.getElementById('main-content');
+      if (mainContainer) {
+        mainContainer.innerHTML = `
+          <div style="max-width:650px; margin:60px auto; text-align:center; padding:40px 24px; background:var(--neutral-light); border:1px solid var(--border); border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+            <div style="font-size:48px; margin-bottom:16px;">&#x1F5F3;&#xFE0F;</div>
+            <h2 style="color:var(--primary); font-size:22px; font-weight:800; margin-bottom:12px;">Precinct Results Currently Disabled</h2>
+            <p style="color:var(--neutral-muted); font-size:15px; line-height:1.6; margin-bottom:24px;">
+              Precinct-level results are disabled during active Election Night reporting.<br>
+              Official precinct breakdowns are published within 1 to 2 business days following Election Day.
+            </p>
+            <a href="index.html" class="nav-btn active" style="display:inline-block; padding:10px 24px; font-size:14px; text-decoration:none;">Return to Summary Results</a>
+          </div>
+        `;
+      }
+    }
+  }
+
   // Initialize application
   function init() {
     if (!window.ELECTION_DATA) {
@@ -32,6 +64,7 @@ window.ElectionApp = (function() {
 
     electionData = window.ELECTION_DATA;
 
+    applyConfigVisibility();
     renderNavbarMetadata();
     renderDashboard();
 
@@ -61,14 +94,18 @@ window.ElectionApp = (function() {
     setTimeout(restoreSavedLocation, 150);
   }
 
+  function isValidPayload(payload) {
+    return payload && payload.latest && Array.isArray(payload.latest.contests) && payload.latest.contests.length > 0;
+  }
+
   function loadDataJsAndInit() {
     const script = document.createElement('script');
-    script.src = `./data.js?v=${Date.now()}`;
+    script.src = `./data.js?t=${Date.now()}`;
     script.onload = function() {
-      if (window.ELECTION_DATA) {
+      if (isValidPayload(window.ELECTION_DATA)) {
         init();
       } else {
-        console.error('Failed to parse window.ELECTION_DATA from ./data.js');
+        console.warn('ELECTION_DATA payload incomplete or missing. Retrying...');
       }
       if (script.parentNode) script.parentNode.removeChild(script);
     };
@@ -86,20 +123,23 @@ window.ElectionApp = (function() {
 
   function refreshDataSilently() {
     const newScript = document.createElement('script');
-    newScript.src = `./data.js?v=${Date.now()}`;
+    newScript.src = `./data.js?t=${Date.now()}`;
     newScript.onload = function() {
-      if (window.ELECTION_DATA) {
+      if (isValidPayload(window.ELECTION_DATA)) {
         electionData = window.ELECTION_DATA;
+        applyConfigVisibility();
         renderNavbarMetadata();
         renderDashboard();
         renderReportingTable();
+      } else {
+        console.warn('Auto-refresh received incomplete ELECTION_DATA payload. Retaining active dataset.');
       }
       if (newScript.parentNode) {
         newScript.parentNode.removeChild(newScript);
       }
     };
     newScript.onerror = function() {
-      console.warn('Silent auto-refresh failed to fetch updated data.js');
+      console.warn('Silent auto-refresh failed to fetch updated data.js. Retaining active dataset.');
     };
     document.head.appendChild(newScript);
   }

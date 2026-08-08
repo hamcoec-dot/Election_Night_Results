@@ -405,6 +405,27 @@ def merge_parsed_data(early_parsed, ed_parsed):
         'contests': formatted_contests
     }
 
+def load_config():
+    """Loads configuration settings from config.json (creates default if missing)."""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(base_dir, 'config.json')
+    default_config = {
+        "enablePrecinctResults": False
+    }
+    if not os.path.exists(config_path):
+        try:
+            with open(config_path, 'w', encoding='utf-8') as f:
+                json.dump(default_config, f, indent=2)
+        except Exception:
+            pass
+        return default_config
+    try:
+        with open(config_path, 'r', encoding='utf-8') as f:
+            cfg = json.load(f)
+            return cfg if isinstance(cfg, dict) else default_config
+    except Exception:
+        return default_config
+
 def generate_data_js():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     results_dir = os.path.join(base_dir, 'Results')
@@ -454,6 +475,7 @@ def generate_data_js():
     ed_parsed = parse_election_csv(ed_csv, is_ed=True) if ed_csv else None
 
     parsed = merge_parsed_data(early_parsed, ed_parsed)
+    cfg_data = load_config()
 
     bundle = {
         'metadata': {
@@ -463,6 +485,7 @@ def generate_data_js():
             'statusLabel': parsed['statusLabel'],
             'lastUpdated': 'November 5, 2024 08:45 PM'
         },
+        'config': cfg_data,
         'latest': parsed
     }
 
