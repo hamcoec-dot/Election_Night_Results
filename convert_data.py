@@ -160,7 +160,7 @@ def parse_election_csv(file_path, is_ed=False):
                     if not cand_raw or 'write-in' in cand_raw.lower():
                         continue
 
-                    party = 'IND'
+                    party = 'REP' if contest_name.upper().startswith('REP') else ('DEM' if contest_name.upper().startswith('DEM') else 'IND')
                     cand_name = cand_raw
                     if cand_raw.startswith('REP '):
                         party = 'REP'

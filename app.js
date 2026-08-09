@@ -22,6 +22,7 @@ window.ElectionApp = (function() {
   const AUTO_REFRESH_INTERVAL_MS = 60000; // 1 minute auto-refresh
   let autoRefreshTimer = null;
 
+<<<<<<< Updated upstream
   function isPrecinctPageEnabled() {
     const rawData = window.ELECTION_DATA;
     if (!rawData || !rawData.config) return true;
@@ -61,6 +62,17 @@ window.ElectionApp = (function() {
         `;
       }
     }
+=======
+  function getCandidateParty(cand, contest) {
+    if (!cand) return '';
+    if (cand.party) return cand.party;
+    if (contest && contest.title) {
+      const tUpper = contest.title.toUpperCase();
+      if (tUpper.startsWith('REP') || /\bREP\b/.test(tUpper)) return 'REP';
+      if (tUpper.startsWith('DEM') || /\bDEM\b/.test(tUpper)) return 'DEM';
+    }
+    return '';
+>>>>>>> Stashed changes
   }
 
   // Initialize application
@@ -423,14 +435,15 @@ window.ElectionApp = (function() {
       `;
 
       contest.candidates.forEach(cand => {
-        const partyClass = cand.party === 'REP' ? 'party-rep' : cand.party === 'DEM' ? 'party-dem' : 'party-ind';
-        const fillClass = cand.party === 'REP' ? 'fill-rep' : cand.party === 'DEM' ? 'fill-dem' : 'fill-ind';
+        const cParty = getCandidateParty(cand, contest);
+        const partyClass = cParty === 'REP' ? 'party-rep' : cParty === 'DEM' ? 'party-dem' : 'party-ind';
+        const fillClass = cParty === 'REP' ? 'fill-rep' : cParty === 'DEM' ? 'fill-dem' : 'fill-ind';
 
         html += `
           <tr class="candidate-row" role="row">
             <td class="cand-name-cell" role="cell">
               <span>${escapeHtml(cand.name)}</span>
-              ${cand.party ? `<span class="party-pill ${partyClass}">${escapeHtml(cand.party)}</span>` : ''}
+              ${cParty ? `<span class="party-pill ${partyClass}">${escapeHtml(cParty)}</span>` : ''}
               ${cand.isLeading && contest.totalVotes > 0 ? '<span class="leading-tag">&#x2714;&#xFE0F; LEADING</span>' : ''}
             </td>
             <td class="cand-bar-cell" role="cell">
@@ -666,7 +679,7 @@ window.ElectionApp = (function() {
           cRepCapped,
           cTotCapped,
           formatCsvCell(cand.name),
-          formatCsvCell(cand.party),
+          formatCsvCell(getCandidateParty(cand, contest)),
           cand.votes,
           `${cand.percentage.toFixed(2)}%`
         ]);
@@ -953,15 +966,16 @@ window.ElectionApp = (function() {
     const sortedCands = [...(contest.candidates || [])].sort((a, b) => b.votes - a.votes);
 
     candidates.forEach(cand => {
-      const partyClass = cand.party === 'REP' ? 'party-rep' : cand.party === 'DEM' ? 'party-dem' : 'party-ind';
-      const fillColor = cand.party === 'REP' ? 'var(--party-rep)' : cand.party === 'DEM' ? 'var(--party-dem)' : 'var(--party-ind)';
+      const cParty = getCandidateParty(cand, contest);
+      const partyClass = cParty === 'REP' ? 'party-rep' : cParty === 'DEM' ? 'party-dem' : 'party-ind';
+      const fillColor = cParty === 'REP' ? 'var(--party-rep)' : cParty === 'DEM' ? 'var(--party-dem)' : 'var(--party-ind)';
 
       chartBarsHtml += `
         <div class="proj-cand-bar-item">
           <div class="proj-cand-header">
             <span>
               ${escapeHtml(cand.name)}
-              ${cand.party ? `<span class="party-pill ${partyClass}">${escapeHtml(cand.party)}</span>` : ''}
+              ${cParty ? `<span class="party-pill ${partyClass}">${escapeHtml(cParty)}</span>` : ''}
               ${cand.isLeading && contest.totalVotes > 0 ? '<span class="leading-tag">&#x2714;&#xFE0F; LEADING</span>' : ''}
             </span>
             <span>${cand.votes.toLocaleString()} (${cand.percentage.toFixed(1)}%)</span>
@@ -1436,7 +1450,7 @@ window.ElectionApp = (function() {
         precinctTotalVotes += pv;
         return {
           name: cand.name,
-          party: cand.party,
+          party: getCandidateParty(cand, c),
           votes: pv,
           totalVotes: cand.votes,
           totalPercentage: cand.percentage
@@ -1630,7 +1644,8 @@ window.ElectionApp = (function() {
       filtered.forEach(c => {
         (c.candidates || []).forEach(cand => {
           const v = (cand.precinctVotes || {})[selectedPrecinct] || 0;
-          csvContent += `"${selectedPrecinct}","${c.title}","${cand.name}","${cand.party}",${v},${cand.votes}\n`;
+          const cParty = getCandidateParty(cand, c);
+          csvContent += `"${selectedPrecinct}","${c.title}","${cand.name}","${cParty}",${v},${cand.votes}\n`;
         });
       });
 
@@ -1648,7 +1663,8 @@ window.ElectionApp = (function() {
       filteredPrecincts.forEach(p => {
         (contest.candidates || []).forEach(cand => {
           const v = (cand.precinctVotes || {})[p.name] || 0;
-          csvContent += `"${p.name}","${contest.title}","${cand.name}","${cand.party}",${v},${cand.votes}\n`;
+          const cParty = getCandidateParty(cand, contest);
+          csvContent += `"${p.name}","${contest.title}","${cand.name}","${cParty}",${v},${cand.votes}\n`;
         });
       });
 
@@ -1673,7 +1689,8 @@ window.ElectionApp = (function() {
 
             (c.candidates || []).forEach(cand => {
               const v = (cand.precinctVotes || {})[pName] || 0;
-              csvContent += `"${pName}","${c.title}","${cand.name}","${cand.party}",${v},${cand.votes}\n`;
+              const cParty = getCandidateParty(cand, c);
+              csvContent += `"${pName}","${c.title}","${cand.name}","${cParty}",${v},${cand.votes}\n`;
             });
           }
         });
