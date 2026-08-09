@@ -22,7 +22,6 @@ window.ElectionApp = (function() {
   const AUTO_REFRESH_INTERVAL_MS = 60000; // 1 minute auto-refresh
   let autoRefreshTimer = null;
 
-<<<<<<< Updated upstream
   function isPrecinctPageEnabled() {
     const rawData = window.ELECTION_DATA;
     if (!rawData || !rawData.config) return true;
@@ -62,7 +61,8 @@ window.ElectionApp = (function() {
         `;
       }
     }
-=======
+  }
+
   function getCandidateParty(cand, contest) {
     if (!cand) return '';
     if (cand.party) return cand.party;
@@ -72,7 +72,6 @@ window.ElectionApp = (function() {
       if (tUpper.startsWith('DEM') || /\bDEM\b/.test(tUpper)) return 'DEM';
     }
     return '';
->>>>>>> Stashed changes
   }
 
   // Initialize application
