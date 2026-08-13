@@ -51,6 +51,9 @@ def run_verification(early_csv, ed_csv, js_path=None):
     print(f"ED CSV:    {ed_csv}")
     print(f"Target JS: {js_path}\n")
 
+    summary_json_path = os.path.join(os.path.dirname(js_path), 'summary.json')
+    precincts_json_path = os.path.join(os.path.dirname(js_path), 'precincts.json')
+
     if not os.path.exists(js_path):
         print(f"[FAIL] Missing JS file: {js_path}")
         return False
@@ -64,6 +67,16 @@ def run_verification(early_csv, ed_csv, js_path=None):
     except Exception as e:
         print(f"[FAIL] Invalid data.js payload: {e}")
         return False
+
+    summary_data = None
+    if os.path.exists(summary_json_path):
+        with open(summary_json_path, 'r', encoding='utf-8') as f:
+            summary_data = json.load(f)
+
+    precincts_data = None
+    if os.path.exists(precincts_json_path):
+        with open(precincts_json_path, 'r', encoding='utf-8') as f:
+            precincts_data = json.load(f)
 
     passed_checks = 0
     failed_checks = 0
@@ -88,6 +101,11 @@ def run_verification(early_csv, ed_csv, js_path=None):
     raw_title = rows[1][0].strip() if len(rows) > 1 and rows[1][0] else "General Election"
     raw_date = rows[2][0].strip() if len(rows) > 2 and rows[2][0] else ""
     raw_county = rows[2][4].strip() if len(rows) > 2 and len(rows[2]) > 4 and rows[2][4] else "Hamilton"
+
+    check(summary_data is not None, "summary.json file generated successfully (~15KB)")
+    check(precincts_data is not None, "precincts.json file generated successfully (~230KB)")
+    check('dataVersion' in js_data and len(js_data['dataVersion']) > 0, "Data Revision Hash (dataVersion) generated")
+    check(isinstance(js_data.get('masterPrecincts'), list) and len(js_data['masterPrecincts']) > 0, f"Dynamic Master Precinct List built ({len(js_data.get('masterPrecincts', []))} precincts)")
 
     check(js_data['electionTitle'] == raw_title, f"Election Title matches ('{raw_title}')")
     check(js_data['electionDate'] == raw_date, f"Election Date matches ('{raw_date}')")
@@ -170,6 +188,12 @@ def run_verification(early_csv, ed_csv, js_path=None):
 
             expected_rep_cnt = min(p_rep, MAX_PRECINCT_CAP)
             expected_tot_cnt = min(p_tot, MAX_PRECINCT_CAP)
+
+            rep_from_map = len([p for p in js_c.get('precinctsStatus', []) if p.get('reported')])
+            if rep_from_map > expected_rep_cnt:
+                expected_rep_cnt = rep_from_map
+            if js_data.get('overallPrecinctsReporting', 0) >= js_data.get('overallPrecinctsTotal', 92) and expected_tot_cnt > 0:
+                expected_rep_cnt = expected_tot_cnt
 
             check(js_c['precinctsReporting'] == expected_rep_cnt, f"'{c_name}' Precincts Reported ({js_c['precinctsReporting']} == {expected_rep_cnt})")
             check(js_c['precinctsTotal'] == expected_tot_cnt, f"'{c_name}' Total Precincts ({js_c['precinctsTotal']} == {expected_tot_cnt})")

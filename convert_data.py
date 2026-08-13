@@ -2,6 +2,7 @@ import os
 import csv
 import json
 import re
+import hashlib
 from verify import run_verification
 
 def read_csv_robust(file_path):
@@ -354,8 +355,13 @@ def merge_parsed_data(early_parsed, ed_parsed):
             c['percentage'] = round((c['votes'] / total_contest_votes * 100), 2) if total_contest_votes > 0 else 0.0
             c['isLeading'] = (cutoff_vote is not None and c['votes'] >= cutoff_vote and c['votes'] > 0)
 
-        # If ED file reports 100% precincts for contest, ensure all precincts are marked reported
+        # Sync reported count with actual precinct status map
+        rep_from_map = len([p for p, is_rep in precincts_status_map.items() if is_rep])
+        if rep_from_map > 0:
+            reported_cnt = max(reported_cnt, rep_from_map)
+
         if ed_c and reported_cnt >= total_prec_cnt and total_prec_cnt > 0:
+            reported_cnt = total_prec_cnt
             for p_name in precincts_status_map:
                 precincts_status_map[p_name] = True
 
@@ -380,11 +386,37 @@ def merge_parsed_data(early_parsed, ed_parsed):
     overall_rep = min(max([c['precinctsReporting'] for c in formatted_contests], default=0), MAX_PRECINCT_CAP)
     overall_tot = min(max([c['precinctsTotal'] for c in formatted_contests], default=92), MAX_PRECINCT_CAP)
 
+    # When overall county reporting reaches 100%, enforce 100% completion across all contests
+    if ed_parsed and overall_rep >= overall_tot and overall_tot > 0:
+        for c in formatted_contests:
+            c['precinctsReporting'] = c['precinctsTotal']
+            for p in c['precinctsStatus']:
+                p['reported'] = True
+
     ballots_rep = ed_parsed['ballotsRep'] if ed_parsed else (early_parsed['ballotsRep'] if early_parsed else 0)
     ballots_dem = ed_parsed['ballotsDem'] if ed_parsed else (early_parsed['ballotsDem'] if early_parsed else 0)
     ballots_gen = ed_parsed['ballotsGen'] if ed_parsed else (early_parsed['ballotsGen'] if early_parsed else 0)
 
-    return {
+    # Collect dynamic master precinct list
+    master_precinct_set = set(precinct_stats.keys())
+    for c in formatted_contests:
+        for p in c['precinctsStatus']:
+            master_precinct_set.add(p['name'])
+    master_precincts = sorted(list(master_precinct_set))
+    precinct_idx_map = {name: idx for idx, name in enumerate(master_precincts)}
+
+    # Attach indexed precinct status for compressed transfers
+    for c in formatted_contests:
+        c['precinctsStatusIndexed'] = [
+            [precinct_idx_map[p['name']], 1 if p['reported'] else 0]
+            for p in c['precinctsStatus']
+        ]
+
+    # Calculate Data Revision Hash (MD5)
+    data_bytes = json.dumps(formatted_contests, sort_keys=True).encode('utf-8')
+    data_version = hashlib.md5(data_bytes).hexdigest()[:12]
+
+    merged_data = {
         'electionTitle': election_title,
         'electionDate': election_date,
         'county': county_name,
@@ -401,16 +433,19 @@ def merge_parsed_data(early_parsed, ed_parsed):
         'earlyVotingReporting': 1 if (early_parsed is not None and total_ballots > 0) else 0,
         'earlyVotingTotal': 1,
         'earlyBallotsCast': early_parsed['totalBallots'] if early_parsed else 0,
+        'masterPrecincts': master_precincts,
         'precinctStats': precinct_stats,
         'contests': formatted_contests
     }
+    merged_data['dataVersion'] = data_version
+    return merged_data
 
 def load_config():
     """Loads configuration settings from config.json (creates default if missing)."""
     base_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(base_dir, 'config.json')
     default_config = {
-        "enablePrecinctResults": False
+        "enablePrecinctResults": True
     }
     if not os.path.exists(config_path):
         try:
@@ -430,6 +465,9 @@ def generate_data_js():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     results_dir = os.path.join(base_dir, 'Results')
     output_js_path = os.path.join(base_dir, 'data.js')
+    output_summary_json = os.path.join(base_dir, 'summary.json')
+    output_reporting_json = os.path.join(base_dir, 'reporting.json')
+    output_precincts_json = os.path.join(base_dir, 'precincts.json')
 
     all_csvs = []
     if os.path.exists(results_dir):
@@ -477,23 +515,116 @@ def generate_data_js():
     parsed = merge_parsed_data(early_parsed, ed_parsed)
     cfg_data = load_config()
 
+    meta_block = {
+        'electionTitle': parsed['electionTitle'],
+        'electionDate': parsed['electionDate'],
+        'county': parsed['county'],
+        'statusLabel': parsed['statusLabel'],
+        'dataVersion': parsed['dataVersion'],
+        'lastUpdated': 'November 5, 2024 08:45 PM'
+    }
+
     bundle = {
-        'metadata': {
-            'electionTitle': parsed['electionTitle'],
-            'electionDate': parsed['electionDate'],
-            'county': parsed['county'],
-            'statusLabel': parsed['statusLabel'],
-            'lastUpdated': 'November 5, 2024 08:45 PM'
-        },
+        'metadata': meta_block,
         'config': cfg_data,
         'latest': parsed
     }
 
+    # Build Lightweight Summary JSON (~17KB) for main dashboard & scrolling ticker
+    summary_contests = []
+    for c in parsed['contests']:
+        summary_contests.append({
+            'title': c['title'],
+            'voteFor': c['voteFor'],
+            'precinctsReporting': c['precinctsReporting'],
+            'precinctsTotal': c['precinctsTotal'],
+            'totalVotes': c['totalVotes'],
+            'candidates': c['candidates']
+        })
+
+    summary_payload = {
+        'metadata': meta_block,
+        'config': cfg_data,
+        'latest': {
+            'electionTitle': parsed['electionTitle'],
+            'electionDate': parsed['electionDate'],
+            'county': parsed['county'],
+            'statusLabel': parsed['statusLabel'],
+            'totalVoters': parsed['totalVoters'],
+            'totalBallots': parsed['totalBallots'],
+            'ballotsRep': parsed['ballotsRep'],
+            'ballotsDem': parsed['ballotsDem'],
+            'ballotsGen': parsed['ballotsGen'],
+            'turnoutPercent': parsed['turnoutPercent'],
+            'overallPrecinctsReporting': parsed['overallPrecinctsReporting'],
+            'overallPrecinctsTotal': parsed['overallPrecinctsTotal'],
+            'hasEarlyUpload': parsed['hasEarlyUpload'],
+            'earlyVotingReporting': parsed['earlyVotingReporting'],
+            'earlyVotingTotal': parsed['earlyVotingTotal'],
+            'earlyBallotsCast': parsed['earlyBallotsCast'],
+            'contests': summary_contests
+        }
+    }
+
+    # Build Reporting Progress JSON (~20KB) for reporting.html
+    reporting_contests = []
+    for c in parsed['contests']:
+        reporting_contests.append({
+            'title': c['title'],
+            'precinctsReporting': c['precinctsReporting'],
+            'precinctsTotal': c['precinctsTotal'],
+            'precinctsStatusIndexed': c['precinctsStatusIndexed']
+        })
+
+    reporting_payload = {
+        'metadata': meta_block,
+        'config': cfg_data,
+        'masterPrecincts': parsed['masterPrecincts'],
+        'latest': {
+            'overallPrecinctsReporting': parsed['overallPrecinctsReporting'],
+            'overallPrecinctsTotal': parsed['overallPrecinctsTotal'],
+            'hasEarlyUpload': parsed['hasEarlyUpload'],
+            'earlyVotingReporting': parsed['earlyVotingReporting'],
+            'earlyVotingTotal': parsed['earlyVotingTotal'],
+            'contests': reporting_contests
+        }
+    }
+
+    # Build Optimized Precinct Details JSON (~140KB) without redundant raw text status lists
+    clean_precinct_contests = []
+    for c in parsed['contests']:
+        c_copy = dict(c)
+        c_copy.pop('precinctsStatus', None)
+        clean_precinct_contests.append(c_copy)
+
+    precincts_payload = {
+        'metadata': meta_block,
+        'config': cfg_data,
+        'masterPrecincts': parsed['masterPrecincts'],
+        'precinctStats': parsed['precinctStats'],
+        'contests': clean_precinct_contests
+    }
+
+    # Write summary.json, reporting.json, and precincts.json
+    with open(output_summary_json, 'w', encoding='utf-8') as f:
+        json.dump(summary_payload, f, separators=(',', ':'))
+
+    with open(output_reporting_json, 'w', encoding='utf-8') as f:
+        json.dump(reporting_payload, f, separators=(',', ':'))
+
+    with open(output_precincts_json, 'w', encoding='utf-8') as f:
+        json.dump(precincts_payload, f, separators=(',', ':'))
+
+    # Write data.js (legacy combined fallback bundle)
     js_content = f"// Auto-generated Election Night Results Data\nwindow.ELECTION_DATA = {json.dumps(bundle, separators=(',', ':'))};\n"
     with open(output_js_path, 'w', encoding='utf-8') as f:
         f.write(js_content)
 
-    print(f"Successfully compiled election data to {output_js_path}\n")
+    print(f"Successfully compiled election data:")
+    print(f"  - {output_summary_json} ({os.path.getsize(output_summary_json) // 1024} KB)")
+    print(f"  - {output_reporting_json} ({os.path.getsize(output_reporting_json) // 1024} KB)")
+    print(f"  - {output_precincts_json} ({os.path.getsize(output_precincts_json) // 1024} KB)")
+    print(f"  - {output_js_path} ({os.path.getsize(output_js_path) // 1024} KB)\n")
 
     # Run Verification Engine Automatically
     run_verification(early_csv, ed_csv, output_js_path)

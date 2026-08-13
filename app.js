@@ -114,26 +114,56 @@ window.ElectionApp = (function() {
     setTimeout(restoreSavedLocation, 150);
   }
 
+  let activeDataVersion = null;
+
   function isValidPayload(payload) {
-    return payload && payload.latest && Array.isArray(payload.latest.contests) && payload.latest.contests.length > 0;
+    return payload && (payload.latest || payload.metadata) && (payload.latest ? Array.isArray(payload.latest.contests) : Array.isArray(payload.contests));
+  }
+
+  function resolvePrecinctStatus(contest, masterPrecincts) {
+    if (contest.precinctsStatus && contest.precinctsStatus.length > 0) {
+      return contest.precinctsStatus;
+    }
+    if (contest.precinctsStatusIndexed && Array.isArray(masterPrecincts)) {
+      return contest.precinctsStatusIndexed.map(pair => ({
+        name: masterPrecincts[pair[0]] || `Precinct ${pair[0]}`,
+        reported: pair[1] === 1
+      }));
+    }
+    return [];
   }
 
   function loadDataJsAndInit() {
-    const script = document.createElement('script');
-    script.src = `./data.js?t=${Date.now()}`;
-    script.onload = function() {
-      if (isValidPayload(window.ELECTION_DATA)) {
-        init();
-      } else {
-        console.warn('ELECTION_DATA payload incomplete or missing. Retrying...');
-      }
-      if (script.parentNode) script.parentNode.removeChild(script);
-    };
-    script.onerror = function() {
-      console.error('Failed to load ./data.js over network.');
-      if (script.parentNode) script.parentNode.removeChild(script);
-    };
-    document.head.appendChild(script);
+    fetch(`./summary.json?t=${Date.now()}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(summaryData => {
+        if (isValidPayload(summaryData)) {
+          window.ELECTION_DATA = summaryData;
+          electionData = summaryData;
+          activeDataVersion = summaryData.metadata ? summaryData.metadata.dataVersion : null;
+          init();
+          return;
+        }
+        throw new Error('summary.json invalid or missing');
+      })
+      .catch(() => {
+        const script = document.createElement('script');
+        script.src = `./data.js?t=${Date.now()}`;
+        script.onload = function() {
+          if (isValidPayload(window.ELECTION_DATA)) {
+            activeDataVersion = (window.ELECTION_DATA.metadata || {}).dataVersion || null;
+            init();
+          } else {
+            console.warn('ELECTION_DATA payload incomplete or missing. Retrying...');
+          }
+          if (script.parentNode) script.parentNode.removeChild(script);
+        };
+        script.onerror = function() {
+          console.error('Failed to load ./data.js over network.');
+          if (script.parentNode) script.parentNode.removeChild(script);
+        };
+        document.head.appendChild(script);
+      });
   }
 
   function startAutoRefreshTimer() {
@@ -142,26 +172,45 @@ window.ElectionApp = (function() {
   }
 
   function refreshDataSilently() {
-    const newScript = document.createElement('script');
-    newScript.src = `./data.js?t=${Date.now()}`;
-    newScript.onload = function() {
-      if (isValidPayload(window.ELECTION_DATA)) {
-        electionData = window.ELECTION_DATA;
-        applyConfigVisibility();
-        renderNavbarMetadata();
-        renderDashboard();
-        renderReportingTable();
-      } else {
-        console.warn('Auto-refresh received incomplete ELECTION_DATA payload. Retaining active dataset.');
-      }
-      if (newScript.parentNode) {
-        newScript.parentNode.removeChild(newScript);
-      }
-    };
-    newScript.onerror = function() {
-      console.warn('Silent auto-refresh failed to fetch updated data.js. Retaining active dataset.');
-    };
-    document.head.appendChild(newScript);
+    fetch(`./summary.json?t=${Date.now()}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(summaryData => {
+        if (isValidPayload(summaryData)) {
+          const newVersion = summaryData.metadata ? summaryData.metadata.dataVersion : null;
+          if (newVersion && newVersion === activeDataVersion) {
+            // Data has not changed since previous poll; skip redundant DOM re-rendering
+            return;
+          }
+          activeDataVersion = newVersion;
+          window.ELECTION_DATA = summaryData;
+          electionData = summaryData;
+          applyConfigVisibility();
+          renderNavbarMetadata();
+          renderDashboard();
+          renderReportingTable();
+        }
+      })
+      .catch(() => {
+        const newScript = document.createElement('script');
+        newScript.src = `./data.js?t=${Date.now()}`;
+        newScript.onload = function() {
+          if (isValidPayload(window.ELECTION_DATA)) {
+            const newVersion = (window.ELECTION_DATA.metadata || {}).dataVersion || null;
+            if (newVersion && newVersion === activeDataVersion) {
+              if (newScript.parentNode) newScript.parentNode.removeChild(newScript);
+              return;
+            }
+            activeDataVersion = newVersion;
+            electionData = window.ELECTION_DATA;
+            applyConfigVisibility();
+            renderNavbarMetadata();
+            renderDashboard();
+            renderReportingTable();
+          }
+          if (newScript.parentNode) newScript.parentNode.removeChild(newScript);
+        };
+        document.head.appendChild(newScript);
+      });
   }
 
   function renderNavbarMetadata() {
@@ -599,7 +648,8 @@ window.ElectionApp = (function() {
     const gridContainer = document.getElementById('modal-precinct-grid');
     if (!gridContainer || !currentModalContest) return;
 
-    const pList = currentModalContest.precinctsStatus || [];
+    const masterPrecincts = (electionData && electionData.latest ? electionData.latest.masterPrecincts : null) || (electionData ? electionData.masterPrecincts : null);
+    const pList = resolvePrecinctStatus(currentModalContest, masterPrecincts);
 
     const filteredList = pList.filter(p => {
       if (modalSearch && !p.name.toLowerCase().includes(modalSearch)) {
@@ -1220,35 +1270,75 @@ window.ElectionApp = (function() {
   }
 
   function loadDataJsAndInitPrecinct() {
-    const script = document.createElement('script');
-    script.src = `./data.js?t=${Date.now()}`;
-    script.onload = function() {
-      if (isValidPayload(window.ELECTION_DATA)) {
-        electionData = window.ELECTION_DATA;
-        applyConfigVisibility();
-        if (!isPrecinctPageEnabled()) return;
+    fetch(`./precincts.json?t=${Date.now()}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(pData => {
+        if (pData && (pData.precinctStats || pData.contests)) {
+          window.ELECTION_DATA = { metadata: pData.metadata, config: pData.config, latest: pData };
+          electionData = window.ELECTION_DATA;
+          applyConfigVisibility();
+          if (!isPrecinctPageEnabled()) return;
+          renderNavbarMetadata();
+          setupPrecinctPageControls();
+          renderPrecinctPage();
+          return;
+        }
+        throw new Error('precincts.json invalid');
+      })
+      .catch(() => {
+        const script = document.createElement('script');
+        script.src = `./data.js?t=${Date.now()}`;
+        script.onload = function() {
+          if (isValidPayload(window.ELECTION_DATA)) {
+            electionData = window.ELECTION_DATA;
+            applyConfigVisibility();
+            if (!isPrecinctPageEnabled()) return;
 
-        renderNavbarMetadata();
-        setupPrecinctPageControls();
-        renderPrecinctPage();
-      }
-      if (script.parentNode) script.parentNode.removeChild(script);
-    };
-    script.onerror = function() {
-      console.error('Failed to load ./data.js over network.');
-      if (script.parentNode) script.parentNode.removeChild(script);
-    };
-    document.head.appendChild(script);
+            renderNavbarMetadata();
+            setupPrecinctPageControls();
+            renderPrecinctPage();
+          }
+          if (script.parentNode) script.parentNode.removeChild(script);
+        };
+        script.onerror = function() {
+          console.error('Failed to load ./data.js over network.');
+          if (script.parentNode) script.parentNode.removeChild(script);
+        };
+        document.head.appendChild(script);
+      });
+  }
+
+  function loadDataJsAndInitReporting() {
+    fetch(`./reporting.json?t=${Date.now()}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(repData => {
+        if (repData && repData.latest && Array.isArray(repData.latest.contests)) {
+          window.ELECTION_DATA = repData;
+          electionData = repData;
+          applyConfigVisibility();
+          renderNavbarMetadata();
+          renderReportingTable();
+          return;
+        }
+        throw new Error('reporting.json invalid');
+      })
+      .catch(() => {
+        loadDataJsAndInit();
+      });
   }
 
   function setupPrecinctPageControls() {
     if (!electionData || !electionData.latest) return;
     const latest = electionData.latest;
     const pStats = latest.precinctStats || {};
+    const masterPrecincts = latest.masterPrecincts || electionData.masterPrecincts || [];
     
     const pSet = new Set(Object.keys(pStats));
+    if (Array.isArray(masterPrecincts)) {
+      masterPrecincts.forEach(p => pSet.add(p));
+    }
     (latest.contests || []).forEach(c => {
-      (c.precinctsStatus || []).forEach(p => pSet.add(p.name));
+      resolvePrecinctStatus(c, masterPrecincts).forEach(p => pSet.add(p.name));
     });
     const precinctList = Array.from(pSet).sort();
 
